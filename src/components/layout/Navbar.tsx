@@ -54,9 +54,9 @@ export default function Navbar({ searchQuery, onSearchChange, onAIConciergeOpen 
 
           {/* Right Actions */}
           <div className="flex items-center gap-4">
-            <button className="relative p-2 text-muted-foreground hover:text-foreground transition-colors">
+            <button className="relative min-w-[44px] min-h-[44px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
               <ShoppingCart className="w-5 h-5" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
+              <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
             </button>
             <button className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg border border-border/50 text-sm font-medium hover:bg-primary/10 hover:border-primary/30 transition-all">
               <User className="w-4 h-4" />
@@ -67,7 +67,7 @@ export default function Navbar({ searchQuery, onSearchChange, onAIConciergeOpen 
               Get Started
             </button>
             <button
-              className="lg:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
+              className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

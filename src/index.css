@@ -204,3 +204,47 @@
 .border-gradient:hover::before {
   opacity: 1;
 }
+
+/* ------------------------------------------------------------------ */
+/* Motion Preview Icon Keyframes                                       */
+/* Pure CSS animations for category-specific product preview icons.    */
+/* Kept lightweight to avoid impacting mobile scroll performance.      */
+/* ------------------------------------------------------------------ */
+
+/* Agent: pulsing neural network nodes */
+@keyframes motionPulseNode {
+  0%, 100% { opacity: 0.5; r: 3.5; }
+  50% { opacity: 1; r: 5; }
+}
+
+/* Workflow: flowing dot opacity along path */
+@keyframes motionFlowDot {
+  0% { opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
+/* Automation: rotating gear */
+@keyframes motionGearSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Automation: lightning flash */
+@keyframes motionLightningFlash {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* Bot: typing indicator bounce */
+@keyframes motionTypingBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* Pause motion preview animations when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .motion-preview-icon * {
+    animation: none !important;
+  }
+}

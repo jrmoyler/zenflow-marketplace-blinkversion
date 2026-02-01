@@ -1,4 +1,13 @@
-import { useState, useMemo, useEffect } from 'react';
+/**
+ * App – Root component for the Zenflow Marketplace.
+ *
+ * Bug fixes:
+ *   - Added missing ProductCard import (used in search results grid).
+ *   - Removed unused `useEffect` import.
+ *   - Search results grid now uses responsive card layout on mobile.
+ */
+
+import { useState, useMemo } from 'react';
 import Navbar from './components/layout/Navbar';
 import FilterSidebar from './components/layout/FilterSidebar';
 import Footer from './components/layout/Footer';
@@ -7,9 +16,10 @@ import BentoGrid from './components/marketplace/BentoGrid';
 import CategoryRail from './components/marketplace/CategoryRail';
 import AIConcierge from './components/home/AIConcierge';
 import ProductDetail from './components/marketplace/ProductDetail';
+import ProductCard from './components/marketplace/ProductCard';
 import { generateMockData, getCategoryRails } from './data/mockData';
 import { Product, FilterState } from './types/marketplace';
-import { Sparkles, Bot, Zap, ArrowLeft } from 'lucide-react';
+import { Sparkles, Bot, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 function App() {
@@ -125,9 +135,9 @@ function App() {
                     <h2 className="text-3xl font-display font-bold">Search Results</h2>
                     <p className="text-muted-foreground mt-1">Found {filteredProducts.length} items matching your criteria</p>
                   </div>
-                  <button 
+                  <button
                     onClick={resetFilters}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl glass border border-border/50 hover:bg-white/5 transition-all text-sm"
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl glass border border-border/50 hover:bg-white/5 transition-all text-sm min-h-[44px]"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     Back to Discovery
@@ -135,16 +145,13 @@ function App() {
                 </div>
 
                 {filteredProducts.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 place-items-center">
                     {filteredProducts.slice(0, 48).map(product => (
-                      <div key={product.id} className="flex justify-center">
-                        <div className="w-full max-w-[300px]">
-                          <ProductCard 
-                            product={product} 
-                            onClick={setSelectedProduct} 
-                          />
-                        </div>
-                      </div>
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        onClick={setSelectedProduct}
+                      />
                     ))}
                   </div>
                 ) : (
