@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Zenflow Design System - Deep Space & Bioluminescence Theme */
+    
+    /* Core Colors */
+    --background: 250 30% 4%;      /* #0a0a0f - Almost Black */
+    --foreground: 250 10% 95%;     /* #f1f0f4 - Light Gray */
+    
+    /* Glass Card Colors */
+    --card: 250 30% 6%;             /* #12121a - Dark glass base */
+    --card-foreground: 250 10% 92%; /* #e8e7ec - Card text */
+    
+    /* Primary - Electric Indigo */
+    --primary: 239 84% 67%;         /* #6366f1 */
+    --primary-glow: 239 84% 77%;    /* Lighter glow */
+    --primary-foreground: 250 20% 98%;
+    
+    /* Secondary - Cyberpunk Emerald */
+    --secondary: 157 88% 37%;      /* #10b981 */
+    --secondary-foreground: 250 20% 98%;
+    
+    /* Muted Elements */
+    --muted: 250 20% 12%;           /* #272735 */
+    --muted-foreground: 250 8% 65%; /* #8a8a9e */
+    
+    /* Accents */
+    --accent: 239 84% 17%;          /* Dark indigo accent */
+    --accent-foreground: 250 10% 98%;
+    
+    /* UI Elements */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 250 20% 98%;
+    --border: 250 15% 18%;          /* Subtle borders */
+    --input: 250 15% 15%;
+    --ring: 239 84% 67%;            /* Matches primary */
+    
+    /* Chart Colors */
+    --chart-1: 239 84% 67%;         /* Indigo */
+    --chart-2: 157 88% 37%;         /* Emerald */
+    --chart-3: 280 65% 60%;         /* Purple */
+    --chart-4: 200 85% 55%;         /* Blue */
+    --chart-5: 340 75% 55%;         /* Pink */
+    
+    /* Glassmorphism Effects */
+    --glass-bg: 255 30% 8% / 0.6;   /* Frosted glass */
+    --glass-border: 255 30% 15% / 0.3;
+    --glow-shadow: 0 0 30px hsl(239 84% 67% / 0.3);
+    
+    /* Typography */
+    --font-sans: Inter, sans-serif;
+    --font-display: 'Space Grotesk', sans-serif;
+    
+    /* Spacing System */
+    --spacing: 0.5rem;
+    --radius: 0.75rem;
+    
+    /* Custom Animations */
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+}
+
+/* Glassmorphism Classes */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.glass-hover:hover {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: var(--glow-shadow);
+  transform: translateY(-2px);
+}
+
+/* Glow Effects */
+.glow-primary {
+  box-shadow: 0 0 20px hsl(239 84% 67% / 0.4), 0 0 40px hsl(239 84% 67% / 0.2);
+}
+
+.glow-text {
+  text-shadow: 0 0 20px hsl(239 84% 67% / 0.5);
+}
+
+/* Aurora Background Animation */
+@keyframes aurora {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.aurora-bg {
+  background: 
+    radial-gradient(ellipse at top, hsla(239, 84%, 67%, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, hsla(157, 88%, 37%, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, hsla(280, 65%, 60%, 0.08) 0%, transparent 50%),
+    hsla(250, 30%, 4%, 1);
+  background-size: 200% 200%, 150% 150%, 100% 100%;
+  animation: aurora 20s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.animate-fade-in { animation: fadeIn 0.5s var(--ease-smooth) both; }
+.animate-slide-in { animation: slideInRight 0.6s var(--ease-smooth) both; }
+.animate-scale-in { animation: scaleIn 0.4s var(--ease-spring) both; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(250, 20%, 8%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(239, 84%, 67% / 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(239, 84%, 67% / 0.8);
+}
+
+/* Utility Classes */
+.text-gradient {
+  background: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(157, 88%, 37%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-gradient {
+  position: relative;
+}
+
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, hsl(239, 84%, 67%), hsl(157, 88%, 37%));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.border-gradient:hover::before {
+  opacity: 1;
+}
