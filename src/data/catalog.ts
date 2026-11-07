@@ -15,6 +15,7 @@ export const catalog: Product[] = [
     summary: 'Matches bank feeds against open invoices and purchase orders and flags every line it cannot explain.',
     audience: 'Finance teams closing books monthly on Xero or QuickBooks who reconcile by hand in spreadsheets today.',
     category: 'agents',
+    source: 'collective',
     publisher: 'Quantum Ledger',
     deployedIn: 'Quantum Ledger month-end close',
     capabilities: [
@@ -55,6 +56,7 @@ export const catalog: Product[] = [
     summary: 'Reads inbound NDAs and MSAs, compares each clause to your fallback playbook and returns a redline with the deviations marked.',
     audience: 'In-house counsel at a company that receives more vendor and customer paper than one lawyer can read in a week.',
     category: 'agents',
+    source: 'collective',
     publisher: 'Juris Guard',
     deployedIn: 'Juris Guard ContractForge review desk',
     capabilities: [
@@ -94,6 +96,7 @@ export const catalog: Product[] = [
     summary: 'Sorts a shared inbox into reply-today, waiting-on-someone and no-action, drafts replies for the first group and logs why it chose each label.',
     audience: 'Owners and office managers of a small business whose info@ inbox gets 150 emails a day and nobody owns it.',
     category: 'agents',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow rent-an-agent: inbox triage seat',
     capabilities: [
@@ -134,6 +137,7 @@ export const catalog: Product[] = [
     summary: 'Opens the incident channel when a page fires, attaches the recent deploys and dashboards, and keeps a timestamped timeline until resolution.',
     audience: 'On-call engineers who lose the first fifteen minutes of every incident collecting context by hand.',
     category: 'agents',
+    source: 'collective',
     publisher: 'Obsidian Arc',
     deployedIn: 'Obsidian Arc incident response desk',
     capabilities: [
@@ -169,6 +173,7 @@ export const catalog: Product[] = [
     summary: 'Replies to meeting requests with three open times from your calendar, books the one the other person picks and sends the invite.',
     audience: 'Founders and consultants who lose a day a week to back-and-forth emails about when to meet.',
     category: 'agents',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow rent-an-agent: scheduling seat',
     capabilities: [
@@ -207,6 +212,7 @@ export const catalog: Product[] = [
     summary: 'Drafts written feedback on each cohort assignment against the instructor’s rubric and queues it for the instructor to edit before release.',
     audience: 'Instructors running a live AI cohort of 30 or more learners who cannot write detailed feedback on every weekly project.',
     category: 'agents',
+    source: 'collective',
     publisher: 'Hybrid Living',
     deployedIn: 'Hybrid Living live AI cohort',
     capabilities: [
@@ -240,6 +246,7 @@ export const catalog: Product[] = [
     summary: 'Turns a product page and past ad results into a one-page creator brief with three hooks, required shots and the claims the creator may not make.',
     audience: 'Brand and creative leads who commission ten or more UGC videos a month and rewrite every brief from scratch.',
     category: 'agents',
+    source: 'collective',
     publisher: 'Nexus Labs',
     deployedIn: 'Nexus Labs ads and UGC video desk',
     capabilities: [
@@ -273,6 +280,7 @@ export const catalog: Product[] = [
     summary: 'Researches a target account from its website and HubSpot history and drafts a first-touch email into Gmail drafts.',
     audience: 'SDRs working a named-account list who spend most of their morning reading company sites before writing a line.',
     category: 'agents',
+    source: 'collective',
     publisher: 'Signal Velocity',
     deployedIn: 'Signal Velocity outbound pod',
     capabilities: [
@@ -307,6 +315,7 @@ export const catalog: Product[] = [
     summary: 'Runs your prompt eval suite on every pull request that touches a prompt and comments the score changes on the PR.',
     audience: 'Engineers shipping LLM features who find out a prompt edit broke something only after it reaches users.',
     category: 'agents',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow registry CI',
     capabilities: [
@@ -340,6 +349,7 @@ export const catalog: Product[] = [
     summary: 'Turns discovery-call transcripts into a draft statement of work with phases, assumptions and an hours estimate.',
     audience: 'Engagement managers at a consulting firm who write three or four SOWs a week from call notes.',
     category: 'agents',
+    source: 'collective',
     publisher: 'The Collective',
     deployedIn: 'The Collective AI Audit + Roadmap engagements',
     capabilities: [
@@ -375,6 +385,7 @@ export const catalog: Product[] = [
     summary: 'Reads supplier invoices from the AP inbox, matches them to POs in QuickBooks and routes each one to the budget owner in Slack.',
     audience: 'Accounts-payable clerks at a 50–300 person company who chase approvals over email every week.',
     category: 'workflows',
+    source: 'collective',
     publisher: 'Quantum Ledger',
     deployedIn: 'Quantum Ledger accounts payable',
     capabilities: [
@@ -413,6 +424,7 @@ export const catalog: Product[] = [
     summary: 'Generates a mutual NDA from your template when a request form is submitted, sends it through DocuSign and files the signed copy in Drive.',
     audience: 'Legal ops leads who want standard NDAs out the door the same day without a lawyer touching them.',
     category: 'workflows',
+    source: 'collective',
     publisher: 'Juris Guard',
     deployedIn: 'Juris Guard standard NDA queue',
     capabilities: [
@@ -446,6 +458,7 @@ export const catalog: Product[] = [
     summary: 'Replies to each new inbound lead within five minutes with an answer to their question and a booking link, and logs the lead in your CRM.',
     audience: 'Service businesses whose website leads go cold because nobody answers them until the next morning.',
     category: 'workflows',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow rent-an-agent: lead follow-up seat',
     capabilities: [
@@ -486,6 +499,7 @@ export const catalog: Product[] = [
     summary: 'Collects merged pull requests since the last tag, writes the changelog, cuts the release and closes the matching Linear issues.',
     audience: 'Engineering leads on a weekly release cadence who assemble release notes by scrolling through merged PRs.',
     category: 'workflows',
+    source: 'collective',
     publisher: 'Binary Loom',
     deployedIn: 'Binary Loom client app releases',
     capabilities: [
@@ -520,6 +534,7 @@ export const catalog: Product[] = [
     summary: 'Lists every account in Google Workspace, Okta and GitHub with its last sign-in and sends each manager the people and apps they must confirm or revoke.',
     audience: 'IT and security leads at a 30–500 person company who run access reviews in a spreadsheet the week before an audit.',
     category: 'workflows',
+    source: 'collective',
     publisher: 'Obsidian Arc',
     deployedIn: 'Obsidian Arc client security assessments',
     capabilities: [
@@ -554,6 +569,7 @@ export const catalog: Product[] = [
     summary: 'Enrols a learner in the course, sends the pre-cohort survey and adds the live sessions to their calendar when a cohort seat is paid for in Stripe.',
     audience: 'Course operators selling seats in a live cohort who onboard each learner by hand the week before it starts.',
     category: 'workflows',
+    source: 'collective',
     publisher: 'Hybrid Living',
     deployedIn: 'Hybrid Living AI cohort enrolment',
     capabilities: [
@@ -584,6 +600,7 @@ export const catalog: Product[] = [
     summary: 'Transcribes each finished cut, produces SRT captions in the requested languages and uploads them to YouTube and Vimeo after an editor approves the transcript.',
     audience: 'Video producers shipping five or more finished videos a week who caption each one by hand in the editor.',
     category: 'workflows',
+    source: 'collective',
     publisher: 'Nexus Labs',
     deployedIn: 'Nexus Labs Originals post-production',
     capabilities: [
@@ -617,6 +634,7 @@ export const catalog: Product[] = [
     summary: 'Crawls a staging site before launch and lists broken links, missing page titles, oversized images, failing forms and Lighthouse scores per page.',
     audience: 'Web developers and agencies who find the broken contact form after the client does.',
     category: 'workflows',
+    source: 'collective',
     publisher: 'Binary Loom',
     deployedIn: 'Binary Loom website launches',
     capabilities: [
@@ -650,6 +668,7 @@ export const catalog: Product[] = [
     summary: 'Tags Zoom webinar registrants in HubSpot by attended, left early or no-show and enrols each group in its own follow-up sequence.',
     audience: 'Demand-gen marketers running two or more webinars a month who export attendee CSVs by hand.',
     category: 'workflows',
+    source: 'collective',
     publisher: 'Signal Velocity',
     deployedIn: 'Signal Velocity monthly product webinars',
     capabilities: [
@@ -683,6 +702,7 @@ export const catalog: Product[] = [
     summary: 'Runs the red-team prompt set against an agent, compares the API calls it makes to the scopes it declared, and writes its Aegis report.',
     audience: 'Teams about to publish an agent to the registry who need the review every ZenFlow listing passes before launch.',
     category: 'workflows',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow registry gate for every listing',
     capabilities: [
@@ -724,6 +744,7 @@ export const catalog: Product[] = [
     summary: 'Drafts each client’s weekly status report from Linear progress, Harvest hours and open risks for the engagement manager to edit.',
     audience: 'Engagement managers who spend Friday afternoons writing the same status email for five clients.',
     category: 'workflows',
+    source: 'collective',
     publisher: 'The Collective',
     deployedIn: 'The Collective client delivery teams',
     capabilities: [
@@ -759,6 +780,7 @@ export const catalog: Product[] = [
     summary: 'Retries failed subscription payments on a set schedule, emails the customer a card-update link, and pauses the subscription after the final attempt.',
     audience: 'SaaS founders on Stripe Billing losing revenue to expired cards they never follow up on.',
     category: 'automations',
+    source: 'collective',
     publisher: 'Quantum Ledger',
     deployedIn: 'Quantum Ledger subscription billing',
     capabilities: [
@@ -792,6 +814,7 @@ export const catalog: Product[] = [
     summary: 'Attaches receipts forwarded to a shared address to the matching card transaction in Xero.',
     audience: 'Bookkeepers who chase employees for receipts at month end and match them to card lines by hand.',
     category: 'automations',
+    source: 'collective',
     publisher: 'Quantum Ledger',
     deployedIn: 'Quantum Ledger corporate card program',
     capabilities: [
@@ -825,6 +848,7 @@ export const catalog: Product[] = [
     summary: 'Watches the EU AI Act portal, the Federal Register and state AI bills each day and sends a weekly digest of changes that touch the systems you listed.',
     audience: 'Compliance leads who must show they track AI regulation but have no time to read every bulletin.',
     category: 'automations',
+    source: 'collective',
     publisher: 'Juris Guard',
     deployedIn: 'Juris Guard RegPulse monitoring',
     capabilities: [
@@ -861,6 +885,7 @@ export const catalog: Product[] = [
     summary: 'Transcribes raw footage as it lands in Frame.io and writes a searchable log of takes, speakers and timecodes for the editor.',
     audience: 'Editors on documentary and brand shoots who scrub hours of interviews to find one line.',
     category: 'automations',
+    source: 'collective',
     publisher: 'Nexus Labs',
     deployedIn: 'Nexus Labs documentary and brand shoots',
     capabilities: [
@@ -894,6 +919,7 @@ export const catalog: Product[] = [
     summary: 'Opens one pull request per vulnerable dependency each week, with the advisory, the changelog between versions and CI results attached.',
     audience: 'Platform engineers who ignore a wall of Dependabot alerts because each one needs reading before it can merge.',
     category: 'automations',
+    source: 'collective',
     publisher: 'Obsidian Arc',
     deployedIn: 'Obsidian Arc vulnerability management for client repositories',
     capabilities: [
@@ -927,6 +953,7 @@ export const catalog: Product[] = [
     summary: 'Lists idle S3 buckets, untagged EC2 volumes and Snowflake warehouses that ran with no queries, with the monthly cost of each.',
     audience: 'Engineering managers asked to cut the AWS and Snowflake bill without breaking anything.',
     category: 'automations',
+    source: 'collective',
     publisher: 'Binary Loom',
     deployedIn: 'Binary Loom monthly cost review',
     capabilities: [
@@ -960,6 +987,7 @@ export const catalog: Product[] = [
     summary: 'Sends each website form submission to the right place: a HubSpot contact for sales enquiries, a Zendesk ticket for support, an email for everything else.',
     audience: 'Small-business site owners whose contact form dumps everything into one inbox.',
     category: 'automations',
+    source: 'collective',
     publisher: 'Binary Loom',
     deployedIn: 'Binary Loom client website builds',
     capabilities: [
@@ -993,6 +1021,7 @@ export const catalog: Product[] = [
     summary: 'Emails the next person on the waitlist when someone drops a workshop seat and holds the seat for 24 hours.',
     audience: 'Training coordinators running capped live workshops whose dropped seats go empty.',
     category: 'automations',
+    source: 'collective',
     publisher: 'Hybrid Living',
     deployedIn: 'Hybrid Living Momentum team workshops',
     capabilities: [
@@ -1023,6 +1052,7 @@ export const catalog: Product[] = [
     summary: 'Scans live campaign links each night and lists any with missing or misspelled UTM parameters.',
     audience: 'Marketing ops managers whose attribution reports are wrong because someone typed utm_source=Linkedin.',
     category: 'automations',
+    source: 'collective',
     publisher: 'Signal Velocity',
     deployedIn: 'Signal Velocity paid and email campaigns',
     capabilities: [
@@ -1053,6 +1083,7 @@ export const catalog: Product[] = [
     summary: 'Replays a golden set of conversations against each production agent nightly and posts any score drop to Slack.',
     audience: 'Teams running agents in production who need to know when a model or tool change quietly lowered quality.',
     category: 'automations',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow monitoring for all registry agents',
     capabilities: [
@@ -1086,6 +1117,7 @@ export const catalog: Product[] = [
     summary: 'Removes names, phone numbers, emails, addresses and account numbers from call transcripts before they are stored for evals or training.',
     audience: 'ML engineers who want real support conversations in their eval sets without keeping customer PII.',
     category: 'automations',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow eval dataset pipeline',
     capabilities: [
@@ -1125,6 +1157,7 @@ export const catalog: Product[] = [
     summary: 'Tags, prioritises and routes new Zendesk tickets and leaves a suggested reply as an internal note for the agent.',
     audience: 'Support leads whose team spends the first hour of each shift sorting the overnight queue.',
     category: 'bots',
+    source: 'collective',
     publisher: 'The Collective',
     deployedIn: 'The Collective client support desks',
     capabilities: [
@@ -1158,6 +1191,7 @@ export const catalog: Product[] = [
     summary: 'Checks a list of competitor pricing pages each morning and posts a before-and-after diff to Slack when one changes.',
     audience: 'Product marketers who learn about a competitor’s price change from a sales rep weeks later.',
     category: 'bots',
+    source: 'collective',
     publisher: 'Signal Velocity',
     deployedIn: 'Signal Velocity competitive intel channel',
     capabilities: ['Fetches each page once a day', 'Diffs visible text and plan tables', 'Posts changes with a screenshot'],
@@ -1187,6 +1221,7 @@ export const catalog: Product[] = [
     summary: 'Asks each cohort learner two questions in Slack every Monday, what they built and where they are stuck, and gives the instructor one table of answers.',
     audience: 'Cohort instructors who notice a learner has fallen behind only when they miss a deadline.',
     category: 'bots',
+    source: 'collective',
     publisher: 'Hybrid Living',
     deployedIn: 'Hybrid Living Creator Track',
     capabilities: [
@@ -1220,6 +1255,7 @@ export const catalog: Product[] = [
     summary: 'Comments on pull requests that add a migration without a rollback, commit a secret or change auth code without a security reviewer.',
     audience: 'Teams without a dedicated security engineer who want the obvious mistakes caught before review.',
     category: 'bots',
+    source: 'collective',
     publisher: 'Obsidian Arc',
     deployedIn: 'Obsidian Arc secure code review for Binary Loom builds',
     capabilities: [
@@ -1253,6 +1289,7 @@ export const catalog: Product[] = [
     summary: 'Answers employee questions in Slack from the company handbook in Notion and quotes the section it relied on.',
     audience: 'People-ops and legal teams answering the same leave, expense and travel policy questions every week.',
     category: 'bots',
+    source: 'collective',
     publisher: 'Juris Guard',
     deployedIn: 'Juris Guard internal policy desk',
     capabilities: [
@@ -1286,6 +1323,7 @@ export const catalog: Product[] = [
     summary: 'Collects async standup answers in Slack each morning and posts one digest with blockers linked to their Linear issues.',
     audience: 'Engineering managers of distributed teams who replaced the daily call with written standups nobody reads.',
     category: 'bots',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow engineering team',
     capabilities: [
@@ -1316,6 +1354,7 @@ export const catalog: Product[] = [
     summary: 'Explains an agent run in Slack when given its run ID: which tools it called, with what arguments, and where it went wrong.',
     audience: 'Engineers debugging a production agent who are tired of reading raw trace JSON.',
     category: 'bots',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow agent support channel',
     capabilities: [
