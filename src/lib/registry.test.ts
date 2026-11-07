@@ -13,6 +13,7 @@ import {
   registryId,
 } from './registry';
 import type { FilterState, Product } from '../types/marketplace';
+import { catalog } from '../data/catalog';
 
 function make(overrides: Partial<Product> & Pick<Product, 'id'>): Product {
   return {
@@ -110,7 +111,7 @@ describe('formatPrice', () => {
   it('formats each pricing model', () => {
     expect(formatPrice({ model: 'free', amount: 0 })).toBe('Free');
     expect(formatPrice({ model: 'monthly', amount: 89 })).toBe('$89/mo');
-    expect(formatPrice({ model: 'usage', amount: 2.4 })).toBe('$2.4 / 1k runs');
+    expect(formatPrice({ model: 'usage', amount: 2.4 })).toBe('$2.40 / 1k runs');
     expect(formatPrice({ model: 'one-time', amount: 149 })).toBe('$149 once');
   });
 });
@@ -285,6 +286,13 @@ describe('allPublishers', () => {
 });
 
 describe('matchTask', () => {
+  it('matches at word starts only and ignores filler words', () => {
+    const base = catalogFixtureForWordTests();
+    const r = matchTask(base, 'signing against');
+    expect(r.map((m) => m.product.id)).toEqual(['signer']);
+    expect(r[0].matched).toEqual(['signing']);
+  });
+
   it('returns [] for an empty or stopword-only brief', () => {
     expect(matchTask(products, '')).toEqual([]);
     expect(matchTask(products, 'I need something that can help me with my')).toEqual([]);
@@ -333,3 +341,9 @@ describe('matchTask', () => {
     expect(matchTask([low, high], 'digest', 1)).toHaveLength(1);
   });
 });
+
+function catalogFixtureForWordTests() {
+  const mk = (id: string, title: string) =>
+    ({ ...catalog[0], id, title, summary: title, capabilities: [title], tags: [], integrations: [], audience: '', deployedIn: '', publisher: 'ZenFlow' }) as typeof catalog[0];
+  return [mk('designer', 'Design review'), mk('signer', 'Signing desk')];
+}

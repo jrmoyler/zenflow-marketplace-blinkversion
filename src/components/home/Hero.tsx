@@ -77,7 +77,7 @@ export default function Hero({
 
   const statItems: { label: string; value: string; aegis?: boolean }[] = [
     { label: 'Listings', value: String(stats.listings) },
-    { label: 'Departments', value: String(stats.departments) },
+    { label: 'Divisions', value: String(stats.departments) },
     { label: 'Median Aegis', value: stats.medianAegis === null ? '–' : String(stats.medianAegis), aegis: true },
     { label: 'Human-in-loop', value: String(stats.humanInLoop) },
   ];
@@ -97,7 +97,7 @@ export default function Hero({
               Agents built to be trusted, published by the teams that run them.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-zf-muted sm:text-lg">
-              Every listing in this registry already runs inside a Collective AI department, and declares what data it
+              Every listing in this registry already runs inside a Collective AI division, and declares what data it
               touches, what it refuses to do, and when it hands control to a person.
             </p>
           </div>

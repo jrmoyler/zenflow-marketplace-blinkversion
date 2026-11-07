@@ -46,7 +46,7 @@ export function formatPrice(p: Product['pricing']): string {
     case 'monthly':
       return `$${p.amount}/mo`;
     case 'usage':
-      return `$${p.amount} / 1k runs`;
+      return `$${p.amount.toFixed(2)} / 1k runs`;
     case 'one-time':
       return `$${p.amount} once`;
   }
@@ -153,7 +153,10 @@ export interface TaskMatch {
 }
 
 const STOPWORDS = new Set(
-  'a an and the to of for in on with my our i we need want something that can from into is are be it this help me'.split(' '),
+  ('a an and the to of for in on with my our i we need want something that can from into is are be it this help me ' +
+    'against every each before after about when then them their they your you all any per out over onto via using use ' +
+    'get got make keep should would could will just also like more most some way thing things automatically daily weekly')
+    .split(' '),
 );
 
 /**
@@ -174,9 +177,11 @@ export function matchTask(products: Product[], brief: string, limit = 5): TaskMa
     const matched: string[] = [];
     for (const t of terms) {
       const stem = t.length > 4 ? t.replace(/(ing|ers|er|es|s|ed)$/, '') : t;
-      if (title.includes(stem)) score += 4;
-      else if (strong.includes(stem)) score += 2;
-      else if (weak.includes(stem)) score += 1;
+      // Match at word starts only, so "sign" finds "signing" but not "design".
+      const atWord = new RegExp(`(^|[^a-z0-9])${stem}`);
+      if (atWord.test(title)) score += 4;
+      else if (atWord.test(strong)) score += 2;
+      else if (atWord.test(weak)) score += 1;
       else continue;
       matched.push(t);
     }

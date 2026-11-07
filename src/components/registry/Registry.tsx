@@ -210,7 +210,7 @@ export default function Registry({ products, filters, onFiltersChange, onOpenPro
               {products.length === 0 ? (
                 <>
                   <p className="text-[15px] font-medium text-zf-text">No listings published yet.</p>
-                  <p className="mt-1 text-[13px] text-zf-muted">Departments have not published into the registry.</p>
+                  <p className="mt-1 text-[13px] text-zf-muted">No division has published into the registry yet.</p>
                 </>
               ) : (
                 <>

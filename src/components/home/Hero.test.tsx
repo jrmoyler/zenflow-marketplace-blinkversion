@@ -101,7 +101,7 @@ describe('Hero', () => {
     const { container } = setup();
     const stat = (label: string) => container.querySelector(`[data-stat="${label}"]`)?.textContent;
     expect(stat('Listings')).toBe('4');
-    expect(stat('Departments')).toBe('3');
+    expect(stat('Divisions')).toBe('3');
     expect(stat('Human-in-loop')).toBe('2');
     expect(stat('Median Aegis')).toBe(String(heroStats(products).medianAegis));
   });
