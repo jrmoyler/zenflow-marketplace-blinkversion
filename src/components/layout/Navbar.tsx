@@ -1,125 +1,137 @@
-import { Search, Sparkles, ShoppingCart, User, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { ListChecks, Search, X } from 'lucide-react';
+import { Wordmark } from '@/components/brand/Mark';
+import { ZfButton } from '@/components/brand/Button';
+import { cn } from '@/lib/utils';
 
-interface NavbarProps {
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
-  onAIConciergeOpen: () => void;
+export interface NavbarProps {
+  query: string;
+  onQueryChange: (q: string) => void;
+  onOpenTaskFinder: () => void;
 }
 
-export default function Navbar({ searchQuery, onSearchChange, onAIConciergeOpen }: NavbarProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+const SEARCH_ID = 'zf-registry-search';
+
+function isEditableTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  const tag = target.tagName;
+  return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable;
+}
+
+export default function Navbar({ query, onQueryChange, onOpenTaskFinder }: NavbarProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const focusPending = useRef(false);
+  // Mobile only: whether the full-width search row is shown. Desktop always shows the field.
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+
+  const focusSearch = useCallback(() => {
+    focusPending.current = true;
+    setMobileSearchOpen(true);
+    inputRef.current?.focus();
+  }, []);
+
+  // The mobile row is display:none until opened, so focus once it has rendered.
+  useEffect(() => {
+    if (mobileSearchOpen && focusPending.current) {
+      focusPending.current = false;
+      inputRef.current?.focus();
+    }
+  }, [mobileSearchOpen]);
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      const isCmdK = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k';
+      const isSlash = e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey && !isEditableTarget(e.target);
+      if (isCmdK || isSlash) {
+        e.preventDefault();
+        focusSearch();
+      }
+    }
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [focusSearch]);
+
+  function closeSearch() {
+    onQueryChange('');
+    inputRef.current?.blur();
+    setMobileSearchOpen(false);
+  }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => onSearchChange('')}>
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-display font-bold text-xl text-gradient">Zenflow</span>
-          </div>
+    <header className="sticky top-0 z-40 border-b border-zf-grid bg-zf-canvas/80 backdrop-blur-md">
+      <div className="relative mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:gap-6 sm:px-6 lg:px-8">
+        <a
+          href="/"
+          aria-label="ZenFlow Marketplace home"
+          className="flex min-h-[44px] shrink-0 items-center rounded-sm"
+        >
+          <Wordmark markSize={32} labelClassName="hidden md:inline" />
+        </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Marketplace
-            </a>
-            <button 
-              onClick={onAIConciergeOpen}
-              className="text-sm font-medium text-primary hover:text-primary-glow transition-colors flex items-center gap-1"
-            >
-              AI Concierge
-            </button>
-            <a href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Enterprise
-            </a>
+        <form
+          role="search"
+          onSubmit={(e) => e.preventDefault()}
+          className={cn(
+            mobileSearchOpen ? 'flex' : 'hidden',
+            'absolute inset-x-0 top-16 border-b border-zf-grid bg-zf-canvas px-4 py-2',
+            'sm:static sm:flex sm:max-w-md sm:flex-1 sm:border-0 sm:bg-transparent sm:p-0'
+          )}
+        >
+          <div className="relative w-full">
+            <Search
+              aria-hidden="true"
+              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zf-muted"
+            />
+            <input
+              ref={inputRef}
+              id={SEARCH_ID}
+              type="search"
+              aria-label="Search the registry"
+              placeholder="Search agents, workflows, integrations"
+              autoComplete="off"
+              spellCheck={false}
+              value={query}
+              onChange={(e) => onQueryChange(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  e.preventDefault();
+                  closeSearch();
+                }
+              }}
+              className={cn(
+                'h-11 w-full rounded-[4px] border border-zf-grid bg-zf-surface pl-9 pr-10 text-sm text-zf-text sm:h-9',
+                'placeholder:text-zf-muted/80 transition-[border-color,background-color] duration-150',
+                'hover:border-zf-muted/40 focus:border-zf-blue focus:bg-zf-raised'
+              )}
+            />
+            {query === '' && (
+              <kbd
+                aria-hidden="true"
+                className="pointer-events-none absolute right-2 top-1/2 hidden -translate-y-1/2 rounded-[4px] border border-zf-grid bg-zf-raised px-1.5 py-0.5 font-mono text-[11px] leading-none text-zf-muted sm:block"
+              >
+                /
+              </kbd>
+            )}
           </div>
+        </form>
 
-          {/* Search Bar */}
-          <div className="hidden lg:flex flex-1 max-w-md ml-8">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
-                placeholder="Search agents, workflows, automations..."
-                className="w-full pl-10 pr-4 py-2 rounded-lg bg-background/50 border border-border/50 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 text-sm"
-              />
-            </div>
-          </div>
-
-          {/* Right Actions */}
-          <div className="flex items-center gap-4">
-            <button className="relative min-w-[44px] min-h-[44px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
-              <ShoppingCart className="w-5 h-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
-            </button>
-            <button className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg border border-border/50 text-sm font-medium hover:bg-primary/10 hover:border-primary/30 transition-all">
-              <User className="w-4 h-4" />
-              Sign In
-            </button>
-            <button className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-primary to-secondary text-sm font-medium text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all">
-              <Sparkles className="w-4 h-4" />
-              Get Started
-            </button>
-            <button
-              className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
+        <div className="ml-auto flex items-center gap-1 sm:gap-2">
+          <button
+            type="button"
+            onClick={() => (mobileSearchOpen ? closeSearch() : focusSearch())}
+            aria-label={mobileSearchOpen ? 'Close search' : 'Open search'}
+            aria-expanded={mobileSearchOpen}
+            aria-controls={SEARCH_ID}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-[4px] text-zf-muted transition-colors duration-150 hover:bg-zf-raised hover:text-zf-text sm:hidden"
+          >
+            {mobileSearchOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Search className="h-5 w-5" aria-hidden="true" />}
+          </button>
+          <ZfButton variant="ghost" onClick={onOpenTaskFinder} className="px-4 sm:px-[22px]">
+            <ListChecks className="h-4 w-4 text-zf-violet-text" aria-hidden="true" />
+            Find by task
+          </ZfButton>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden border-t border-border/50 bg-background/95 backdrop-blur-lg">
-          <div className="px-4 py-4 space-y-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
-                placeholder="Search..."
-                className="w-full pl-10 pr-4 py-2 rounded-lg bg-background/50 border border-border/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm"
-              />
-            </div>
-            <div className="flex flex-col space-y-2">
-              <a href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2">
-                Marketplace
-              </a>
-              <button 
-                onClick={() => {
-                  onAIConciergeOpen();
-                  setIsMobileMenuOpen(false);
-                }}
-                className="text-left text-sm font-medium text-primary hover:text-primary-glow transition-colors py-2"
-              >
-                AI Concierge
-              </button>
-              <a href="#" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2">
-                Enterprise
-              </a>
-            </div>
-            <div className="flex flex-col gap-2 pt-2 border-t border-border/50">
-              <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border/50 text-sm font-medium justify-center hover:bg-primary/10 transition-all">
-                <User className="w-4 h-4" />
-                Sign In
-              </button>
-              <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-primary to-secondary text-sm font-medium text-white justify-center shadow-lg">
-                <Sparkles className="w-4 h-4" />
-                Get Started
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </nav>
+    </header>
   );
 }

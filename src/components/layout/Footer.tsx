@@ -1,76 +1,98 @@
-import { motion } from 'framer-motion';
-import { Sparkles, Twitter, Github, Linkedin, Mail } from 'lucide-react';
+import { Mark, Wordmark } from '@/components/brand/Mark';
+import { ASSESSMENT_URL, DIVISIONS, HUB_URL, MAIN_URL, divisionUrl } from '@/lib/network';
+import { Star } from './ParentStrip';
+
+const LINKS = [
+  { href: '#registry', label: 'Registry' },
+  { href: '#aegis-standard', label: 'Aegis standard' },
+];
+
+const NETWORK = [
+  { href: MAIN_URL, label: 'collectiveai.info' },
+  { href: HUB_URL, label: 'Start here hub', gold: true },
+  { href: ASSESSMENT_URL, label: 'AI Readiness Audit' },
+  { href: divisionUrl('zenflow'), label: 'ZenFlow division site' },
+];
+
+const OTHER_DIVISIONS = DIVISIONS.filter((d) => d.slug !== 'zenflow');
+
+const linkCls =
+  'inline-flex min-h-[44px] items-center gap-2 rounded-sm text-sm text-zf-blue-text transition-colors duration-150 hover:text-zf-text md:min-h-[32px]';
 
 export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="glass border-t border-border/50 pt-16 pb-8 px-4 md:px-0 mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          <div className="space-y-6">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-display font-bold text-xl text-gradient">Zenflow</span>
-            </div>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              The world's first decentralized marketplace for AI Agents and Workflows. 
-              Built for the next generation of digital automation.
-            </p>
-            <div className="flex gap-4">
-              {[Twitter, Github, Linkedin, Mail].map((Icon, i) => (
-                <a key={i} href="#" className="p-2 rounded-lg glass border border-border/50 hover:bg-primary/20 hover:border-primary/50 transition-all">
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h4 className="font-display font-bold mb-6">Marketplace</h4>
-            <ul className="space-y-4 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">AI Agents</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Workflows</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Automations</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Custom Bots</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-display font-bold mb-6">Resources</h4>
-            <ul className="space-y-4 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">Documentation</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">API Reference</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Community Forum</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Zenflow Blog</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-display font-bold mb-6">Join the Revolution</h4>
-            <p className="text-sm text-muted-foreground mb-4">Subscribe to get the latest AI drops and platform updates.</p>
-            <form className="space-y-3">
-              <input
-                type="email"
-                placeholder="email@example.com"
-                className="w-full px-4 py-2 rounded-lg glass border border-border/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm"
-              />
-              <button className="w-full py-2 rounded-lg bg-primary text-white font-medium text-sm hover:scale-105 active:scale-95 transition-all shadow-lg">
-                Subscribe
-              </button>
-            </form>
-          </div>
+    <footer className="mt-24 border-t border-zf-grid bg-zf-canvas">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.3fr_auto_auto_auto] lg:gap-14 lg:px-8">
+        <div className="max-w-md space-y-3">
+          <Wordmark markSize={32} />
+          <p className="text-sm leading-relaxed text-zf-muted">
+            AI agents you can audit. ZenFlow is the Collective AI division that builds agents that do the work and show
+            their reasoning. Every listing here runs inside a Collective AI division before it is listed, and writes
+            each decision to a decision log you can read.
+          </p>
+          <p className="text-sm leading-relaxed text-zf-muted">
+            Every listing declares the data scopes it touches, what it refuses to do, and the triggers that escalate to a
+            person. Aegis scores each declaration from 0 to 100.
+          </p>
         </div>
 
-        <div className="pt-8 border-t border-border/30 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground">
-            © 2026 Zenflow Marketplace. All rights reserved.
+        <nav aria-label="Footer">
+          <h2 className="mb-2 text-sm font-medium text-zf-text">Marketplace</h2>
+          <ul className="flex flex-col">
+            {LINKS.map((link) => (
+              <li key={link.href}>
+                <a href={link.href} className={linkCls}>
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav aria-label="Collective AI network">
+          <h2 className="mb-2 text-sm font-medium text-zf-text">Collective AI network</h2>
+          <ul className="flex flex-col">
+            {NETWORK.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  rel="noopener"
+                  className={link.gold ? `${linkCls} !text-[#D4A843] hover:!text-zf-text` : linkCls}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav aria-label="Other divisions">
+          <h2 className="mb-2 text-sm font-medium text-zf-text">Other divisions</h2>
+          <ul className="grid grid-cols-2 gap-x-6 md:grid-cols-1">
+            {OTHER_DIVISIONS.map((d) => (
+              <li key={d.slug}>
+                <a href={divisionUrl(d.slug)} rel="noopener" className={linkCls}>
+                  <Mark division={d.slug} size={18} title="" />
+                  {d.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      <div className="border-t border-zf-grid">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-5 text-xs text-zf-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+          <p>Catalog in internal validation. Pricing is provisional.</p>
+          <p className="inline-flex items-center gap-2">
+            <Star className="h-2.5 w-2.5 text-[#D4A843]" />
+            <a href={MAIN_URL} rel="noopener" className="hover:text-zf-text">
+              A Collective AI Inc. division
+            </a>
+            <span>&copy; {year} Collective AI</span>
           </p>
-          <div className="flex gap-8 text-xs text-muted-foreground">
-            <a href="#" className="hover:text-foreground">Privacy Policy</a>
-            <a href="#" className="hover:text-foreground">Terms of Service</a>
-            <a href="#" className="hover:text-foreground">Cookie Policy</a>
-          </div>
         </div>
       </div>
     </footer>

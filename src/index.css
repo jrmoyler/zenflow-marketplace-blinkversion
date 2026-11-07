@@ -1,250 +1,168 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * ZenFlow tokens — locked by the zenflow-division brand spec. See DESIGN.md.
+ * HSL triplets so Tailwind's `hsl(var(--x) / <alpha>)` works.
+ */
 @layer base {
   :root {
-    /* Zenflow Design System - Deep Space & Bioluminescence Theme */
-    
-    /* Core Colors */
-    --background: 250 30% 4%;      /* #0a0a0f - Almost Black */
-    --foreground: 250 10% 95%;     /* #f1f0f4 - Light Gray */
-    
-    /* Glass Card Colors */
-    --card: 250 30% 6%;             /* #12121a - Dark glass base */
-    --card-foreground: 250 10% 92%; /* #e8e7ec - Card text */
-    
-    /* Primary - Electric Indigo */
-    --primary: 239 84% 67%;         /* #6366f1 */
-    --primary-glow: 239 84% 77%;    /* Lighter glow */
-    --primary-foreground: 250 20% 98%;
-    
-    /* Secondary - Cyberpunk Emerald */
-    --secondary: 157 88% 37%;      /* #10b981 */
-    --secondary-foreground: 250 20% 98%;
-    
-    /* Muted Elements */
-    --muted: 250 20% 12%;           /* #272735 */
-    --muted-foreground: 250 8% 65%; /* #8a8a9e */
-    
-    /* Accents */
-    --accent: 239 84% 17%;          /* Dark indigo accent */
-    --accent-foreground: 250 10% 98%;
-    
-    /* UI Elements */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 250 20% 98%;
-    --border: 250 15% 18%;          /* Subtle borders */
-    --input: 250 15% 15%;
-    --ring: 239 84% 67%;            /* Matches primary */
-    
-    /* Chart Colors */
-    --chart-1: 239 84% 67%;         /* Indigo */
-    --chart-2: 157 88% 37%;         /* Emerald */
-    --chart-3: 280 65% 60%;         /* Purple */
-    --chart-4: 200 85% 55%;         /* Blue */
-    --chart-5: 340 75% 55%;         /* Pink */
-    
-    /* Glassmorphism Effects */
-    --glass-bg: 255 30% 8% / 0.6;   /* Frosted glass */
-    --glass-border: 255 30% 15% / 0.3;
-    --glow-shadow: 0 0 30px hsl(239 84% 67% / 0.3);
-    
-    /* Typography */
-    --font-sans: Inter, sans-serif;
-    --font-display: 'Space Grotesk', sans-serif;
-    
-    /* Spacing System */
-    --spacing: 0.5rem;
-    --radius: 0.75rem;
-    
-    /* Custom Animations */
-    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-    --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --zf-canvas: 226 52% 4%;      /* #050810 Neural Black — 60% */
+    --zf-surface: 229 44% 7%;     /* #0A0D1A Deep Void — 30% */
+    --zf-raised: 229 36% 9%;      /* #0F1220 */
+    --zf-grid: 230 28% 16%;       /* #1E2235 */
+    --zf-violet: 262 83% 58%;     /* #7C3AED — fills only */
+    --zf-violet-text: 255 92% 76%;/* #A78BFA — violet on dark, AA */
+    --zf-blue: 217 91% 60%;       /* #3B82F6 — fills, focus */
+    --zf-blue-text: 213 94% 68%;  /* #60A5FA — links on dark, AA */
+    --zf-text: 210 40% 98%;       /* #F8FAFC */
+    --zf-muted: 215 20% 65%;      /* #94A3B8 */
+    --zf-aegis: 42 63% 55%;       /* #D4A843 — governance only */
+
+    /* shadcn bridge — the ui/ primitives read these */
+    --background: var(--zf-canvas);
+    --foreground: var(--zf-text);
+    --card: var(--zf-surface);
+    --card-foreground: var(--zf-text);
+    --popover: var(--zf-raised);
+    --popover-foreground: var(--zf-text);
+    --primary: var(--zf-violet);
+    --primary-foreground: var(--zf-text);
+    --secondary: var(--zf-raised);
+    --secondary-foreground: var(--zf-text);
+    --muted: var(--zf-raised);
+    --muted-foreground: var(--zf-muted);
+    --accent: var(--zf-raised);
+    --accent-foreground: var(--zf-text);
+    --destructive: 0 72% 60%;
+    --destructive-foreground: var(--zf-text);
+    --border: var(--zf-grid);
+    --input: var(--zf-grid);
+    --ring: var(--zf-blue);
+    --radius: 0.5rem;
+
+    --font-sans: 'Space Grotesk', 'Inter', 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+    color-scheme: dark;
   }
 
   * {
     @apply border-border;
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    font-feature-settings: 'ss01', 'tnum';
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--zf-blue));
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: hsl(var(--zf-violet) / 0.45);
   }
 }
 
-/* Glassmorphism Classes */
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-}
-
-.glass-card {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(99, 102, 241, 0.2);
-}
-
-.glass-hover:hover {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
-  border-color: rgba(99, 102, 241, 0.4);
-  box-shadow: var(--glow-shadow);
-  transform: translateY(-2px);
-}
-
-/* Glow Effects */
-.glow-primary {
-  box-shadow: 0 0 20px hsl(239 84% 67% / 0.4), 0 0 40px hsl(239 84% 67% / 0.2);
-}
-
-.glow-text {
-  text-shadow: 0 0 20px hsl(239 84% 67% / 0.5);
-}
-
-/* Aurora Background Animation */
-@keyframes aurora {
-  0%, 100% {
-    background-position: 0% 50%;
+@layer utilities {
+  /* Subtle architecture grid, used once behind the hero. */
+  .zf-grid-bg {
+    background-image:
+      linear-gradient(hsl(var(--zf-grid) / 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--zf-grid) / 0.5) 1px, transparent 1px);
+    background-size: 48px 48px;
   }
-  50% {
-    background-position: 100% 50%;
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/*
+ * Official tactile logo tile. Ported from collective-ai-divisions assets/core.css `.tile`.
+ * Set --sz, --t1, --t2, --tg inline (Mark.tsx does this from MARKS).
+ */
+@layer components {
+  .zf-tile {
+    --sz: 44px;
+    position: relative; isolation: isolate; flex: none;
+    display: inline-grid; place-items: center;
+    width: var(--sz); height: var(--sz); border-radius: calc(var(--sz) * .28);
+    background: radial-gradient(120% 95% at 30% 12%, var(--t1) 0%, var(--t2) 72%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.30),
+      inset 0 -2px 3px rgba(0,0,0,.45),
+      inset 0 0 0 1px rgba(255,255,255,.08),
+      0 1px 1px rgba(0,0,0,.55),
+      0 calc(var(--sz) * .16) calc(var(--sz) * .4) calc(var(--sz) * -.14) color-mix(in srgb, var(--tg) 75%, transparent);
+    transform: translateZ(0);
+    transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out);
   }
+  .zf-tile::before { /* top gloss */
+    content: ""; position: absolute; inset: 1px; border-radius: inherit; z-index: 1; pointer-events: none;
+    background: linear-gradient(180deg, rgba(255,255,255,.24) 0%, rgba(255,255,255,.04) 42%, transparent 50%);
+  }
+  .zf-tile::after { /* sheen that sweeps across on hover */
+    content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: 2; pointer-events: none;
+    background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,.42) 50%, transparent 62%) no-repeat;
+    background-size: 260% 100%; background-position: 160% 0;
+    transition: background-position .9s var(--ease-out);
+  }
+  .zf-tile svg {
+    display: block; width: 72%; height: 72%;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,.5)) drop-shadow(0 0 calc(var(--sz) * .08) color-mix(in srgb, var(--tg) 55%, transparent));
+  }
+  a:hover .zf-tile, a:focus-visible .zf-tile, .zf-tile-host:hover .zf-tile {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.36), inset 0 -2px 3px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.12),
+      0 1px 1px rgba(0,0,0,.55),
+      0 calc(var(--sz) * .26) calc(var(--sz) * .6) calc(var(--sz) * -.12) color-mix(in srgb, var(--tg) 90%, transparent);
+  }
+  a:hover .zf-tile::after, a:focus-visible .zf-tile::after, .zf-tile-host:hover .zf-tile::after { background-position: -60% 0; }
+  a:active .zf-tile { transform: translateY(1px) scale(.96); transition-duration: .08s; }
+
+  /* Official ZenFlow button (core.css `.btn` with zenflow.css tokens). */
+  .zf-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 48px; padding: 0 22px; border-radius: 4px;
+    background: #7C3AED; color: #fff; font-weight: 600; text-decoration: none; white-space: nowrap;
+    border: 1px solid transparent; cursor: pointer;
+    transition: background-color .18s var(--ease-out), transform .18s var(--ease-out), box-shadow .25s var(--ease-out), border-color .18s;
+  }
+  .zf-btn:hover { background: #6d2fe0; }
+  .zf-btn:not(.zf-btn-ghost):hover { box-shadow: 0 8px 28px -8px color-mix(in srgb, #7C3AED 70%, transparent); transform: translateY(-1px); }
+  .zf-btn:active { transform: translateY(1px); }
+  .zf-btn:not(.zf-btn-ghost):active { transform: translateY(1px); }
+  .zf-btn-ghost { background: transparent; color: hsl(var(--zf-text)); border-color: #1c2140; }
+  .zf-btn-ghost:hover { background: transparent; border-color: #9aa3bf; }
+  .zf-btn:disabled, .zf-btn[aria-disabled="true"] { opacity: .6; cursor: not-allowed; transform: none; box-shadow: none; }
+  .zf-btn:disabled:hover { background: #7C3AED; }
+  .zf-btn-ghost:disabled:hover { background: transparent; }
 }
 
-.aurora-bg {
-  background: 
-    radial-gradient(ellipse at top, hsla(239, 84%, 67%, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom right, hsla(157, 88%, 37%, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom left, hsla(280, 65%, 60%, 0.08) 0%, transparent 50%),
-    hsla(250, 30%, 4%, 1);
-  background-size: 200% 200%, 150% 150%, 100% 100%;
-  animation: aurora 20s ease-in-out infinite;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(30px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-.animate-fade-in { animation: fadeIn 0.5s var(--ease-smooth) both; }
-.animate-slide-in { animation: slideInRight 0.6s var(--ease-smooth) both; }
-.animate-scale-in { animation: scaleIn 0.4s var(--ease-spring) both; }
-.animate-float { animation: float 6s ease-in-out infinite; }
-.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
-
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(250, 20%, 8%);
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(239, 84%, 67% / 0.5);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(239, 84%, 67% / 0.8);
-}
-
-/* Utility Classes */
-.text-gradient {
-  background: linear-gradient(135deg, hsl(239, 84%, 67%) 0%, hsl(157, 88%, 37%) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.border-gradient {
-  position: relative;
-}
-
-.border-gradient::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(135deg, hsl(239, 84%, 67%), hsl(157, 88%, 37%));
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.border-gradient:hover::before {
-  opacity: 1;
-}
-
-/* ------------------------------------------------------------------ */
-/* Motion Preview Icon Keyframes                                       */
-/* Pure CSS animations for category-specific product preview icons.    */
-/* Kept lightweight to avoid impacting mobile scroll performance.      */
-/* ------------------------------------------------------------------ */
-
-/* Agent: pulsing neural network nodes */
-@keyframes motionPulseNode {
-  0%, 100% { opacity: 0.5; r: 3.5; }
-  50% { opacity: 1; r: 5; }
-}
-
-/* Workflow: flowing dot opacity along path */
-@keyframes motionFlowDot {
-  0% { opacity: 0.2; }
-  50% { opacity: 1; }
-  100% { opacity: 0.2; }
-}
-
-/* Automation: rotating gear */
-@keyframes motionGearSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Automation: lightning flash */
-@keyframes motionLightningFlash {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
-/* Bot: typing indicator bounce */
-@keyframes motionTypingBounce {
-  0%, 100% { transform: translateY(0); opacity: 0.4; }
-  50% { transform: translateY(-4px); opacity: 1; }
-}
-
-/* Pause motion preview animations when user prefers reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .motion-preview-icon * {
-    animation: none !important;
+  .zf-tile::after { display: none; }
+  .zf-tile, a:hover .zf-tile, a:focus-visible .zf-tile, .zf-tile-host:hover .zf-tile, a:active .zf-tile { transform: none; }
+  .zf-btn:hover, .zf-btn:active, .zf-btn:not(.zf-btn-ghost):hover { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
