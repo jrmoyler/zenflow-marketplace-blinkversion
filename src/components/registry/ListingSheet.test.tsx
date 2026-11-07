@@ -13,8 +13,8 @@ function make(overrides: Partial<Product> & Pick<Product, 'id' | 'title'>): Prod
     summary: `${overrides.title} does one job.`,
     audience: 'Operators.',
     category: 'agents',
-    publisher: 'ZenFlow Labs',
-    deployedIn: 'ZenFlow Labs ops',
+    publisher: 'ZenFlow',
+    deployedIn: 'ZenFlow ops',
     capabilities: ['Does a thing'],
     inputs: ['Input A'],
     outputs: ['Output B'],
@@ -176,6 +176,29 @@ describe('ListingSheet', () => {
     const { onClose, user } = setup();
     await user.click(screen.getByRole('button', { name: 'Close' }));
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('links the publisher to its division site with the official mark', () => {
+    setup();
+    const link = screen.getByTestId('publisher-link');
+    expect(link).toHaveAttribute('href', 'https://collective-ai-divisions-brown.vercel.app/quantum-ledger/');
+    expect(link).toHaveAttribute('rel', 'noopener');
+    expect(link).toHaveTextContent('Quantum Ledger');
+    expect(link.querySelector('[data-mark="quantum-ledger"] svg')).not.toBeNull();
+  });
+
+  it('reveals the rent form from the primary action', async () => {
+    const { user } = setup();
+    expect(screen.queryByRole('form', { name: 'Rent Ledger Reconciler' })).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Rent this agent' }));
+    expect(screen.getByRole('form', { name: 'Rent Ledger Reconciler' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Message')).toHaveValue('Interested in Ledger Reconciler (zf/agent/ledger-reconciler@2.4.1)');
+    expect(screen.queryByRole('button', { name: 'Rent this agent' })).not.toBeInTheDocument();
+  });
+
+  it('labels the first rubric line as the decision log', () => {
+    setup();
+    expect(screen.getAllByTestId('rubric-row')[0]).toHaveTextContent(/decision log/i);
   });
 
   it('ranks similar listings by shared tags and integrations and opens one on click', async () => {

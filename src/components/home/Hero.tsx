@@ -5,6 +5,7 @@ import type { Product, ProductCategory } from '../../types/marketplace';
 import { CATEGORIES, aegisScore, matchesQuery } from '../../lib/registry';
 import { cn } from '../../lib/utils';
 import Lattice, { CATEGORY_FILL } from './Lattice';
+import { ZfButton } from '../brand/Button';
 
 export interface HeroStats {
   listings: number;
@@ -105,21 +106,26 @@ export default function Hero({
             <label htmlFor="hero-search" className="sr-only">
               Search the registry
             </label>
-            <div className="relative">
-              <Search
-                aria-hidden="true"
-                className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zf-muted"
-              />
-              <input
-                id="hero-search"
-                type="search"
-                aria-label="Search the registry"
-                value={query}
-                onChange={(e) => onQueryChange(e.target.value)}
-                placeholder="Reconcile invoices, triage tickets"
-                autoComplete="off"
-                className="h-14 w-full rounded-[4px] border border-zf-grid bg-zf-surface pl-12 pr-4 text-base text-zf-text placeholder:text-zf-muted/70 transition-colors duration-150 hover:border-zf-muted/40 focus:border-zf-blue focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zf-blue"
-              />
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <div className="relative min-w-0 flex-1">
+                <Search
+                  aria-hidden="true"
+                  className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zf-muted"
+                />
+                <input
+                  id="hero-search"
+                  type="search"
+                  aria-label="Search the registry"
+                  value={query}
+                  onChange={(e) => onQueryChange(e.target.value)}
+                  placeholder="Reconcile invoices, triage tickets"
+                  autoComplete="off"
+                  className="h-14 w-full rounded-[4px] border border-zf-grid bg-zf-surface pl-12 pr-4 text-base text-zf-text placeholder:text-zf-muted/70 transition-colors duration-150 hover:border-zf-muted/40 focus:border-zf-blue focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zf-blue"
+                />
+              </div>
+              <ZfButton type="submit" className="sm:min-h-14">
+                Search
+              </ZfButton>
             </div>
           </form>
           <button

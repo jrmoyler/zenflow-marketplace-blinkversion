@@ -6,6 +6,10 @@ import { cn } from '@/lib/utils';
 import type { DataScope, Product } from '@/types/marketplace';
 import { CATEGORIES, PRICING_LABELS, aegisBreakdown, aegisScore, formatPrice, registryId } from '@/lib/registry';
 import AegisMeter from './AegisMeter';
+import RentForm from './RentForm';
+import { Mark } from '@/components/brand/Mark';
+import { ZfButton } from '@/components/brand/Button';
+import { divisionUrl, publisherSlug } from '@/lib/network';
 
 interface ListingSheetProps {
   product: Product | null;
@@ -90,11 +94,13 @@ export default function ListingSheet({ product, products, onClose, onOpenProduct
   // Keep the last listing rendered while the sheet animates closed.
   const [shown, setShown] = useState<Product | null>(product);
   const [copiedInstall, setCopiedInstall] = useState(false);
+  const [rentOpen, setRentOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (product) setShown(product);
     setCopiedInstall(false);
+    setRentOpen(false);
     scrollRef.current?.scrollTo?.({ top: 0 });
   }, [product]);
 
@@ -128,6 +134,8 @@ export default function ListingSheet({ product, products, onClose, onOpenProduct
               scrollRef={scrollRef}
               copiedInstall={copiedInstall}
               setCopiedInstall={setCopiedInstall}
+              rentOpen={rentOpen}
+              setRentOpen={setRentOpen}
             />
           </DialogPrimitive.Content>
         )}
@@ -143,6 +151,8 @@ function SheetBody({
   scrollRef,
   copiedInstall,
   setCopiedInstall,
+  rentOpen,
+  setRentOpen,
 }: {
   product: Product;
   products: Product[];
@@ -150,6 +160,8 @@ function SheetBody({
   scrollRef: React.RefObject<HTMLDivElement>;
   copiedInstall: boolean;
   setCopiedInstall: (v: boolean) => void;
+  rentOpen: boolean;
+  setRentOpen: (v: boolean) => void;
 }) {
   const rid = registryId(p);
   const installCmd = `zenflow install ${rid}@${p.version}`;
@@ -157,6 +169,7 @@ function SheetBody({
   const score = aegisScore(p);
   const category = CATEGORIES.find((c) => c.id === p.category)?.label ?? p.category;
   const similar = similarListings(p, products);
+  const pubSlug = publisherSlug(p.publisher);
 
   return (
     <>
@@ -199,13 +212,36 @@ function SheetBody({
             </div>
             <div className="flex gap-1.5">
               <dt className="text-zf-muted">Publisher</dt>
-              <dd className="text-zf-text">{p.publisher}</dd>
+              <dd className="text-zf-text">
+                {pubSlug ? (
+                  <a
+                    href={divisionUrl(pubSlug)}
+                    rel="noopener"
+                    data-testid="publisher-link"
+                    className="inline-flex items-center gap-1.5 text-zf-blue-text underline-offset-2 transition-colors duration-150 hover:text-zf-text hover:underline"
+                  >
+                    <Mark division={pubSlug} size={18} title="" />
+                    {p.publisher}
+                  </a>
+                ) : (
+                  p.publisher
+                )}
+              </dd>
             </div>
             <div className="flex gap-1.5">
               <dt className="text-zf-muted">Category</dt>
               <dd className="text-zf-text">{category}</dd>
             </div>
           </dl>
+          <div className="mt-5">
+            {rentOpen ? (
+              <RentForm title={p.title} registryId={rid} version={p.version} />
+            ) : (
+              <ZfButton onClick={() => setRentOpen(true)}>
+                Rent this agent
+              </ZfButton>
+            )}
+          </div>
         </header>
 
         {/* Summary */}
@@ -360,17 +396,17 @@ function SheetBody({
             >
               {installCmd}
             </code>
-            <button
-              type="button"
+            <ZfButton
+              variant="ghost"
               onClick={async () => {
                 const ok = await copyText(installCmd, 'install command');
                 setCopiedInstall(ok);
               }}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[4px] bg-zf-violet px-4 text-sm font-medium text-zf-text transition-colors duration-150 hover:bg-zf-violet/85"
+              className="text-sm"
             >
               {copiedInstall ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
               {copiedInstall ? 'Copied' : 'Copy install command'}
-            </button>
+            </ZfButton>
           </div>
         </Section>
 

@@ -89,6 +89,75 @@
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }
 
+/*
+ * Official tactile logo tile. Ported from collective-ai-divisions assets/core.css `.tile`.
+ * Set --sz, --t1, --t2, --tg inline (Mark.tsx does this from MARKS).
+ */
+@layer components {
+  .zf-tile {
+    --sz: 44px;
+    position: relative; isolation: isolate; flex: none;
+    display: inline-grid; place-items: center;
+    width: var(--sz); height: var(--sz); border-radius: calc(var(--sz) * .28);
+    background: radial-gradient(120% 95% at 30% 12%, var(--t1) 0%, var(--t2) 72%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.30),
+      inset 0 -2px 3px rgba(0,0,0,.45),
+      inset 0 0 0 1px rgba(255,255,255,.08),
+      0 1px 1px rgba(0,0,0,.55),
+      0 calc(var(--sz) * .16) calc(var(--sz) * .4) calc(var(--sz) * -.14) color-mix(in srgb, var(--tg) 75%, transparent);
+    transform: translateZ(0);
+    transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out);
+  }
+  .zf-tile::before { /* top gloss */
+    content: ""; position: absolute; inset: 1px; border-radius: inherit; z-index: 1; pointer-events: none;
+    background: linear-gradient(180deg, rgba(255,255,255,.24) 0%, rgba(255,255,255,.04) 42%, transparent 50%);
+  }
+  .zf-tile::after { /* sheen that sweeps across on hover */
+    content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: 2; pointer-events: none;
+    background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,.42) 50%, transparent 62%) no-repeat;
+    background-size: 260% 100%; background-position: 160% 0;
+    transition: background-position .9s var(--ease-out);
+  }
+  .zf-tile svg {
+    display: block; width: 72%; height: 72%;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,.5)) drop-shadow(0 0 calc(var(--sz) * .08) color-mix(in srgb, var(--tg) 55%, transparent));
+  }
+  a:hover .zf-tile, a:focus-visible .zf-tile, .zf-tile-host:hover .zf-tile {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.36), inset 0 -2px 3px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.12),
+      0 1px 1px rgba(0,0,0,.55),
+      0 calc(var(--sz) * .26) calc(var(--sz) * .6) calc(var(--sz) * -.12) color-mix(in srgb, var(--tg) 90%, transparent);
+  }
+  a:hover .zf-tile::after, a:focus-visible .zf-tile::after, .zf-tile-host:hover .zf-tile::after { background-position: -60% 0; }
+  a:active .zf-tile { transform: translateY(1px) scale(.96); transition-duration: .08s; }
+
+  /* Official ZenFlow button (core.css `.btn` with zenflow.css tokens). */
+  .zf-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 48px; padding: 0 22px; border-radius: 4px;
+    background: #7C3AED; color: #fff; font-weight: 600; text-decoration: none; white-space: nowrap;
+    border: 1px solid transparent; cursor: pointer;
+    transition: background-color .18s var(--ease-out), transform .18s var(--ease-out), box-shadow .25s var(--ease-out), border-color .18s;
+  }
+  .zf-btn:hover { background: #6d2fe0; }
+  .zf-btn:not(.zf-btn-ghost):hover { box-shadow: 0 8px 28px -8px color-mix(in srgb, #7C3AED 70%, transparent); transform: translateY(-1px); }
+  .zf-btn:active { transform: translateY(1px); }
+  .zf-btn:not(.zf-btn-ghost):active { transform: translateY(1px); }
+  .zf-btn-ghost { background: transparent; color: hsl(var(--zf-text)); border-color: #1c2140; }
+  .zf-btn-ghost:hover { background: transparent; border-color: #9aa3bf; }
+  .zf-btn:disabled, .zf-btn[aria-disabled="true"] { opacity: .6; cursor: not-allowed; transform: none; box-shadow: none; }
+  .zf-btn:disabled:hover { background: #7C3AED; }
+  .zf-btn-ghost:disabled:hover { background: transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zf-tile::after { display: none; }
+  .zf-tile, a:hover .zf-tile, a:focus-visible .zf-tile, .zf-tile-host:hover .zf-tile, a:active .zf-tile { transform: none; }
+  .zf-btn:hover, .zf-btn:active, .zf-btn:not(.zf-btn-ghost):hover { transform: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

@@ -8,6 +8,7 @@ import type {
   SortKey,
 } from '../types/marketplace';
 import { CATEGORIES, DEFAULT_FILTERS, PRICING_LABELS } from '../lib/registry';
+import { DIVISIONS } from '../lib/network';
 
 /**
  * Registry view state (filters + open listing) mirrored to the query string, so
@@ -33,17 +34,8 @@ const VALID_SCOPES: readonly DataScope[] = [
   'public-web',
   'chat',
 ];
-const VALID_PUBLISHERS: readonly Publisher[] = [
-  'ZenFlow Labs',
-  'Binary Loom',
-  'Juris Guard',
-  'Quantum Ledger',
-  'Kinetic Edge',
-  'Vital Helix',
-  'Signal Velocity',
-  'Civic Core',
-  'The Collective',
-];
+/** The nine division names, from the network config. */
+const VALID_PUBLISHERS: readonly Publisher[] = DIVISIONS.map((d) => d.name);
 const VALID_SORTS: readonly SortKey[] = ['aegis', 'updated', 'price-asc', 'price-desc', 'name'];
 
 const MAX_QUERY_LENGTH = 200;

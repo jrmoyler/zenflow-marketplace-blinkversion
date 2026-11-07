@@ -11,7 +11,7 @@ function make(overrides: Partial<Product> & Pick<Product, 'id' | 'title'>): Prod
     summary: `${overrides.title} summary.`,
     audience: 'Testers.',
     category: 'agents',
-    publisher: 'ZenFlow Labs',
+    publisher: 'ZenFlow',
     deployedIn: 'Test bench',
     capabilities: [],
     inputs: [],

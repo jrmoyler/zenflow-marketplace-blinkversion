@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import Navbar from './components/layout/Navbar';
+import ParentStrip from './components/layout/ParentStrip';
 import Footer from './components/layout/Footer';
 import Hero from './components/home/Hero';
 import Registry from './components/registry/Registry';
@@ -27,7 +28,7 @@ function AegisStandard() {
               listing&apos;s behaviour the publisher has declared in a form you can check.
             </p>
             <p>
-              Each point comes from a stated fact, such as an audit log you can read, a human approval step before
+              Each point comes from a stated fact, such as a decision log you can read, a human approval step before
               irreversible actions, or a written list of what the listing refuses to do. Touching payments, health or
               personal data costs points, because a smaller footprint is easier to trust.
             </p>
@@ -96,6 +97,7 @@ export default function App() {
         Skip to registry
       </a>
 
+      <ParentStrip />
       <Navbar query={filters.query} onQueryChange={setQuery} onOpenTaskFinder={() => setTaskFinderOpen(true)} />
 
       <main id="main">

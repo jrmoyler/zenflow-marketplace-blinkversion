@@ -65,7 +65,7 @@ export interface AegisLine {
 export function aegisBreakdown(p: Product): AegisLine[] {
   const sensitive = p.scopes.filter((s) => SENSITIVE_SCOPES.includes(s)).length;
   return [
-    { label: 'Decisions written to a readable audit log', points: p.aegis.auditLog ? 25 : 0, max: 25 },
+    { label: 'Every decision written to a decision log you can read', points: p.aegis.auditLog ? 25 : 0, max: 25 },
     { label: 'Human approves irreversible actions', points: p.aegis.humanInLoop ? 20 : 0, max: 20 },
     { label: 'Prompts and logic inspectable', points: p.aegis.inspectable ? 15 : 0, max: 15 },
     { label: 'Refusals declared', points: Math.min(p.aegis.refusals.length, 3) * 5, max: 15 },
