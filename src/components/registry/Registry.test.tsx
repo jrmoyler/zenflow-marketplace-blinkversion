@@ -1,16 +1,19 @@
-import { describe, it, expect, vi } from 'vitest';
+import { beforeEach, describe, it, expect, vi } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { FilterState, Product } from '@/types/marketplace';
 import { DEFAULT_FILTERS } from '@/lib/registry';
-import Registry from './Registry';
+import Registry, { VIEW_KEY } from './Registry';
 import Facets from './Facets';
+import ListingCard from './ListingCard';
+import ListingRow from './ListingRow';
 
 function make(overrides: Partial<Product> & Pick<Product, 'id' | 'title'>): Product {
   return {
     summary: `${overrides.title} summary.`,
     audience: 'Testers.',
     category: 'agents',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'Test bench',
     capabilities: [],
@@ -43,6 +46,10 @@ const products: Product[] = [
   make({ id: 'inbox-triage', title: 'Inbox Triage', category: 'bots', scopes: ['email'], pricing: { model: 'usage', amount: 4 } }),
   make({ id: 'contract-diff', title: 'Contract Diff', category: 'workflows', publisher: 'Juris Guard', scopes: ['files'], aegis: full }),
 ];
+
+beforeEach(() => {
+  window.localStorage.clear();
+});
 
 function setup(filters: Partial<FilterState> = {}, list = products) {
   const onFiltersChange = vi.fn();
@@ -129,6 +136,142 @@ describe('Registry', () => {
     setup();
     const list = screen.getByRole('list', { name: 'Listings' });
     expect(within(list).getByText('Payments')).toHaveTextContent('Payments (sensitive)');
+  });
+});
+
+describe('Registry view toggle', () => {
+  it('defaults to the grid, with cover art on every card', () => {
+    setup();
+    const seg = screen.getByRole('group', { name: 'View' });
+    expect(within(seg).getByRole('button', { name: 'Grid' })).toHaveAttribute('aria-pressed', 'true');
+    expect(within(seg).getByRole('button', { name: 'List' })).toHaveAttribute('aria-pressed', 'false');
+    const list = screen.getByRole('list', { name: 'Listings' });
+    expect(list.querySelectorAll('[data-motif]')).toHaveLength(3);
+  });
+
+  it('switches to the list, persists the choice and leaves filters alone', async () => {
+    const { onFiltersChange } = setup();
+    await userEvent.click(screen.getByRole('button', { name: 'List' }));
+    expect(screen.getByRole('button', { name: 'List' })).toHaveAttribute('aria-pressed', 'true');
+    const list = screen.getByRole('list', { name: 'Listings' });
+    expect(within(list).getAllByRole('listitem')).toHaveLength(3);
+    expect(list.querySelectorAll('[data-motif]')).toHaveLength(0);
+    expect(window.localStorage.getItem(VIEW_KEY)).toBe('list');
+    expect(onFiltersChange).not.toHaveBeenCalled();
+  });
+
+  it('restores the stored view', () => {
+    window.localStorage.setItem(VIEW_KEY, 'list');
+    setup();
+    expect(screen.getByRole('button', { name: 'List' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('still renders when storage throws', () => {
+    const spy = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('blocked');
+    });
+    setup();
+    expect(screen.getByRole('button', { name: 'Grid' })).toHaveAttribute('aria-pressed', 'true');
+    spy.mockRestore();
+  });
+});
+
+describe('Registry sources', () => {
+  const oss = make({
+    id: 'oss-agent',
+    title: 'OSS Agent',
+    source: 'open-source',
+    publisher: 'Open source',
+    aegis: null,
+    openSource: {
+      repo: 'acme/oss-agent',
+      url: 'https://github.com/acme/oss-agent',
+      license: 'MIT',
+      stars: 10,
+      language: 'Python',
+      pushedAt: '2026-10-01',
+      checkedAt: '2026-11-01',
+    },
+  });
+  const service = make({ id: 'svc', title: 'Division Svc', source: 'directory', publisher: 'Nexus Labs', category: 'automations' });
+
+  it('shows a removable chip for each source filter', async () => {
+    const { onFiltersChange, f } = setup({ sources: ['open-source', 'directory'] }, [...products, oss, service]);
+    await userEvent.click(screen.getByRole('button', { name: 'Remove filter: Open source' }));
+    expect(onFiltersChange).toHaveBeenLastCalledWith({ ...f, sources: ['directory'] });
+    expect(screen.getByRole('button', { name: 'Remove filter: Division service' })).toBeInTheDocument();
+  });
+
+  it('empty state can offer to drop the source filter', async () => {
+    // Open source + Aegis 50+ → nothing (open source is never scored). Dropping the
+    // source restores 2; dropping Aegis restores 1.
+    const { onFiltersChange, f } = setup({ sources: ['open-source'], minAegis: 50 }, [...products, oss]);
+    const status = screen.getByRole('status');
+    expect(status).toHaveTextContent('Active: Open source, Aegis 50+.');
+    await userEvent.click(within(status).getByRole('button', { name: /Remove Open source/ }));
+    expect(onFiltersChange).toHaveBeenLastCalledWith({ ...f, sources: [] });
+  });
+
+  it('list rows show the source badge and "Not assessed"', () => {
+    render(
+      <ul>
+        <ListingRow product={oss} onOpen={() => {}} />
+        <ListingRow product={service} onOpen={() => {}} />
+      </ul>,
+    );
+    const [ossRow, svcRow] = screen.getAllByRole('listitem');
+    expect(ossRow).toHaveTextContent('Not assessed');
+    expect(ossRow).toHaveTextContent('acme/oss-agent');
+    expect(within(ossRow).getByText('Open source')).toBeInTheDocument();
+    expect(within(ossRow).queryByRole('meter')).not.toBeInTheDocument();
+    expect(within(svcRow).getByText('Division service')).toBeInTheDocument();
+    expect(within(svcRow).getByRole('meter')).toBeInTheDocument();
+  });
+});
+
+describe('ListingCard', () => {
+  const oss = make({ id: 'oss-bot', title: 'OSS Bot', category: 'bots', source: 'open-source', publisher: 'Open source', aegis: null });
+
+  it('shows the id, title, price, Aegis meter and no badge for a division-run listing', async () => {
+    const onOpen = vi.fn();
+    render(
+      <ul>
+        <ListingCard product={products[0]} onOpen={onOpen} />
+      </ul>,
+    );
+    const card = screen.getByRole('listitem');
+    expect(card).toHaveTextContent('zf/agent/ledger-reconciler');
+    expect(card).toHaveTextContent('$89/mo');
+    expect(within(card).getByRole('meter')).toHaveAttribute('aria-valuenow', '100');
+    expect(within(card).queryByText('Open source')).not.toBeInTheDocument();
+    expect(within(card).queryByText('Division service')).not.toBeInTheDocument();
+    expect(card.querySelector('[data-motif="lattice"]')).not.toBeNull();
+    await userEvent.click(within(card).getByRole('button', { name: 'Ledger Reconciler' }));
+    expect(onOpen).toHaveBeenCalledWith(products[0]);
+  });
+
+  it('says "Not assessed" and badges an open-source listing', () => {
+    render(
+      <ul>
+        <ListingCard product={oss} onOpen={() => {}} />
+      </ul>,
+    );
+    const card = screen.getByRole('listitem');
+    expect(card).toHaveTextContent('Not assessed');
+    expect(within(card).queryByRole('meter')).not.toBeInTheDocument();
+    expect(within(card).getByText('Open source', { selector: 'span' })).toBeInTheDocument();
+    expect(card.querySelector('[data-palette="open-source"]')).not.toBeNull();
+    // The card has exactly one interactive element.
+    expect(within(card).getAllByRole('button')).toHaveLength(1);
+  });
+
+  it('badges a division service', () => {
+    render(
+      <ul>
+        <ListingCard product={make({ id: 's', title: 'S', source: 'directory', publisher: 'Nexus Labs' })} onOpen={() => {}} />
+      </ul>,
+    );
+    expect(screen.getByText('Division service')).toBeInTheDocument();
   });
 });
 

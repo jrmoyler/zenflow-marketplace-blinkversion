@@ -9,6 +9,7 @@ function make(overrides: Partial<Product> & Pick<Product, 'id' | 'title'>): Prod
     summary: `${overrides.title}.`,
     audience: 'Operators.',
     category: 'agents',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow ops',
     capabilities: [],
@@ -47,7 +48,16 @@ const support = make({
   category: 'bots',
   tags: ['support', 'email'],
 });
-const products = [support, invoicer, reconciler];
+const stripeKit = make({
+  id: 'stripe-payout-kit',
+  title: 'Stripe Payout Kit',
+  summary: 'Open-source scripts that export Stripe payouts.',
+  source: 'open-source',
+  publisher: 'Open source',
+  aegis: null,
+  tags: ['payouts'],
+});
+const products = [support, invoicer, reconciler, stripeKit];
 
 function setup() {
   const onClose = vi.fn();
@@ -81,6 +91,16 @@ describe('TaskFinder', () => {
     expect(items[0]).toHaveTextContent(/payouts/);
     expect(within(items[0]).getByRole('meter')).toBeInTheDocument();
     expect(list).not.toHaveTextContent('Support Triage');
+  });
+
+  it('says "Not assessed" instead of a meter for unassessed listings', async () => {
+    const { user } = setup();
+    await user.type(screen.getByLabelText('Describe the job'), 'stripe payouts');
+    const list = await screen.findByRole('list', { name: 'Matching listings' });
+    const item = within(list).getAllByRole('listitem').find((li) => li.textContent?.includes('Stripe Payout Kit'))!;
+    expect(item).toBeDefined();
+    expect(within(item).queryByRole('meter')).not.toBeInTheDocument();
+    expect(item).toHaveTextContent('Not assessed');
   });
 
   it('fills the textarea from an example brief', async () => {

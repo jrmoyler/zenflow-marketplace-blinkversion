@@ -1,5 +1,5 @@
 import type { DataScope, Product } from '@/types/marketplace';
-import { aegisScore, formatPrice, registryId } from '@/lib/registry';
+import { SOURCE_LABELS, aegisScore, formatPrice, registryId } from '@/lib/registry';
 import { cn } from '@/lib/utils';
 import AegisMeter from './AegisMeter';
 
@@ -63,6 +63,51 @@ export function ScopeChips({ scopes, className }: { scopes: DataScope[]; classNa
   );
 }
 
+/**
+ * "Open source" or "Division service". Division-run (collective) listings are the
+ * default and carry no badge.
+ */
+export function SourceBadge({ product, className }: { product: Pick<Product, 'source'>; className?: string }) {
+  if (product.source === 'collective') return null;
+  return (
+    <span
+      className={cn(
+        'inline-flex items-center rounded-[4px] border border-zf-grid px-1.5 py-px text-[11px] leading-4 text-zf-muted',
+        className,
+      )}
+    >
+      {SOURCE_LABELS[product.source]}
+    </span>
+  );
+}
+
+/** Who published it. Open-source listings name the GitHub owner/repo, not a division. */
+export function PublisherLine({ product, className }: { product: Product; className?: string }) {
+  const name = product.source === 'open-source' && product.openSource ? product.openSource.repo : product.publisher;
+  return (
+    <p className={cn('flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zf-muted', className)}>
+      <span className="min-w-0 truncate">
+        <span className="sr-only">Publisher: </span>
+        {name}
+      </span>
+      <SourceBadge product={product} />
+    </p>
+  );
+}
+
+/** Aegis meter, or a muted "Not assessed" when the listing has no declaration (open source). */
+export function AegisCell({ product, className }: { product: Product; className?: string }) {
+  const score = aegisScore(product);
+  if (score === null) {
+    return (
+      <span className={cn('flex items-center text-xs text-zf-muted', className)} title="Not assessed by Aegis">
+        Not assessed
+      </span>
+    );
+  }
+  return <AegisMeter score={score} className={className} />;
+}
+
 interface ListingRowProps {
   product: Product;
   onOpen: (p: Product) => void;
@@ -99,10 +144,7 @@ export default function ListingRow({ product, onOpen }: ListingRowProps) {
           </button>
         </h3>
         <p className="mt-1 line-clamp-2 text-[13px] text-zf-muted lg:line-clamp-none lg:truncate">{product.summary}</p>
-        <p className="mt-1 text-xs text-zf-muted">
-          <span className="sr-only">Publisher: </span>
-          {product.publisher}
-        </p>
+        <PublisherLine product={product} className="mt-1" />
       </div>
 
       <ScopeChips scopes={product.scopes} className="mt-3 lg:mt-0" />
@@ -112,7 +154,7 @@ export default function ListingRow({ product, onOpen }: ListingRowProps) {
           <span className="sr-only">Price: </span>
           {formatPrice(product.pricing)}
         </p>
-        <AegisMeter score={aegisScore(product)} className="lg:justify-end" />
+        <AegisCell product={product} className="lg:justify-end" />
       </div>
     </li>
   );

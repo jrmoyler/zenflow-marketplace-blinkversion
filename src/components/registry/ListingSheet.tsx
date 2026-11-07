@@ -1,11 +1,20 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Check, Copy, X } from 'lucide-react';
+import { Check, Copy, ExternalLink, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { cn } from '@/lib/utils';
 import type { DataScope, Product } from '@/types/marketplace';
-import { CATEGORIES, PRICING_LABELS, aegisBreakdown, aegisScore, formatPrice, registryId } from '@/lib/registry';
+import {
+  CATEGORIES,
+  PRICING_LABELS,
+  SOURCE_LABELS,
+  aegisBreakdown,
+  aegisScore,
+  formatPrice,
+  registryId,
+} from '@/lib/registry';
 import AegisMeter from './AegisMeter';
+import CoverArt from './CoverArt';
 import RentForm from './RentForm';
 import { Mark } from '@/components/brand/Mark';
 import { ZfButton } from '@/components/brand/Button';
@@ -21,12 +30,35 @@ interface ListingSheetProps {
 /** Same set the Aegis rubric penalises; shown with an outline so the buyer sees what costs points. */
 const SENSITIVE: DataScope[] = ['pii', 'health', 'payments'];
 
-/** "2026-10-28" -> "Oct 28, 2026". Parsed as UTC so the day never shifts with the viewer's timezone. */
-function formatDate(iso: string): string {
-  const d = new Date(`${iso}T00:00:00Z`);
+/**
+ * "2026-10-28" (or a full ISO timestamp) -> "Oct 28, 2026".
+ * Parsed as UTC so the day never shifts with the viewer's timezone.
+ */
+export function formatDate(iso: string): string {
+  const d = new Date(`${iso.slice(0, 10)}T00:00:00Z`);
   if (Number.isNaN(d.getTime())) return iso;
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 }
+
+/** GitHub star counts: 950 -> "950", 12345 -> "12.3k", 123456 -> "123k", 1234567 -> "1.2M". */
+export function formatStars(n: number): string {
+  if (!Number.isFinite(n) || n < 0) return '0';
+  if (n < 1000) return String(Math.round(n));
+  const trim = (x: number, digits: number) => x.toFixed(digits).replace(/\.0$/, '');
+  if (n < 100_000) return `${trim(Math.floor(n / 100) / 10, 1)}k`;
+  if (n < 1_000_000) return `${Math.floor(n / 1000)}k`;
+  return `${trim(Math.floor(n / 100_000) / 10, 1)}M`;
+}
+
+/** https link to a GitHub repo; falls back to the canonical URL when the stored one is not https GitHub. */
+export function githubUrl(info: { repo: string; url: string }): string {
+  return /^https:\/\/github\.com\//.test(info.url) ? info.url : `https://github.com/${info.repo}`;
+}
+
+const DIRECTORY_STATUS: Record<'available' | 'in-the-lab', string> = {
+  available: 'Available',
+  'in-the-lab': 'In the lab',
+};
 
 /** Up to `limit` other listings ranked by shared tags + integrations. Listings sharing nothing are left out. */
 function similarListings(product: Product, products: Product[], limit = 3): Product[] {
@@ -41,7 +73,12 @@ function similarListings(product: Product, products: Product[], limit = 3): Prod
         p.integrations.filter((i) => integrations.has(i.toLowerCase())).length,
     }))
     .filter((x) => x.shared > 0)
-    .sort((a, b) => b.shared - a.shared || aegisScore(b.p) - aegisScore(a.p) || a.p.title.localeCompare(b.p.title))
+    .sort(
+      (a, b) =>
+        b.shared - a.shared ||
+        (aegisScore(b.p) ?? -1) - (aegisScore(a.p) ?? -1) ||
+        a.p.title.localeCompare(b.p.title),
+    )
     .slice(0, limit)
     .map((x) => x.p);
 }
@@ -164,12 +201,24 @@ function SheetBody({
   setRentOpen: (v: boolean) => void;
 }) {
   const rid = registryId(p);
-  const installCmd = `zenflow install ${rid}@${p.version}`;
+  const oss = p.source === 'open-source' && p.openSource ? p.openSource : null;
+  const dir = p.source === 'directory' && p.directory ? p.directory : null;
+  const repoUrl = oss ? githubUrl(oss) : null;
+  // Directory offers are bought on the division site: no install command.
+  const installCmd = oss
+    ? `git clone https://github.com/${oss.repo}.git`
+    : dir
+      ? null
+      : `zenflow install ${rid}@${p.version}`;
   const rubric = aegisBreakdown(p);
   const score = aegisScore(p);
   const category = CATEGORIES.find((c) => c.id === p.category)?.label ?? p.category;
   const similar = similarListings(p, products);
   const pubSlug = publisherSlug(p.publisher);
+  const owner = oss ? oss.repo.split('/')[0] : null;
+  // Open-source projects are never rented through Collective AI. Directory offers keep the
+  // rent form only when ZenFlow itself publishes them (agent rentals and setups).
+  const canRent = p.source === 'collective' || (p.source === 'directory' && p.publisher === 'ZenFlow');
 
   return (
     <>
@@ -196,7 +245,8 @@ function SheetBody({
       <div ref={scrollRef} className="min-w-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-10 sm:px-6">
         {/* Header */}
         <header className="pb-6 pt-5">
-          <DialogPrimitive.Title className="text-2xl font-medium leading-tight text-zf-text sm:text-[28px]">
+          <CoverArt product={p} variant="sheet" />
+          <DialogPrimitive.Title className="mt-5 text-2xl font-medium leading-tight text-zf-text sm:text-[28px]">
             {p.title}
           </DialogPrimitive.Title>
           <dl className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-sm">
@@ -213,7 +263,9 @@ function SheetBody({
             <div className="flex gap-1.5">
               <dt className="text-zf-muted">Publisher</dt>
               <dd className="text-zf-text">
-                {pubSlug ? (
+                {oss ? (
+                  <span data-testid="publisher-open-source">Open source · maintained on GitHub by {owner}</span>
+                ) : pubSlug ? (
                   <a
                     href={divisionUrl(pubSlug)}
                     rel="noopener"
@@ -233,14 +285,34 @@ function SheetBody({
               <dd className="text-zf-text">{category}</dd>
             </div>
           </dl>
-          <div className="mt-5">
-            {rentOpen ? (
-              <RentForm title={p.title} registryId={rid} version={p.version} />
-            ) : (
-              <ZfButton onClick={() => setRentOpen(true)}>
-                Rent this agent
-              </ZfButton>
+          <div className="mt-5 flex flex-col gap-3">
+            {oss && repoUrl && (
+              <div>
+                <ZfButton asChild>
+                  <a href={repoUrl} rel="noopener" target="_blank">
+                    View on GitHub
+                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </ZfButton>
+              </div>
             )}
+            {dir && (
+              <div>
+                <ZfButton asChild variant={canRent ? 'ghost' : 'primary'}>
+                  <a href={dir.url} rel="noopener">
+                    Open on the {p.publisher} site
+                  </a>
+                </ZfButton>
+              </div>
+            )}
+            {canRent &&
+              (rentOpen ? (
+                <RentForm title={p.title} registryId={rid} version={p.version} />
+              ) : (
+                <div>
+                  <ZfButton onClick={() => setRentOpen(true)}>Rent this agent</ZfButton>
+                </div>
+              ))}
           </div>
         </header>
 
@@ -252,10 +324,69 @@ function SheetBody({
           <p className="mt-3 text-sm text-zf-muted">
             <span className="text-zf-text">Built for</span> {p.audience}
           </p>
-          <p className="mt-1.5 text-sm text-zf-muted">
-            <span className="text-zf-text">Running in</span> {p.deployedIn}
-          </p>
+          {!oss && (
+            <p className="mt-1.5 text-sm text-zf-muted">
+              <span className="text-zf-text">Running in</span> {p.deployedIn}
+            </p>
+          )}
         </section>
+
+        {dir && (
+          <Section title={`Offered on the ${p.publisher} site`}>
+            <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
+              <dt className="text-zf-muted">Page</dt>
+              <dd className="min-w-0">
+                <a
+                  href={dir.url}
+                  rel="noopener"
+                  data-testid="directory-link"
+                  className="break-all text-zf-blue-text underline-offset-2 hover:text-zf-text hover:underline"
+                >
+                  {dir.url.replace(/^https?:\/\//, '')}
+                </a>
+              </dd>
+              <dt className="text-zf-muted">Status</dt>
+              <dd className="text-zf-text" data-testid="directory-status">
+                {DIRECTORY_STATUS[dir.status]}
+              </dd>
+            </dl>
+          </Section>
+        )}
+
+        {oss && repoUrl && (
+          <Section title="GitHub" description="Facts read from the GitHub API, not checked by Collective AI.">
+            <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
+              <dt className="text-zf-muted">Repository</dt>
+              <dd className="min-w-0">
+                <a
+                  href={repoUrl}
+                  rel="noopener"
+                  target="_blank"
+                  data-testid="repo-link"
+                  className="break-all font-mono text-zf-blue-text underline-offset-2 hover:text-zf-text hover:underline"
+                >
+                  {oss.repo}
+                </a>
+              </dd>
+              <dt className="text-zf-muted">License</dt>
+              <dd className="font-mono text-zf-text">{oss.license}</dd>
+              <dt className="text-zf-muted">Stars</dt>
+              <dd className="font-mono tabular-nums text-zf-text" data-testid="repo-stars">
+                <span aria-hidden="true">★ </span>
+                {formatStars(oss.stars)}
+              </dd>
+              <dt className="text-zf-muted">Language</dt>
+              <dd className="text-zf-text">{oss.language}</dd>
+              <dt className="text-zf-muted">Last push</dt>
+              <dd className="text-zf-text">
+                <time dateTime={oss.pushedAt}>{formatDate(oss.pushedAt)}</time>
+              </dd>
+            </dl>
+            <p className="mt-3 text-xs text-zf-muted" data-testid="repo-checked">
+              Checked <time dateTime={oss.checkedAt}>{formatDate(oss.checkedAt)}</time> from the GitHub API
+            </p>
+          </Section>
+        )}
 
         <Section title="Capabilities">
           <PlainList items={p.capabilities} label="Capabilities" />
@@ -308,71 +439,91 @@ function SheetBody({
           )}
         </Section>
 
-        <Section
-          id="aegis-report"
-          title="Aegis report"
-          description="Every point comes from a fact the publisher declared. Read it line by line."
-        >
-          <AegisMeter score={score} size="lg" />
-          <table className="mt-5 w-full text-sm">
-            <caption className="sr-only">Aegis score breakdown</caption>
-            <thead className="sr-only">
-              <tr>
-                <th scope="col">Criterion</th>
-                <th scope="col">Points</th>
-                <th scope="col">Share</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rubric.map((line) => (
-                <tr key={line.label} data-testid="rubric-row" className="border-b border-zf-grid/60 last:border-0">
-                  <td className="py-2 pr-3 text-zf-text">{line.label}</td>
-                  <td className="whitespace-nowrap py-2 pr-3 text-right font-mono tabular-nums text-zf-muted">
-                    <span className="text-zf-text">{line.points}</span>/{line.max}
-                  </td>
-                  <td className="w-16 py-2" aria-hidden="true">
-                    <span className="relative block h-1 w-16 overflow-hidden rounded-[2px] bg-zf-grid">
-                      <span
-                        className="absolute inset-y-0 left-0 bg-zf-aegis"
-                        style={{ width: `${line.max ? (line.points / line.max) * 100 : 0}%` }}
-                      />
-                    </span>
-                  </td>
+        {score === null ? (
+          <Section id="aegis-report" title="Aegis report">
+            <p
+              data-testid="aegis-not-assessed"
+              className="rounded-[4px] border border-zf-grid bg-zf-canvas px-3 py-3 text-sm text-zf-text"
+            >
+              {oss
+                ? 'Not assessed. Open-source project listed for reference; Collective AI does not run, vet or support it. Review the code and license before you run it.'
+                : 'Not assessed. The publisher has not filed an Aegis declaration for this listing yet.'}
+            </p>
+          </Section>
+        ) : (
+          <Section
+            id="aegis-report"
+            title="Aegis report"
+            description="Every point comes from a fact the publisher declared. Read it line by line."
+          >
+            <AegisMeter score={score} size="lg" />
+            <table className="mt-5 w-full text-sm">
+              <caption className="sr-only">Aegis score breakdown</caption>
+              <thead className="sr-only">
+                <tr>
+                  <th scope="col">Criterion</th>
+                  <th scope="col">Points</th>
+                  <th scope="col">Share</th>
                 </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td className="pt-3 font-medium text-zf-text">Total</td>
-                <td className="whitespace-nowrap pt-3 pr-3 text-right font-mono tabular-nums text-zf-aegis" data-testid="rubric-total">
-                  {score}/100
-                </td>
-                <td />
-              </tr>
-            </tfoot>
-          </table>
+              </thead>
+              <tbody>
+                {rubric.map((line) => (
+                  <tr key={line.label} data-testid="rubric-row" className="border-b border-zf-grid/60 last:border-0">
+                    <td className="py-2 pr-3 text-zf-text">{line.label}</td>
+                    <td className="whitespace-nowrap py-2 pr-3 text-right font-mono tabular-nums text-zf-muted">
+                      <span className="text-zf-text">{line.points}</span>/{line.max}
+                    </td>
+                    <td className="w-16 py-2" aria-hidden="true">
+                      <span className="relative block h-1 w-16 overflow-hidden rounded-[2px] bg-zf-grid">
+                        <span
+                          className="absolute inset-y-0 left-0 bg-zf-aegis"
+                          style={{ width: `${line.max ? (line.points / line.max) * 100 : 0}%` }}
+                        />
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td className="pt-3 font-medium text-zf-text">Total</td>
+                  <td className="whitespace-nowrap pt-3 pr-3 text-right font-mono tabular-nums text-zf-aegis" data-testid="rubric-total">
+                    {score}/100
+                  </td>
+                  <td />
+                </tr>
+              </tfoot>
+            </table>
 
-          <div className="mt-6 grid gap-6 sm:grid-cols-2">
-            <div className="min-w-0">
-              <h4 className="mb-2 text-sm font-medium text-zf-text">Will not</h4>
-              <PlainList items={p.aegis.refusals} label="Will not" />
+            <div className="mt-6 grid gap-6 sm:grid-cols-2">
+              <div className="min-w-0">
+                <h4 className="mb-2 text-sm font-medium text-zf-text">Will not</h4>
+                <PlainList items={p.aegis?.refusals ?? []} label="Will not" />
+              </div>
+              <div className="min-w-0">
+                <h4 className="mb-2 text-sm font-medium text-zf-text">Hands off to a human when</h4>
+                <PlainList items={p.aegis?.escalations ?? []} label="Hands off to a human when" />
+              </div>
             </div>
-            <div className="min-w-0">
-              <h4 className="mb-2 text-sm font-medium text-zf-text">Hands off to a human when</h4>
-              <PlainList items={p.aegis.escalations} label="Hands off to a human when" />
-            </div>
-          </div>
-        </Section>
+          </Section>
+        )}
 
         <Section title="Pricing">
           <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <span className="font-mono text-lg text-zf-text">{formatPrice(p.pricing)}</span>
             <span className="text-sm text-zf-muted">{PRICING_LABELS[p.pricing.model]}</span>
           </p>
-          <p className="mt-1.5 text-sm text-zf-muted">Pricing is provisional during internal validation.</p>
+          <p className="mt-1.5 text-sm text-zf-muted">
+            {oss
+              ? `Free to use under its ${oss.license} license. Collective AI charges nothing and sells no support for it.`
+              : dir
+                ? `Priced and sold by ${p.publisher} on its division site.`
+                : 'Pricing is provisional during internal validation.'}
+          </p>
         </Section>
 
         <Section title="Changelog">
+          {p.changelog.length === 0 && <p className="text-sm text-zf-muted">No changelog recorded.</p>}
           <ol aria-label="Changelog" className="space-y-3">
             {p.changelog.map((c) => (
               <li key={`${c.version}-${c.date}`} className="grid grid-cols-[auto_1fr] gap-x-3 text-sm">
@@ -388,27 +539,32 @@ function SheetBody({
           </ol>
         </Section>
 
-        <Section title="Install" description="Run this in a Zenith OS workspace.">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
-            <code
-              data-testid="install-command"
-              className="min-w-0 flex-1 overflow-x-auto whitespace-nowrap rounded-[4px] border border-zf-grid bg-zf-canvas px-3 py-3 font-mono text-sm text-zf-text"
-            >
-              {installCmd}
-            </code>
-            <ZfButton
-              variant="ghost"
-              onClick={async () => {
-                const ok = await copyText(installCmd, 'install command');
-                setCopiedInstall(ok);
-              }}
-              className="text-sm"
-            >
-              {copiedInstall ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
-              {copiedInstall ? 'Copied' : 'Copy install command'}
-            </ZfButton>
-          </div>
-        </Section>
+        {installCmd !== null && (
+          <Section
+            title="Install"
+            description={oss ? 'Clone the source. Read it and its license before you run it.' : 'Run this in a Zenith OS workspace.'}
+          >
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
+              <code
+                data-testid="install-command"
+                className="min-w-0 flex-1 overflow-x-auto whitespace-nowrap rounded-[4px] border border-zf-grid bg-zf-canvas px-3 py-3 font-mono text-sm text-zf-text"
+              >
+                {installCmd}
+              </code>
+              <ZfButton
+                variant="ghost"
+                onClick={async () => {
+                  const ok = await copyText(installCmd, 'install command');
+                  setCopiedInstall(ok);
+                }}
+                className="text-sm"
+              >
+                {copiedInstall ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
+                {copiedInstall ? 'Copied' : oss ? 'Copy clone command' : 'Copy install command'}
+              </ZfButton>
+            </div>
+          </Section>
+        )}
 
         {similar.length > 0 && (
           <Section title="Similar listings" description="Ranked by shared tags and integrations.">
@@ -421,7 +577,11 @@ function SheetBody({
                     className="flex min-h-11 w-full flex-col items-start gap-0.5 px-3 py-2.5 text-left transition-colors duration-150 hover:bg-zf-raised"
                   >
                     <span className="text-sm font-medium text-zf-text">{s.title}</span>
-                    <span className="max-w-full truncate font-mono text-xs text-zf-muted">{registryId(s)}</span>
+                    <span className="max-w-full truncate text-xs text-zf-muted">
+                      <span className="font-mono">{s.openSource ? s.openSource.repo : registryId(s)}</span>
+                      {' · '}
+                      {SOURCE_LABELS[s.source]}
+                    </span>
                   </button>
                 </li>
               ))}

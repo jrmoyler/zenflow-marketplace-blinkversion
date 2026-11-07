@@ -1,11 +1,33 @@
 import { useMemo, useState } from 'react';
-import { ChevronDown, SlidersHorizontal, X } from 'lucide-react';
+import { ChevronDown, LayoutGrid, List, SlidersHorizontal, X } from 'lucide-react';
 import type { FilterState, Product, SortKey } from '@/types/marketplace';
-import { CATEGORIES, DEFAULT_FILTERS, PRICING_LABELS, filterProducts, isFiltered } from '@/lib/registry';
+import { CATEGORIES, DEFAULT_FILTERS, PRICING_LABELS, SOURCE_LABELS, filterProducts, isFiltered } from '@/lib/registry';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import Facets from './Facets';
+import ListingCard from './ListingCard';
 import ListingRow, { SCOPE_LABELS } from './ListingRow';
+
+export type RegistryView = 'grid' | 'list';
+
+/** localStorage key for the grid/list choice. A viewer preference, not a filter. */
+export const VIEW_KEY = 'zf.view';
+
+function readView(): RegistryView {
+  try {
+    return window.localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'grid';
+  } catch {
+    return 'grid';
+  }
+}
+
+function writeView(v: RegistryView) {
+  try {
+    window.localStorage.setItem(VIEW_KEY, v);
+  } catch {
+    /* storage blocked: the choice lasts for this visit only */
+  }
+}
 
 export interface RegistryProps {
   products: Product[];
@@ -61,6 +83,13 @@ export function activeFilters(f: FilterState): ActiveFilter[] {
       remove: (s) => ({ ...s, publishers: s.publishers.filter((x) => x !== p) }),
     });
   }
+  for (const src of f.sources) {
+    out.push({
+      key: `src:${src}`,
+      label: SOURCE_LABELS[src],
+      remove: (s) => ({ ...s, sources: s.sources.filter((x) => x !== src) }),
+    });
+  }
   if (f.minAegis > 0) out.push({ key: 'aegis', label: `Aegis ${f.minAegis}+`, remove: (s) => ({ ...s, minAegis: 0 }) });
   return out;
 }
@@ -74,6 +103,11 @@ const controlBase =
 
 export default function Registry({ products, filters, onFiltersChange, onOpenProduct }: RegistryProps) {
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [view, setViewState] = useState<RegistryView>(readView);
+  const setView = (v: RegistryView) => {
+    setViewState(v);
+    writeView(v);
+  };
   const results = useMemo(() => filterProducts(products, filters), [products, filters]);
   const chips = activeFilters(filters);
   // The query is set from the nav search, so the mobile button counts facet filters only.
@@ -116,7 +150,7 @@ export default function Registry({ products, filters, onFiltersChange, onOpenPro
               </p>
             </div>
 
-            <div className="flex w-full items-center gap-2 sm:w-auto">
+            <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:flex-nowrap">
               <button
                 type="button"
                 onClick={() => setSheetOpen(true)}
@@ -155,6 +189,30 @@ export default function Registry({ products, filters, onFiltersChange, onOpenPro
                   />
                 </div>
               </div>
+
+              <div role="group" aria-label="View" className="flex shrink-0 rounded-[4px] border border-zf-grid bg-zf-surface p-0.5">
+                {(
+                  [
+                    { value: 'grid', label: 'Grid', Icon: LayoutGrid },
+                    { value: 'list', label: 'List', Icon: List },
+                  ] as const
+                ).map(({ value, label, Icon }) => (
+                  <button
+                    key={value}
+                    type="button"
+                    aria-pressed={view === value}
+                    onClick={() => setView(value)}
+                    className={cn(
+                      'inline-flex h-10 items-center gap-1.5 rounded-[3px] px-2.5 text-[13px] transition-colors duration-150 lg:h-8',
+                      'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-zf-blue',
+                      view === value ? 'bg-zf-raised text-zf-text' : 'text-zf-muted hover:text-zf-text',
+                    )}
+                  >
+                    <Icon className="h-4 w-4" aria-hidden="true" />
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -185,7 +243,13 @@ export default function Registry({ products, filters, onFiltersChange, onOpenPro
             </ul>
           )}
 
-          {results.length > 0 ? (
+          {results.length > 0 && view === 'grid' ? (
+            <ul aria-label="Listings" className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {results.map((p) => (
+                <ListingCard key={p.id} product={p} onOpen={onOpenProduct} />
+              ))}
+            </ul>
+          ) : results.length > 0 ? (
             <>
               <div
                 aria-hidden="true"

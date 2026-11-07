@@ -1,6 +1,14 @@
 import { useId, useMemo } from 'react';
-import type { DataScope, FilterState, PricingModel, Product, Publisher } from '@/types/marketplace';
-import { CATEGORIES, PRICING_LABELS, allPublishers, categoryCounts, filterProducts } from '@/lib/registry';
+import type { DataScope, FilterState, ListingPublisher, PricingModel, Product, Source } from '@/types/marketplace';
+import {
+  CATEGORIES,
+  PRICING_LABELS,
+  SOURCE_LABELS,
+  allPublishers,
+  categoryCounts,
+  filterProducts,
+  sourceCounts,
+} from '@/lib/registry';
 import { cn } from '@/lib/utils';
 import { SCOPE_LABELS, isSensitive } from './ListingRow';
 
@@ -12,7 +20,8 @@ export interface FacetsProps {
 
 export const AEGIS_STEPS = [0, 50, 70, 85] as const;
 
-const PRICING_ORDER: PricingModel[] = ['free', 'monthly', 'usage', 'one-time'];
+const PRICING_ORDER: PricingModel[] = ['free', 'monthly', 'usage', 'one-time', 'quote'];
+const SOURCE_ORDER: Source[] = ['collective', 'directory', 'open-source'];
 const SCOPE_ORDER = Object.keys(SCOPE_LABELS) as DataScope[];
 
 function toggle<T>(list: T[], value: T): T[] {
@@ -73,6 +82,7 @@ export default function Facets({ products, filters, onFiltersChange }: FacetsPro
   const set = (patch: Partial<FilterState>) => onFiltersChange({ ...filters, ...patch });
 
   const catCounts = useMemo(() => categoryCounts(products, filters), [products, filters]);
+  const srcCounts = useMemo(() => sourceCounts(products, filters), [products, filters]);
 
   // Each facet counts against every other active filter, but not its own selection.
   const pricingCounts = useMemo(() => {
@@ -83,15 +93,19 @@ export default function Facets({ products, filters, onFiltersChange }: FacetsPro
     >;
   }, [products, filters]);
 
+  // Divisions alphabetically, then 'Open source' last: it is not a division.
   const publishers = useMemo(() => {
-    const list = allPublishers(products);
-    for (const p of filters.publishers) if (!list.includes(p)) list.push(p);
+    const list = allPublishers(products).filter((p) => p !== 'Open source');
+    for (const p of filters.publishers) if (p !== 'Open source' && !list.includes(p)) list.push(p);
+    if (products.some((p) => p.publisher === 'Open source') || filters.publishers.includes('Open source')) {
+      list.push('Open source');
+    }
     return list;
   }, [products, filters.publishers]);
 
   const publisherCounts = useMemo(() => {
     const base = filterProducts(products, { ...filters, publishers: [] });
-    const counts = {} as Record<Publisher, number>;
+    const counts = {} as Record<ListingPublisher, number>;
     for (const p of base) counts[p.publisher] = (counts[p.publisher] ?? 0) + 1;
     return counts;
   }, [products, filters]);
@@ -113,6 +127,18 @@ export default function Facets({ products, filters, onFiltersChange }: FacetsPro
 
   return (
     <div className="space-y-4">
+      <Group legend="Source">
+        {SOURCE_ORDER.map((s) => (
+          <CheckRow
+            key={s}
+            label={SOURCE_LABELS[s]}
+            count={srcCounts[s]}
+            checked={filters.sources.includes(s)}
+            onChange={() => set({ sources: toggle(filters.sources, s) })}
+          />
+        ))}
+      </Group>
+
       <Group legend="Category">
         {CATEGORIES.map((c) => (
           <CheckRow
@@ -188,6 +214,7 @@ export default function Facets({ products, filters, onFiltersChange }: FacetsPro
             );
           })}
         </div>
+        <p className="mt-2 text-xs text-zf-muted">Open-source listings are not scored and are hidden by any minimum.</p>
       </Group>
     </div>
   );
