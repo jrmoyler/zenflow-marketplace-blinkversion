@@ -242,7 +242,7 @@ describe('ListingCard', () => {
     const card = screen.getByRole('listitem');
     expect(card).toHaveTextContent('zf/agent/ledger-reconciler');
     expect(card).toHaveTextContent('$89/mo');
-    expect(within(card).getByRole('meter')).toHaveAttribute('aria-valuenow', '100');
+    expect(within(card).getByRole('meter')).toHaveAttribute('aria-valuenow', '95'); // full declaration, one sensitive scope
     expect(within(card).queryByText('Open source')).not.toBeInTheDocument();
     expect(within(card).queryByText('Division service')).not.toBeInTheDocument();
     expect(card.querySelector('[data-motif="lattice"]')).not.toBeNull();
@@ -259,7 +259,8 @@ describe('ListingCard', () => {
     const card = screen.getByRole('listitem');
     expect(card).toHaveTextContent('Not assessed');
     expect(within(card).queryByRole('meter')).not.toBeInTheDocument();
-    expect(within(card).getByText('Open source', { selector: 'span' })).toBeInTheDocument();
+    // Publisher "Open source" with no repo is not printed twice: the badge alone says it.
+    expect(within(card).getAllByText('Open source')).toHaveLength(1);
     expect(card.querySelector('[data-palette="open-source"]')).not.toBeNull();
     // The card has exactly one interactive element.
     expect(within(card).getAllByRole('button')).toHaveLength(1);

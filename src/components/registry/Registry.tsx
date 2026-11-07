@@ -150,7 +150,7 @@ export default function Registry({ products, filters, onFiltersChange, onOpenPro
               </p>
             </div>
 
-            <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:flex-nowrap">
+            <div className="flex w-full items-center gap-2 sm:w-auto">
               <button
                 type="button"
                 onClick={() => setSheetOpen(true)}
@@ -203,13 +203,14 @@ export default function Registry({ products, filters, onFiltersChange, onOpenPro
                     aria-pressed={view === value}
                     onClick={() => setView(value)}
                     className={cn(
-                      'inline-flex h-10 items-center gap-1.5 rounded-[3px] px-2.5 text-[13px] transition-colors duration-150 lg:h-8',
+                      'inline-flex h-10 min-w-10 items-center justify-center gap-1.5 rounded-[3px] px-2.5 text-[13px] transition-colors duration-150 lg:h-8',
                       'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-zf-blue',
                       view === value ? 'bg-zf-raised text-zf-text' : 'text-zf-muted hover:text-zf-text',
                     )}
                   >
                     <Icon className="h-4 w-4" aria-hidden="true" />
-                    {label}
+                    {/* Icon-only below sm so the sort select keeps its width; the label stays the accessible name. */}
+                    <span className="sr-only sm:not-sr-only">{label}</span>
                   </button>
                 ))}
               </div>

@@ -95,7 +95,7 @@ export default function Facets({ products, filters, onFiltersChange }: FacetsPro
 
   // Divisions alphabetically, then 'Open source' last: it is not a division.
   const publishers = useMemo(() => {
-    const list = allPublishers(products).filter((p) => p !== 'Open source');
+    const list: ListingPublisher[] = allPublishers(products).filter((p) => p !== 'Open source');
     for (const p of filters.publishers) if (p !== 'Open source' && !list.includes(p)) list.push(p);
     if (products.some((p) => p.publisher === 'Open source') || filters.publishers.includes('Open source')) {
       list.push('Open source');
@@ -214,7 +214,7 @@ export default function Facets({ products, filters, onFiltersChange }: FacetsPro
             );
           })}
         </div>
-        <p className="mt-2 text-xs text-zf-muted">Open-source listings are not scored and are hidden by any minimum.</p>
+        <p className="mt-2 text-xs text-zf-muted">Open-source listings are not scored and are hidden by any minimum, as are division services not yet assessed.</p>
       </Group>
     </div>
   );

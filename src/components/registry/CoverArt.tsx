@@ -225,11 +225,19 @@ function threads(p: Product, c: Palette, fr: Frame, rand: () => number): ReactNo
     onPath.add(`${ci + 1}:${cur}`);
   }
 
+  // Orthogonal elbows with a small radius: a flow diagram, not a wave.
   const curve = (l: (typeof links)[number]) => {
     const a = nodes[l.a[0]][l.a[1]];
     const b = nodes[l.b[0]][l.b[1]];
-    const mx = (a.x + b.x) / 2;
-    return `M${f(a.x)} ${f(a.y)}C${f(mx)} ${f(a.y)} ${f(mx)} ${f(b.y)} ${f(b.x)} ${f(b.y)}`;
+    const mx = f(a.x + (b.x - a.x) * 0.5);
+    const dy = b.y - a.y;
+    if (Math.abs(dy) < 1) return `M${f(a.x)} ${f(a.y)}H${f(b.x)}`;
+    const r = Math.min(6, Math.abs(dy) / 2);
+    const sy = Math.sign(dy);
+    return (
+      `M${f(a.x)} ${f(a.y)}H${f(mx - r)}Q${mx} ${f(a.y)} ${mx} ${f(a.y + sy * r)}` +
+      `V${f(b.y - sy * r)}Q${mx} ${f(b.y)} ${f(mx + r)} ${f(b.y)}H${f(b.x)}`
+    );
   };
   const dim = links.filter((_, i) => !taken.has(i)).map(curve).join('');
   const lit = links.filter((_, i) => taken.has(i)).map(curve).join('');
@@ -284,19 +292,19 @@ function orbits(p: Product, c: Palette, fr: Frame, rand: () => number): ReactNod
         const dots = 1 + Math.floor(rand() * 3);
         return (
           <g key={i}>
-            <circle cx={f(cx)} cy={f(cy)} r={f(r)} stroke={c.accent} strokeOpacity={0.2} fill="none" />
+            <circle cx={f(cx)} cy={f(cy)} r={f(r)} stroke={c.accent} strokeOpacity={0.26} fill="none" />
             <path
               d={`M${f(a.x)} ${f(a.y)}A${f(r)} ${f(r)} 0 ${large} 1 ${f(b.x)} ${f(b.y)}`}
               stroke={c.primary}
-              strokeOpacity={0.9 - i * 0.08}
-              strokeWidth={1.5}
+              strokeOpacity={0.95 - i * 0.08}
+              strokeWidth={1.9}
               fill="none"
             />
             {/* The arc head: data arriving. */}
             <circle cx={f(b.x)} cy={f(b.y)} r={2.8} fill={c.primary} />
             {Array.from({ length: dots }, (_, d) => {
               const q = polar(r, start + sweep + (0.4 + rand() * 0.5) * Math.PI * ((d + 1) / dots));
-              return <circle key={d} cx={f(q.x)} cy={f(q.y)} r={1.8} fill={c.accent} fillOpacity={0.8} />;
+              return <circle key={d} cx={f(q.x)} cy={f(q.y)} r={2.2} fill={c.accent} fillOpacity={0.85} />;
             })}
           </g>
         );

@@ -83,13 +83,15 @@ export function SourceBadge({ product, className }: { product: Pick<Product, 'so
 
 /** Who published it. Open-source listings name the GitHub owner/repo, not a division. */
 export function PublisherLine({ product, className }: { product: Product; className?: string }) {
-  const name = product.source === 'open-source' && product.openSource ? product.openSource.repo : product.publisher;
+  const name = product.source === 'open-source' ? product.openSource?.repo : product.publisher;
   return (
     <p className={cn('flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zf-muted', className)}>
-      <span className="min-w-0 truncate">
-        <span className="sr-only">Publisher: </span>
-        {name}
-      </span>
+      {name && (
+        <span className="min-w-0 truncate">
+          <span className="sr-only">Publisher: </span>
+          {name}
+        </span>
+      )}
       <SourceBadge product={product} />
     </p>
   );

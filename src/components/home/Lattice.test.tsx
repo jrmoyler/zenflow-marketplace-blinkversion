@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Lattice, { computeLattice, LATTICE_W, LATTICE_H } from './Lattice';
+import Lattice, { computeLattice, LATTICE_W, LATTICE_H, UNASSESSED_RADIUS } from './Lattice';
 import type { Product, ProductCategory } from '../../types/marketplace';
 
 function makeProduct(id: string, over: Partial<Product> = {}): Product {
@@ -10,6 +10,7 @@ function makeProduct(id: string, over: Partial<Product> = {}): Product {
     summary: `${id} summary`,
     audience: 'Teams',
     category: 'agents',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow',
     capabilities: [],
@@ -110,6 +111,52 @@ describe('Lattice', () => {
         expect(node.y).toBeLessThanOrEqual(LATTICE_H);
       }
     }
+  });
+
+  it('keeps every node inside the viewBox for ~130 listings with a third unassessed, edges capped', () => {
+    for (const n of [90, 130]) {
+      const products = catalogOf(n).map((p, i) =>
+        i % 3 === 0 ? { ...p, source: 'open-source' as const, publisher: 'Open source' as const, aegis: null } : p,
+      );
+      const l = computeLattice(products);
+      expect(l.nodes).toHaveLength(n);
+      expect(l.edges.length).toBeLessThanOrEqual(Math.round(n * 1.5));
+      for (const node of l.nodes) {
+        expect(node.x - node.r).toBeGreaterThanOrEqual(0);
+        expect(node.x + node.r).toBeLessThanOrEqual(LATTICE_W);
+        expect(node.y - node.r).toBeGreaterThanOrEqual(0);
+        expect(node.y + node.r).toBeLessThanOrEqual(LATTICE_H);
+      }
+      // No two nodes land on the same point.
+      const points = new Set(l.nodes.map((node) => `${node.x},${node.y}`));
+      expect(points.size).toBe(n);
+      // Clusters stay clear of their labels.
+      for (const c of l.clusters) {
+        expect(c.labelY).toBeGreaterThanOrEqual(0);
+        expect(c.labelY).toBeLessThanOrEqual(LATTICE_H);
+      }
+    }
+  });
+
+  it('draws unassessed listings as small hollow rings on the outside of their cluster', () => {
+    const products = [
+      makeProduct('scored'),
+      makeProduct('oss', { source: 'open-source', publisher: 'Open source', aegis: null }),
+    ];
+    const l = computeLattice(products);
+    const oss = l.nodes.find((n) => n.id === 'oss')!;
+    expect(oss.score).toBeNull();
+    expect(oss.r).toBe(UNASSESSED_RADIUS);
+    expect(l.nodes[0].id).toBe('scored');
+
+    const { container } = render(<Lattice products={products} />);
+    const node = container.querySelector('[data-node-id="oss"]')!;
+    expect(node.getAttribute('data-assessed')).toBe('false');
+    expect(node.getAttribute('aria-label')).toMatch(/not assessed/);
+    expect(node.getAttribute('aria-label')).not.toMatch(/Aegis/);
+    const ring = node.querySelector('[data-hollow="true"]')!;
+    expect(ring.getAttribute('fill')).toBe('none');
+    expect(container.querySelector('[data-node-id="scored"] [data-hollow]')).toBeNull();
   });
 
   it('only joins listings that share an integration, and scales radius with Aegis', () => {

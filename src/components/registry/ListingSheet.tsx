@@ -447,7 +447,7 @@ function SheetBody({
             >
               {oss
                 ? 'Not assessed. Open-source project listed for reference; Collective AI does not run, vet or support it. Review the code and license before you run it.'
-                : 'Not assessed. The publisher has not filed an Aegis declaration for this listing yet.'}
+                : "Not assessed. The division's published copy for this listing does not declare its governance, so it has no Aegis score."}
             </p>
           </Section>
         ) : (

@@ -6,13 +6,17 @@ import Hero from './components/home/Hero';
 import Registry from './components/registry/Registry';
 import ListingSheet from './components/registry/ListingSheet';
 import TaskFinder from './components/registry/TaskFinder';
-import { catalog } from './data/catalog';
+import { catalog } from './data';
 import { aegisBreakdown } from './lib/registry';
 import { useRegistryState } from './hooks/useRegistryState';
 import type { Product, ProductCategory } from './types/marketplace';
 
-/** Rubric lines are the same for every listing; read labels and maxima from the scorer itself. */
-const AEGIS_RUBRIC = catalog.length ? aegisBreakdown(catalog[0]).map(({ label, max }) => ({ label, max })) : [];
+/**
+ * Rubric lines are the same for every assessed listing; read labels and maxima from the scorer
+ * itself, using the first listing that has an Aegis declaration (open-source ones have none).
+ */
+const RUBRIC_SOURCE = catalog.find((p) => p.aegis !== null);
+const AEGIS_RUBRIC = RUBRIC_SOURCE ? aegisBreakdown(RUBRIC_SOURCE).map(({ label, max }) => ({ label, max })) : [];
 
 function AegisStandard() {
   return (
@@ -24,7 +28,7 @@ function AegisStandard() {
           </h2>
           <div className="mt-4 space-y-3 text-zf-muted">
             <p>
-              Every listing carries an Aegis score from 0 to 100. It measures transparency, not quality: how much of a
+              Every assessed listing carries an Aegis score from 0 to 100. It measures transparency, not quality: how much of a
               listing&apos;s behaviour the publisher has declared in a form you can check.
             </p>
             <p>
@@ -33,6 +37,10 @@ function AegisStandard() {
               personal data costs points, because a smaller footprint is easier to trust.
             </p>
             <p>The full breakdown for any listing is one click away in its detail sheet.</p>
+            <p>
+              Open-source listings are shown for reference and are not scored. Division services whose published copy
+              declares no governance are marked not assessed.
+            </p>
           </div>
         </div>
         <ol className="divide-y divide-zf-grid rounded-lg border border-zf-grid bg-zf-canvas">

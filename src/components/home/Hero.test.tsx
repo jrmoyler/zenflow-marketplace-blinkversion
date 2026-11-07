@@ -11,6 +11,7 @@ function makeProduct(id: string, over: Partial<Product> = {}): Product {
     summary: `${id} summary`,
     audience: 'Teams',
     category: 'agents',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow',
     capabilities: [],
@@ -75,7 +76,7 @@ function setup(over: Partial<Parameters<typeof Hero>[0]> = {}) {
 
 describe('heroStats', () => {
   it('computes listings, departments, median Aegis and human-in-loop count', () => {
-    const scores = products.map(aegisScore).sort((a, b) => a - b);
+    const scores = products.map((p) => aegisScore(p)!).sort((a, b) => a - b);
     const s = heroStats(products);
     expect(s.listings).toBe(4);
     expect(s.departments).toBe(3);
@@ -85,9 +86,20 @@ describe('heroStats', () => {
 
   it('handles odd counts and an empty catalog', () => {
     expect(heroStats(products.slice(0, 3)).medianAegis).toBe(
-      products.slice(0, 3).map(aegisScore).sort((a, b) => a - b)[1],
+      products.slice(0, 3).map((p) => aegisScore(p)!).sort((a, b) => a - b)[1],
     );
-    expect(heroStats([])).toEqual({ listings: 0, departments: 0, medianAegis: null, humanInLoop: 0 });
+    expect(heroStats([])).toEqual({ listings: 0, departments: 0, medianAegis: null, humanInLoop: 0, openSource: 0 });
+  });
+
+  it('counts open-source listings but keeps them out of divisions, median Aegis and human-in-loop', () => {
+    const oss = makeProduct('oss', { source: 'open-source', publisher: 'Open source', aegis: null });
+    const s = heroStats([...products, oss]);
+    expect(s.listings).toBe(5);
+    expect(s.departments).toBe(3);
+    expect(s.medianAegis).toBe(heroStats(products).medianAegis);
+    expect(s.humanInLoop).toBe(2);
+    expect(s.openSource).toBe(1);
+    expect(heroStats([oss]).medianAegis).toBeNull();
   });
 });
 
@@ -104,6 +116,18 @@ describe('Hero', () => {
     expect(stat('Divisions')).toBe('3');
     expect(stat('Human-in-loop')).toBe('2');
     expect(stat('Median Aegis')).toBe(String(heroStats(products).medianAegis));
+    expect(container.querySelector('[data-stat="Open source"]')).toBeNull();
+  });
+
+  it('adds an Open source stat when the catalog has open-source projects', () => {
+    const oss = makeProduct('oss', { source: 'open-source', publisher: 'Open source', aegis: null, category: 'agents' });
+    const { container } = setup({ products: [...products, oss] });
+    const stat = (label: string) => container.querySelector(`[data-stat="${label}"]`)?.textContent;
+    expect(stat('Listings')).toBe('5');
+    expect(stat('Divisions')).toBe('3');
+    expect(stat('Open source')).toBe('1');
+    const group = screen.getByRole('group', { name: 'Filter by category' });
+    expect(within(group).getByRole('button', { name: /Agents/ })).toHaveTextContent('2');
   });
 
   it('search input calls onQueryChange and submit scrolls to #registry', () => {

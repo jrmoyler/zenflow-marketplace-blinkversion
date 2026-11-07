@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, within, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import toast from 'react-hot-toast';
-import ListingSheet from './ListingSheet';
+import ListingSheet, { formatStars } from './ListingSheet';
 import { aegisScore } from '@/lib/registry';
 import type { Product } from '@/types/marketplace';
 
@@ -13,6 +13,7 @@ function make(overrides: Partial<Product> & Pick<Product, 'id' | 'title'>): Prod
     summary: `${overrides.title} does one job.`,
     audience: 'Operators.',
     category: 'agents',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow ops',
     capabilities: ['Does a thing'],
@@ -62,6 +63,44 @@ const invoiceChaser = make({ id: 'invoice-chaser', title: 'Invoice Chaser', tags
 const payrollBot = make({ id: 'payroll-bot', title: 'Payroll Bot', category: 'bots', tags: ['finance'] });
 const taxPrep = make({ id: 'tax-prep', title: 'Tax Prep', tags: ['finance'], integrations: [] });
 const poster = make({ id: 'poster', title: 'Social Poster', tags: ['social'] });
+const ledgerKit = make({
+  id: 'ledger-kit',
+  title: 'Ledger Kit',
+  summary: 'Open-source scripts that reconcile bank exports.',
+  source: 'open-source',
+  publisher: 'Open source',
+  deployedIn: 'Not run by Collective AI',
+  aegis: null,
+  integrations: ['Xero'],
+  tags: ['finance', 'accounting'],
+  changelog: [],
+  openSource: {
+    repo: 'acme/ledger-kit',
+    url: 'https://github.com/acme/ledger-kit',
+    license: 'Apache-2.0',
+    stars: 12345,
+    language: 'Python',
+    pushedAt: '2026-10-30T08:15:00Z',
+    checkedAt: '2026-11-07',
+  },
+});
+const brandAudit = make({
+  id: 'brand-audit',
+  title: 'Brand Audit',
+  source: 'directory',
+  publisher: 'Nexus Labs',
+  pricing: { model: 'quote', amount: 0 },
+  tags: ['finance'],
+  directory: { url: 'https://collective-ai-divisions-brown.vercel.app/nexus-labs/services.html', status: 'in-the-lab' },
+});
+const agentSetup = make({
+  id: 'agent-setup',
+  title: 'Agent Setup',
+  source: 'directory',
+  publisher: 'ZenFlow',
+  pricing: { model: 'quote', amount: 0 },
+  directory: { url: 'https://collective-ai-divisions-brown.vercel.app/zenflow/start.html', status: 'available' },
+});
 const products = [ledger, invoiceChaser, payrollBot, taxPrep, poster];
 
 function setup(product: Product | null = ledger) {
@@ -125,7 +164,7 @@ describe('ListingSheet', () => {
     setup();
     const report = document.getElementById('aegis-report')!;
     const refusals = within(report).getByRole('list', { name: 'Will not' });
-    expect(within(refusals).getAllByRole('listitem').map((li) => li.textContent)).toEqual(ledger.aegis.refusals);
+    expect(within(refusals).getAllByRole('listitem').map((li) => li.textContent)).toEqual(ledger.aegis!.refusals);
     const escalations = within(report).getByRole('list', { name: 'Hands off to a human when' });
     expect(within(escalations).getByText('Variance above the set threshold')).toBeInTheDocument();
     expect(within(report).getByRole('meter')).toHaveAttribute('aria-valuenow', String(aegisScore(ledger)));
@@ -210,5 +249,104 @@ describe('ListingSheet', () => {
     expect(section).not.toHaveTextContent('Social Poster');
     await user.click(buttons[0]);
     expect(onOpenProduct).toHaveBeenCalledWith(invoiceChaser);
+  });
+});
+
+describe('formatStars', () => {
+  it('abbreviates GitHub star counts', () => {
+    expect(formatStars(950)).toBe('950');
+    expect(formatStars(1000)).toBe('1k');
+    expect(formatStars(12345)).toBe('12.3k');
+    expect(formatStars(123456)).toBe('123k');
+    expect(formatStars(1_234_567)).toBe('1.2M');
+  });
+});
+
+describe('ListingSheet for an open-source project', () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  function renderOss() {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
+    const onOpenProduct = vi.fn();
+    render(
+      <ListingSheet product={ledgerKit} products={[...products, ledgerKit]} onClose={vi.fn()} onOpenProduct={onOpenProduct} />,
+    );
+    return { writeText, dialog: screen.getByRole('dialog', { name: 'Ledger Kit' }) };
+  }
+
+  it('never shows an Aegis number and says it is not assessed', () => {
+    renderOss();
+    const report = document.getElementById('aegis-report')!;
+    expect(within(report).queryByRole('meter')).not.toBeInTheDocument();
+    expect(screen.queryAllByTestId('rubric-row')).toHaveLength(0);
+    expect(screen.getByTestId('aegis-not-assessed')).toHaveTextContent(
+      'Not assessed. Open-source project listed for reference; Collective AI does not run, vet or support it. Review the code and license before you run it.',
+    );
+    expect(screen.getByTestId('aegis-not-assessed').className).not.toMatch(/aegis/);
+  });
+
+  it('shows GitHub facts with the date they were checked', () => {
+    renderOss();
+    const section = screen.getByRole('region', { name: 'GitHub' });
+    const repo = within(section).getByTestId('repo-link');
+    expect(repo).toHaveAttribute('href', 'https://github.com/acme/ledger-kit');
+    expect(repo).toHaveAttribute('rel', expect.stringContaining('noopener'));
+    expect(repo).toHaveTextContent('acme/ledger-kit');
+    expect(section).toHaveTextContent('Apache-2.0');
+    expect(within(section).getByTestId('repo-stars')).toHaveTextContent('★ 12.3k');
+    expect(section).toHaveTextContent('Python');
+    expect(section).toHaveTextContent('Oct 30, 2026');
+    expect(within(section).getByTestId('repo-checked')).toHaveTextContent('Checked Nov 7, 2026 from the GitHub API');
+  });
+
+  it('names the GitHub owner as maintainer, offers View on GitHub and no rent form', () => {
+    const { dialog } = renderOss();
+    expect(screen.getByTestId('publisher-open-source')).toHaveTextContent('Open source · maintained on GitHub by acme');
+    expect(screen.queryByTestId('publisher-link')).not.toBeInTheDocument();
+    const gh = within(dialog).getByRole('link', { name: /View on GitHub/ });
+    expect(gh).toHaveAttribute('href', 'https://github.com/acme/ledger-kit');
+    expect(gh).toHaveAttribute('rel', expect.stringContaining('noopener'));
+    expect(within(dialog).queryByRole('button', { name: 'Rent this agent' })).not.toBeInTheDocument();
+    expect(dialog).not.toHaveTextContent('Running in');
+  });
+
+  it('installs with git clone and copies it', async () => {
+    const { writeText } = renderOss();
+    expect(screen.getByTestId('install-command')).toHaveTextContent('git clone https://github.com/acme/ledger-kit.git');
+    fireEvent.click(screen.getByRole('button', { name: 'Copy clone command' }));
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith('git clone https://github.com/acme/ledger-kit.git'));
+  });
+
+  it('finds similar listings across sources', () => {
+    renderOss();
+    const section = screen.getByRole('region', { name: 'Similar listings' });
+    expect(section).toHaveTextContent('Ledger Reconciler');
+    expect(section).toHaveTextContent('Invoice Chaser');
+  });
+});
+
+describe('ListingSheet for a division service', () => {
+  it('links to the division site with its status, and has no install command', () => {
+    render(<ListingSheet product={brandAudit} products={[brandAudit, ledger]} onClose={vi.fn()} onOpenProduct={vi.fn()} />);
+    const dialog = screen.getByRole('dialog', { name: 'Brand Audit' });
+    const section = screen.getByRole('region', { name: 'Offered on the Nexus Labs site' });
+    expect(within(section).getByTestId('directory-link')).toHaveAttribute('href', brandAudit.directory!.url);
+    expect(within(section).getByTestId('directory-status')).toHaveTextContent('In the lab');
+    const action = within(dialog).getByRole('link', { name: 'Open on the Nexus Labs site' });
+    expect(action).toHaveAttribute('href', brandAudit.directory!.url);
+    expect(screen.queryByTestId('install-command')).not.toBeInTheDocument();
+    expect(within(dialog).queryByRole('button', { name: 'Rent this agent' })).not.toBeInTheDocument();
+    expect(within(dialog).getByText('Quoted', { selector: '.font-mono' })).toBeInTheDocument();
+    // Directory offers declared by a division keep their Aegis report.
+    expect(within(document.getElementById('aegis-report')!).getByRole('meter')).toBeInTheDocument();
+  });
+
+  it('keeps the rent form for ZenFlow-published offers', () => {
+    render(<ListingSheet product={agentSetup} products={[agentSetup]} onClose={vi.fn()} onOpenProduct={vi.fn()} />);
+    const dialog = screen.getByRole('dialog', { name: 'Agent Setup' });
+    expect(within(dialog).getByRole('link', { name: 'Open on the ZenFlow site' })).toBeInTheDocument();
+    expect(within(dialog).getByRole('button', { name: 'Rent this agent' })).toBeInTheDocument();
+    expect(within(dialog).getByTestId('directory-status')).toHaveTextContent('Available');
   });
 });

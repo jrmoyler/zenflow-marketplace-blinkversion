@@ -1,7 +1,11 @@
+/**
+ * Invariants for the collective (division-run) listings only. Directory and open-source
+ * listings have their own tests next to their data files.
+ */
 import { describe, it, expect } from 'vitest';
 import { catalog } from './catalog';
 import { aegisScore, CATEGORIES } from '../lib/registry';
-import type { Publisher } from '../types/marketplace';
+import type { ListingPublisher, Publisher } from '../types/marketplace';
 
 const PUBLISHERS: Publisher[] = [
   'ZenFlow',
@@ -56,6 +60,12 @@ describe('catalog', () => {
   });
 
   it.each(catalog.map((p) => [p.id, p] as const))('%s is complete and consistent', (_id, p) => {
+    // Division-run listings are always collective-sourced and always assessed.
+    expect(p.source).toBe('collective');
+    expect(p.publisher).not.toBe('Open source');
+    expect(p.openSource).toBeUndefined();
+    expect(p.aegis).not.toBeNull();
+    expect(aegisScore(p)).not.toBeNull();
     expect(p.title.trim()).not.toBe('');
     expect(p.summary.trim()).not.toBe('');
     expect(p.audience.trim()).not.toBe('');
@@ -66,7 +76,7 @@ describe('catalog', () => {
     expect(p.integrations.length).toBeGreaterThanOrEqual(1);
     expect(p.scopes.length).toBeGreaterThanOrEqual(1);
     expect(new Set(p.scopes).size).toBe(p.scopes.length);
-    expect(p.aegis.refusals.length).toBeGreaterThanOrEqual(1);
+    expect(p.aegis!.refusals.length).toBeGreaterThanOrEqual(1);
 
     // Pricing: amount is 0 if and only if free.
     if (p.pricing.model === 'free') expect(p.pricing.amount).toBe(0);
@@ -100,7 +110,7 @@ describe('catalog', () => {
   });
 
   it('ZenFlow publishes the most listings', () => {
-    const counts = new Map<Publisher, number>();
+    const counts = new Map<ListingPublisher, number>();
     for (const p of catalog) counts.set(p.publisher, (counts.get(p.publisher) ?? 0) + 1);
     const zf = counts.get('ZenFlow') ?? 0;
     for (const [pub, n] of counts) if (pub !== 'ZenFlow') expect(zf, pub).toBeGreaterThan(n);
@@ -117,7 +127,8 @@ describe('catalog', () => {
   });
 
   it('has a real spread of Aegis scores', () => {
-    const scores = catalog.map(aegisScore);
+    const scores = catalog.map((p) => aegisScore(p)).filter((s): s is number => s !== null);
+    expect(scores).toHaveLength(catalog.length);
     expect(Math.min(...scores)).toBeLessThanOrEqual(45);
     expect(Math.max(...scores)).toBeGreaterThanOrEqual(90);
     expect(scores.filter((s) => s >= 90).length).toBeLessThan(catalog.length / 2);
