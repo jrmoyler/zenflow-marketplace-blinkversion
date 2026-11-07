@@ -4,7 +4,7 @@ import snapshot from './openSource.snapshot.json';
 import { CATEGORIES } from '../lib/registry';
 
 /** OSI-approved SPDX ids actually used by the listings below. */
-const OSI_LICENSES = ['MIT', 'Apache-2.0', 'AGPL-3.0', 'GPL-3.0', 'GPL-2.0', 'BSD-3-Clause', 'MPL-2.0', 'LGPL-3.0', 'ISC'];
+const OSI_LICENSES = ['MIT', 'Apache-2.0', 'GPL-3.0', 'AGPL-3.0'];
 
 const CHECKED_AT = '2026-11-07';
 const PUSHED_CUTOFF = '2025-11-07';
