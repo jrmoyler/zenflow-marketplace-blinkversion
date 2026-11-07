@@ -8,6 +8,19 @@ module.exports = {
   theme: {
   	extend: {
   		colors: {
+  			zf: {
+  				canvas: 'hsl(var(--zf-canvas) / <alpha-value>)',
+  				surface: 'hsl(var(--zf-surface) / <alpha-value>)',
+  				raised: 'hsl(var(--zf-raised) / <alpha-value>)',
+  				grid: 'hsl(var(--zf-grid) / <alpha-value>)',
+  				violet: 'hsl(var(--zf-violet) / <alpha-value>)',
+  				'violet-text': 'hsl(var(--zf-violet-text) / <alpha-value>)',
+  				blue: 'hsl(var(--zf-blue) / <alpha-value>)',
+  				'blue-text': 'hsl(var(--zf-blue-text) / <alpha-value>)',
+  				text: 'hsl(var(--zf-text) / <alpha-value>)',
+  				muted: 'hsl(var(--zf-muted) / <alpha-value>)',
+  				aegis: 'hsl(var(--zf-aegis) / <alpha-value>)'
+  			},
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
@@ -60,6 +73,7 @@ module.exports = {
   			}
   		},
   		borderRadius: {
+  			xl: '0.75rem',
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
@@ -73,6 +87,9 @@ module.exports = {
   			],
   			mono: [
   				'var(--font-mono)'
+  			],
+  			display: [
+  				'var(--font-sans)'
   			]
   		},
   		animation: {
