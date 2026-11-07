@@ -1,106 +1,196 @@
-import { motion } from 'framer-motion';
-import { Sparkles, Play, ArrowRight } from 'lucide-react';
+import { useMemo, type FormEvent } from 'react';
+import { useReducedMotion } from 'framer-motion';
+import { Search } from 'lucide-react';
+import type { Product, ProductCategory } from '../../types/marketplace';
+import { CATEGORIES, aegisScore, matchesQuery } from '../../lib/registry';
+import { cn } from '../../lib/utils';
+import Lattice, { CATEGORY_FILL } from './Lattice';
 
-export default function Hero() {
+export interface HeroStats {
+  listings: number;
+  departments: number;
+  /** Median Aegis score, rounded; null when the catalog is empty. */
+  medianAegis: number | null;
+  humanInLoop: number;
+}
+
+export function heroStats(products: Product[]): HeroStats {
+  const scores = products.map(aegisScore).sort((a, b) => a - b);
+  let medianAegis: number | null = null;
+  if (scores.length) {
+    const mid = Math.floor(scores.length / 2);
+    medianAegis = Math.round(scores.length % 2 ? scores[mid] : (scores[mid - 1] + scores[mid]) / 2);
+  }
+  return {
+    listings: products.length,
+    departments: new Set(products.map((p) => p.publisher)).size,
+    medianAegis,
+    humanInLoop: products.filter((p) => p.aegis.humanInLoop).length,
+  };
+}
+
+export interface HeroProps {
+  products: Product[];
+  query: string;
+  onQueryChange: (q: string) => void;
+  activeCategories: ProductCategory[];
+  onToggleCategory: (c: ProductCategory) => void;
+  onOpenProduct: (p: Product) => void;
+  onOpenTaskFinder: () => void;
+}
+
+export default function Hero({
+  products,
+  query,
+  onQueryChange,
+  activeCategories,
+  onToggleCategory,
+  onOpenProduct,
+  onOpenTaskFinder,
+}: HeroProps) {
+  const reduceMotion = useReducedMotion();
+  const stats = useMemo(() => heroStats(products), [products]);
+
+  const counts = useMemo(() => {
+    const c = { agents: 0, workflows: 0, automations: 0, bots: 0 } as Record<ProductCategory, number>;
+    for (const p of products) c[p.category] += 1;
+    return c;
+  }, [products]);
+
+  const highlightIds = useMemo(() => {
+    if (!query.trim() && activeCategories.length === 0) return undefined;
+    return new Set(
+      products
+        .filter(
+          (p) =>
+            matchesQuery(p, query) && (activeCategories.length === 0 || activeCategories.includes(p.category)),
+        )
+        .map((p) => p.id),
+    );
+  }, [products, query, activeCategories]);
+
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    document.getElementById('registry')?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  };
+
+  const statItems: { label: string; value: string; aegis?: boolean }[] = [
+    { label: 'Listings', value: String(stats.listings) },
+    { label: 'Departments', value: String(stats.departments) },
+    { label: 'Median Aegis', value: stats.medianAegis === null ? '–' : String(stats.medianAegis), aegis: true },
+    { label: 'Human-in-loop', value: String(stats.humanInLoop) },
+  ];
+
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden py-20">
-      {/* Background Animation - WebGL-like using CSS and Framer Motion */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.15),transparent_70%)]" />
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute top-1/4 -left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px]"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-          className="absolute bottom-1/4 -right-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[100px]"
-        />
-      </div>
+    <section aria-labelledby="hero-title" className="relative overflow-hidden border-b border-zf-grid">
+      <div aria-hidden="true" className="zf-grid-bg absolute inset-0 opacity-40" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border border-primary/30 mb-8 animate-pulse-glow">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-xs font-medium text-primary uppercase tracking-widest">Next-Gen AI Marketplace</span>
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 pb-12 pt-12 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8 lg:pb-16 lg:pt-20">
+        <div className="min-w-0 lg:col-span-5">
+          {/* The one entrance on the page: CSS, so the copy is never left hidden if JS animation stalls. */}
+          <div className="motion-safe:animate-slide-up">
+            <h1
+              id="hero-title"
+              className="text-[2.125rem] font-bold leading-[1.08] tracking-[-0.02em] text-zf-text sm:text-5xl lg:text-[3.25rem]"
+            >
+              Agents built to be trusted, published by the teams that run them.
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-zf-muted sm:text-lg">
+              Every listing in this registry already runs inside a Collective AI department, and declares what data it
+              touches, what it refuses to do, and when it hands control to a person.
+            </p>
           </div>
 
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 tracking-tight leading-[1.1]">
-            Automate Your <br />
-            <span className="text-gradient glow-text">Digital Universe</span>
-          </h1>
+          <form role="search" onSubmit={submit} className="mt-8">
+            <label htmlFor="hero-search" className="sr-only">
+              Search the registry
+            </label>
+            <div className="relative">
+              <Search
+                aria-hidden="true"
+                className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zf-muted"
+              />
+              <input
+                id="hero-search"
+                type="search"
+                aria-label="Search the registry"
+                value={query}
+                onChange={(e) => onQueryChange(e.target.value)}
+                placeholder="Reconcile invoices, triage tickets"
+                autoComplete="off"
+                className="h-14 w-full rounded-[4px] border border-zf-grid bg-zf-surface pl-12 pr-4 text-base text-zf-text placeholder:text-zf-muted/70 transition-colors duration-150 hover:border-zf-muted/40 focus:border-zf-blue focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zf-blue"
+              />
+            </div>
+          </form>
+          <button
+            type="button"
+            onClick={onOpenTaskFinder}
+            className="mt-3 rounded-[4px] text-sm font-medium text-zf-blue-text underline-offset-4 hover:underline"
+          >
+            Describe a task instead
+          </button>
 
-          <p className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground mb-12 leading-relaxed">
-            Discover, deploy, and scale with over 1,000+ premade AI Agents, Workflows, and Automations. 
-            The future of efficiency starts here.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-semibold text-lg shadow-[0_0_20px_rgba(99,102,241,0.4)] flex items-center gap-2 group transition-all"
-            >
-              Start Exploring
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-            
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 rounded-xl glass border border-border/50 text-foreground font-semibold text-lg flex items-center gap-2 hover:bg-white/5 transition-all"
-            >
-              <Play className="w-5 h-5 fill-current" />
-              Watch Demo
-            </motion.button>
-          </div>
-
-          {/* Stats */}
-          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { label: "Active Agents", value: "2,500+" },
-              { label: "Daily Deployments", value: "12k+" },
-              { label: "Average Efficiency", value: "300%" },
-              { label: "Trusted Partners", value: "500+" }
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + i * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-2xl md:text-3xl font-bold text-foreground mb-1 font-display">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </motion.div>
+          <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-zf-grid pt-6 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+            {statItems.map((s) => (
+              <div key={s.label} className="min-w-0">
+                <dt className="whitespace-nowrap text-xs text-zf-muted">{s.label}</dt>
+                <dd
+                  className={cn(
+                    'mt-1 font-mono text-2xl font-medium tabular-nums',
+                    s.aegis ? 'text-zf-aegis' : 'text-zf-text',
+                  )}
+                  data-stat={s.label}
+                >
+                  {s.value}
+                </dd>
+              </div>
             ))}
+          </dl>
+
+          <div role="group" aria-label="Filter by category" className="mt-8 flex flex-wrap gap-1.5">
+            {CATEGORIES.map((c) => {
+              const pressed = activeCategories.includes(c.id);
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  aria-pressed={pressed}
+                  onClick={() => onToggleCategory(c.id)}
+                  className={cn(
+                    'inline-flex h-9 items-center gap-2 rounded-[4px] border px-2.5 text-sm transition-colors duration-150',
+                    pressed
+                      ? 'border-zf-violet-text/60 bg-zf-violet/20 text-zf-text'
+                      : 'border-zf-grid bg-zf-surface text-zf-muted hover:border-zf-muted/40 hover:text-zf-text',
+                  )}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="h-2 w-2 rounded-full"
+                    style={{ backgroundColor: CATEGORY_FILL[c.id] }}
+                  />
+                  {c.label}
+                  <span className="font-mono text-xs text-zf-muted">{counts[c.id]}</span>
+                </button>
+              );
+            })}
           </div>
-        </motion.div>
+        </div>
+
+        <div className="relative min-w-0 lg:col-span-7">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,rgba(124,58,237,0.20),transparent)]"
+          />
+          <Lattice
+            products={products}
+            highlightIds={highlightIds}
+            activeCategories={activeCategories}
+            onSelectCategory={onToggleCategory}
+            onSelectProduct={onOpenProduct}
+            className="relative h-[260px] sm:h-[340px] lg:h-[460px]"
+          />
+        </div>
       </div>
-      
-      {/* Decorative Grid */}
-      <div className="absolute inset-0 z-[-1] opacity-20" 
-           style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, hsl(var(--border)) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
     </section>
   );
 }

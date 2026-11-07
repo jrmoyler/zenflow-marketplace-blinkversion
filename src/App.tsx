@@ -1,224 +1,126 @@
-/**
- * App – Root component for the Zenflow Marketplace.
- *
- * Bug fixes:
- *   - Added missing ProductCard import (used in search results grid).
- *   - Removed unused `useEffect` import.
- *   - Search results grid now uses responsive card layout on mobile.
- */
-
-import { useState, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import Navbar from './components/layout/Navbar';
-import FilterSidebar from './components/layout/FilterSidebar';
 import Footer from './components/layout/Footer';
 import Hero from './components/home/Hero';
-import BentoGrid from './components/marketplace/BentoGrid';
-import CategoryRail from './components/marketplace/CategoryRail';
-import AIConcierge from './components/home/AIConcierge';
-import ProductDetail from './components/marketplace/ProductDetail';
-import ProductCard from './components/marketplace/ProductCard';
-import { generateMockData, getCategoryRails } from './data/mockData';
-import { Product, FilterState } from './types/marketplace';
-import { Sparkles, Bot, ArrowLeft } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import Registry from './components/registry/Registry';
+import ListingSheet from './components/registry/ListingSheet';
+import TaskFinder from './components/registry/TaskFinder';
+import { catalog } from './data/catalog';
+import { aegisBreakdown } from './lib/registry';
+import { useRegistryState } from './hooks/useRegistryState';
+import type { Product, ProductCategory } from './types/marketplace';
 
-function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isAIConciergeOpen, setIsAIConciergeOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [filters, setFilters] = useState<FilterState>({
-    categories: ['agents', 'workflows', 'automations', 'bots'],
-    priceRange: [0, 500],
-    minRating: 0,
-    complexity: [],
-    searchQuery: ''
-  });
+/** Rubric lines are the same for every listing; read labels and maxima from the scorer itself. */
+const AEGIS_RUBRIC = catalog.length ? aegisBreakdown(catalog[0]).map(({ label, max }) => ({ label, max })) : [];
 
-  const products = useMemo(() => generateMockData(), []);
-  const allProducts = useMemo(() => [
-    ...products.agents,
-    ...products.workflows,
-    ...products.automations,
-    ...products.bots
-  ], [products]);
-
-  const rails = useMemo(() => getCategoryRails(products), [products]);
-
-  const filteredProducts = useMemo(() => {
-    return allProducts.filter(p => {
-      const matchCategory = filters.categories.includes(p.category);
-      const matchPrice = p.price >= filters.priceRange[0] && p.price <= filters.priceRange[1];
-      const matchRating = p.rating >= filters.minRating;
-      const matchComplexity = filters.complexity.length === 0 || filters.complexity.includes(p.complexity);
-      const matchSearch = p.title.toLowerCase().includes(filters.searchQuery.toLowerCase()) || 
-                          p.description.toLowerCase().includes(filters.searchQuery.toLowerCase());
-      
-      return matchCategory && matchPrice && matchRating && matchComplexity && matchSearch;
-    });
-  }, [allProducts, filters]);
-
-  // Is filtering active?
-  const isFiltering = filters.complexity.length > 0 || 
-                      filters.minRating > 0 || 
-                      filters.priceRange[0] > 0 || 
-                      filters.priceRange[1] < 500 ||
-                      filters.categories.length < 4 ||
-                      filters.searchQuery.length > 0;
-
-  const resetFilters = () => {
-    setFilters({
-      categories: ['agents', 'workflows', 'automations', 'bots'],
-      priceRange: [0, 500],
-      minRating: 0,
-      complexity: [],
-      searchQuery: ''
-    });
-  };
-
+function AegisStandard() {
   return (
-    <div className="min-h-screen aurora-bg text-foreground selection:bg-primary/30">
-      <Navbar 
-        searchQuery={filters.searchQuery} 
-        onSearchChange={(q) => setFilters(prev => ({ ...prev, searchQuery: q }))}
-        onAIConciergeOpen={() => setIsAIConciergeOpen(true)}
-      />
-      
-      <div className="flex pt-16">
-        <FilterSidebar 
-          isOpen={isSidebarOpen} 
-          onToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
-          onFilterChange={(newFilters) => setFilters(prev => ({ ...prev, ...newFilters }))}
-        />
-        
-        <main className="flex-1 min-w-0">
-          <AnimatePresence mode="wait">
-            {!isFiltering ? (
-              <motion.div
-                key="discovery"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <Hero />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 -mt-10 relative z-20">
-                  <CategoryRail 
-                    title={rails[0].title} 
-                    items={rails[0].items} 
-                    onProductClick={setSelectedProduct} 
-                  />
-                  
-                  <BentoGrid 
-                    products={allProducts.filter(p => p.featured)} 
-                    onProductClick={setSelectedProduct} 
-                  />
-
-                  {rails.slice(1).map((rail, i) => (
-                    <CategoryRail 
-                      key={i} 
-                      title={rail.title} 
-                      items={rail.items} 
-                      onProductClick={setSelectedProduct} 
-                    />
-                  ))}
-                </div>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="results"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10"
-              >
-                <div className="flex items-center justify-between mb-8 pb-6 border-b border-border/50">
-                  <div>
-                    <h2 className="text-3xl font-display font-bold">Search Results</h2>
-                    <p className="text-muted-foreground mt-1">Found {filteredProducts.length} items matching your criteria</p>
-                  </div>
-                  <button
-                    onClick={resetFilters}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl glass border border-border/50 hover:bg-white/5 transition-all text-sm min-h-[44px]"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                    Back to Discovery
-                  </button>
-                </div>
-
-                {filteredProducts.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 place-items-center">
-                    {filteredProducts.slice(0, 48).map(product => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        onClick={setSelectedProduct}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-40 glass rounded-3xl border border-border/50">
-                    <Bot className="w-16 h-16 text-muted-foreground mx-auto mb-6" />
-                    <h3 className="text-xl font-display font-semibold mb-2">No items found</h3>
-                    <p className="text-muted-foreground">Try adjusting your filters to find what you're looking for.</p>
-                    <button 
-                      onClick={resetFilters}
-                      className="mt-8 px-6 py-3 rounded-xl bg-primary text-white font-medium hover:scale-105 transition-all"
-                    >
-                      Clear all filters
-                    </button>
-                  </div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <Footer />
-        </main>
+    <section id="aegis-standard" aria-labelledby="aegis-standard-title" className="border-t border-zf-grid bg-zf-surface">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:px-8">
+        <div>
+          <h2 id="aegis-standard-title" className="text-2xl font-bold text-zf-text">
+            The Aegis standard
+          </h2>
+          <div className="mt-4 space-y-3 text-zf-muted">
+            <p>
+              Every listing carries an Aegis score from 0 to 100. It measures transparency, not quality: how much of a
+              listing&apos;s behaviour the publisher has declared in a form you can check.
+            </p>
+            <p>
+              Each point comes from a stated fact, such as an audit log you can read, a human approval step before
+              irreversible actions, or a written list of what the listing refuses to do. Touching payments, health or
+              personal data costs points, because a smaller footprint is easier to trust.
+            </p>
+            <p>The full breakdown for any listing is one click away in its detail sheet.</p>
+          </div>
+        </div>
+        <ol className="divide-y divide-zf-grid rounded-lg border border-zf-grid bg-zf-canvas">
+          {AEGIS_RUBRIC.map((line) => (
+            <li key={line.label} className="flex items-center justify-between gap-4 px-4 py-3">
+              <span className="text-sm text-zf-text">{line.label}</span>
+              <span className="shrink-0 font-mono text-sm tabular-nums text-zf-aegis">
+                {line.max} pts
+              </span>
+            </li>
+          ))}
+          <li className="flex items-center justify-between gap-4 px-4 py-3">
+            <span className="text-sm font-medium text-zf-text">Maximum</span>
+            <span className="shrink-0 font-mono text-sm tabular-nums text-zf-aegis">
+              {AEGIS_RUBRIC.reduce((sum, l) => sum + l.max, 0)} pts
+            </span>
+          </li>
+        </ol>
       </div>
-
-      {/* AI Concierge Trigger */}
-      <motion.button
-        whileHover={{ scale: 1.1, rotate: 5 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => setIsAIConciergeOpen(true)}
-        className="fixed bottom-8 right-8 z-[60] w-16 h-16 rounded-2xl bg-gradient-to-br from-primary via-primary to-secondary text-white shadow-[0_0_30px_rgba(99,102,241,0.5)] flex items-center justify-center group overflow-hidden"
-      >
-        <Sparkles className="w-8 h-8 relative z-10" />
-        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-      </motion.button>
-
-      {/* Modals */}
-      <AIConcierge 
-        isOpen={isAIConciergeOpen} 
-        onClose={() => setIsAIConciergeOpen(false)} 
-        products={allProducts}
-        onProductClick={(p) => {
-          setIsAIConciergeOpen(false);
-          setSelectedProduct(p);
-        }}
-      />
-      
-      <ProductDetail 
-        product={selectedProduct} 
-        onClose={() => setSelectedProduct(null)} 
-      />
-
-      {/* Global Styling */}
-      <style>{`
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        @keyframes shine {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
-        
-        .shine-effect {
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-          background-size: 200% 100%;
-          animation: shine 3s infinite;
-        }
-      `}</style>
-    </div>
+    </section>
   );
 }
 
-export default App;
+export default function App() {
+  const { filters, setFilters, openListingId, openListing, closeListing } = useRegistryState();
+  const [taskFinderOpen, setTaskFinderOpen] = useState(false);
+
+  const openProduct = useMemo(
+    () => (openListingId ? catalog.find((p) => p.id === openListingId) ?? null : null),
+    [openListingId],
+  );
+
+  const setQuery = useCallback((query: string) => setFilters((f) => ({ ...f, query })), [setFilters]);
+
+  const toggleCategory = useCallback(
+    (category: ProductCategory) =>
+      setFilters((f) => ({
+        ...f,
+        categories: f.categories.includes(category)
+          ? f.categories.filter((c) => c !== category)
+          : [...f.categories, category],
+      })),
+    [setFilters],
+  );
+
+  const onOpenProduct = useCallback((p: Product) => openListing(p.id), [openListing]);
+
+  const onOpenFromTaskFinder = useCallback(
+    (p: Product) => {
+      setTaskFinderOpen(false);
+      openListing(p.id);
+    },
+    [openListing],
+  );
+
+  return (
+    <div className="min-h-screen bg-zf-canvas text-zf-text">
+      <a
+        href="#registry"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-zf-raised focus:px-4 focus:py-2 focus:text-zf-text"
+      >
+        Skip to registry
+      </a>
+
+      <Navbar query={filters.query} onQueryChange={setQuery} onOpenTaskFinder={() => setTaskFinderOpen(true)} />
+
+      <main id="main">
+        <Hero
+          products={catalog}
+          query={filters.query}
+          onQueryChange={setQuery}
+          activeCategories={filters.categories}
+          onToggleCategory={toggleCategory}
+          onOpenProduct={onOpenProduct}
+          onOpenTaskFinder={() => setTaskFinderOpen(true)}
+        />
+        <Registry products={catalog} filters={filters} onFiltersChange={setFilters} onOpenProduct={onOpenProduct} />
+        <AegisStandard />
+      </main>
+
+      <Footer />
+
+      <ListingSheet product={openProduct} products={catalog} onClose={closeListing} onOpenProduct={onOpenProduct} />
+      <TaskFinder
+        open={taskFinderOpen}
+        onClose={() => setTaskFinderOpen(false)}
+        products={catalog}
+        onOpenProduct={onOpenFromTaskFinder}
+      />
+    </div>
+  );
+}

@@ -2,17 +2,21 @@ export type ProductCategory = 'agents' | 'workflows' | 'automations' | 'bots';
 
 export type PricingModel = 'free' | 'monthly' | 'usage' | 'one-time';
 
-/** Collective AI departments that publish into the registry. */
+/**
+ * The nine active Collective AI divisions (charter order, source:
+ * collective-ai-divisions + collectiveai DIVISIONS list). ZenFlow builds every
+ * agent; the other eight are where each one was first deployed and who owns it.
+ */
 export type Publisher =
-  | 'ZenFlow Labs'
+  | 'ZenFlow'
+  | 'The Collective'
+  | 'Hybrid Living'
+  | 'Nexus Labs'
   | 'Binary Loom'
-  | 'Juris Guard'
+  | 'Obsidian Arc'
   | 'Quantum Ledger'
-  | 'Kinetic Edge'
-  | 'Vital Helix'
-  | 'Signal Velocity'
-  | 'Civic Core'
-  | 'The Collective';
+  | 'Juris Guard'
+  | 'Signal Velocity';
 
 /** What a listing is allowed to read or write. Drives the Aegis score and a facet. */
 export type DataScope =
