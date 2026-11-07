@@ -38,8 +38,7 @@ function AegisStandard() {
             </p>
             <p>The full breakdown for any listing is one click away in its detail sheet.</p>
             <p>
-              Open-source listings are shown for reference and are not scored. Division services whose published copy
-              declares no governance are marked not assessed.
+              Open-source listings are shown for reference and are not scored.
             </p>
           </div>
         </div>

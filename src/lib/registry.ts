@@ -43,7 +43,12 @@ export const DEFAULT_FILTERS: FilterState = {
   sort: 'aegis',
 };
 
-export function registryId(p: Pick<Product, 'id' | 'category'>): string {
+/**
+ * The id shown to buyers. Open-source projects keep their GitHub name: a zf/
+ * id would imply ZenFlow publishes them.
+ */
+export function registryId(p: Pick<Product, 'id' | 'category'> & { openSource?: { repo: string } }): string {
+  if (p.openSource) return `github.com/${p.openSource.repo}`;
   const singular = CATEGORIES.find((c) => c.id === p.category)?.singular ?? p.category;
   return `zf/${singular}/${p.id}`;
 }

@@ -83,6 +83,9 @@ export default function Facets({ products, filters, onFiltersChange }: FacetsPro
 
   const catCounts = useMemo(() => categoryCounts(products, filters), [products, filters]);
   const srcCounts = useMemo(() => sourceCounts(products, filters), [products, filters]);
+  // Only offer sources and pricing models the catalog actually contains.
+  const presentSources = useMemo(() => SOURCE_ORDER.filter((s) => products.some((p) => p.source === s)), [products]);
+  const presentPricing = useMemo(() => PRICING_ORDER.filter((m) => products.some((p) => p.pricing.model === m)), [products]);
 
   // Each facet counts against every other active filter, but not its own selection.
   const pricingCounts = useMemo(() => {
@@ -128,7 +131,7 @@ export default function Facets({ products, filters, onFiltersChange }: FacetsPro
   return (
     <div className="space-y-4">
       <Group legend="Source">
-        {SOURCE_ORDER.map((s) => (
+        {presentSources.map((s) => (
           <CheckRow
             key={s}
             label={SOURCE_LABELS[s]}
@@ -152,7 +155,7 @@ export default function Facets({ products, filters, onFiltersChange }: FacetsPro
       </Group>
 
       <Group legend="Pricing model">
-        {PRICING_ORDER.map((m) => (
+        {presentPricing.map((m) => (
           <CheckRow
             key={m}
             label={PRICING_LABELS[m]}
@@ -214,7 +217,7 @@ export default function Facets({ products, filters, onFiltersChange }: FacetsPro
             );
           })}
         </div>
-        <p className="mt-2 text-xs text-zf-muted">Open-source listings are not scored and are hidden by any minimum, as are division services not yet assessed.</p>
+        <p className="mt-2 text-xs text-zf-muted">Open-source listings are not scored and are hidden by any minimum.</p>
       </Group>
     </div>
   );

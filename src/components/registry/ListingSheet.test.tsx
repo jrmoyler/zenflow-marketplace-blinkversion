@@ -342,6 +342,15 @@ describe('ListingSheet for a division service', () => {
     expect(within(document.getElementById('aegis-report')!).getByRole('meter')).toBeInTheDocument();
   });
 
+  it('marks an unassessed division service as not assessed, without the open-source wording', () => {
+    const unassessed = { ...brandAudit, aegis: null };
+    render(<ListingSheet product={unassessed} products={[unassessed]} onClose={vi.fn()} onOpenProduct={vi.fn()} />);
+    const notice = screen.getByTestId('aegis-not-assessed');
+    expect(notice).toHaveTextContent(/^Not assessed\./);
+    expect(notice).not.toHaveTextContent(/open-source/i);
+    expect(screen.queryByRole('meter')).not.toBeInTheDocument();
+  });
+
   it('keeps the rent form for ZenFlow-published offers', () => {
     render(<ListingSheet product={agentSetup} products={[agentSetup]} onClose={vi.fn()} onOpenProduct={vi.fn()} />);
     const dialog = screen.getByRole('dialog', { name: 'Agent Setup' });

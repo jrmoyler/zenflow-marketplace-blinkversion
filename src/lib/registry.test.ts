@@ -382,6 +382,12 @@ describe('allPublishers', () => {
   });
 });
 
+describe('registryId for open source', () => {
+  it('uses the GitHub repo instead of a zf/ id', () => {
+    expect(registryId({ id: 'oss-aider', category: 'agents', openSource: { repo: 'Aider-AI/aider' } })).toBe('github.com/Aider-AI/aider');
+  });
+});
+
 describe('matchTask', () => {
   it('matches at word starts only and ignores filler words', () => {
     const base = catalogFixtureForWordTests();
