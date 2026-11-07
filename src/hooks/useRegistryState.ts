@@ -4,10 +4,11 @@ import type {
   FilterState,
   PricingModel,
   ProductCategory,
-  Publisher,
+  ListingPublisher,
   SortKey,
+  Source,
 } from '../types/marketplace';
-import { CATEGORIES, DEFAULT_FILTERS, PRICING_LABELS } from '../lib/registry';
+import { CATEGORIES, DEFAULT_FILTERS, PRICING_LABELS, SOURCE_LABELS } from '../lib/registry';
 import { DIVISIONS } from '../lib/network';
 
 /**
@@ -15,7 +16,8 @@ import { DIVISIONS } from '../lib/network';
  * every view is linkable and the browser Back button closes an open listing.
  *
  *   ?q=…&cat=agents,bots&price=free,monthly&noscope=pii,health
- *    &pub=Juris%20Guard&aegis=70&sort=updated&listing=ledger-reconciler
+ *    &pub=Juris%20Guard&src=collective,open-source&aegis=70&sort=updated
+ *    &listing=ledger-reconciler
  *
  * Default values are omitted. Unknown values are dropped on parse.
  */
@@ -34,8 +36,9 @@ const VALID_SCOPES: readonly DataScope[] = [
   'public-web',
   'chat',
 ];
-/** The nine division names, from the network config. */
-const VALID_PUBLISHERS: readonly Publisher[] = DIVISIONS.map((d) => d.name);
+/** The nine division names, from the network config, plus the open-source publisher. */
+const VALID_PUBLISHERS: readonly ListingPublisher[] = [...DIVISIONS.map((d) => d.name), 'Open source'];
+const VALID_SOURCES = Object.keys(SOURCE_LABELS) as Source[];
 const VALID_SORTS: readonly SortKey[] = ['aegis', 'updated', 'price-asc', 'price-desc', 'name'];
 
 const MAX_QUERY_LENGTH = 200;
@@ -82,6 +85,7 @@ export function parseQuery(search: string): RegistryUrlState {
       pricingModels: parseList(params.get('price'), VALID_PRICING),
       excludeScopes: parseList(params.get('noscope'), VALID_SCOPES),
       publishers: parseList(params.get('pub'), VALID_PUBLISHERS),
+      sources: parseList(params.get('src'), VALID_SOURCES),
       minAegis: parseAegis(params.get('aegis')),
       sort: sort && VALID_SORTS.includes(sort) ? sort : DEFAULT_FILTERS.sort,
     },
@@ -103,6 +107,7 @@ export function serializeQuery(filters: FilterState, listingId: string | null): 
   if (filters.pricingModels.length) parts.push(`price=${encodeList(filters.pricingModels)}`);
   if (filters.excludeScopes.length) parts.push(`noscope=${encodeList(filters.excludeScopes)}`);
   if (filters.publishers.length) parts.push(`pub=${encodeList(filters.publishers)}`);
+  if (filters.sources.length) parts.push(`src=${encodeList(filters.sources)}`);
   const aegis = Math.max(0, Math.min(100, Math.round(filters.minAegis || 0)));
   if (aegis !== DEFAULT_FILTERS.minAegis) parts.push(`aegis=${aegis}`);
   if (filters.sort !== DEFAULT_FILTERS.sort) parts.push(`sort=${encodeURIComponent(filters.sort)}`);

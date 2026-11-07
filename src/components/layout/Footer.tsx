@@ -29,12 +29,13 @@ export default function Footer() {
           <Wordmark markSize={32} />
           <p className="text-sm leading-relaxed text-zf-muted">
             AI agents you can audit. ZenFlow is the Collective AI division that builds agents that do the work and show
-            their reasoning. Every listing here runs inside a Collective AI division before it is listed, and writes
-            each decision to a decision log you can read.
+            their reasoning. Every division-run listing here runs inside a Collective AI division before it is listed, and
+            writes each decision to a decision log you can read.
           </p>
           <p className="text-sm leading-relaxed text-zf-muted">
-            Every listing declares the data scopes it touches, what it refuses to do, and the triggers that escalate to a
-            person. Aegis scores each declaration from 0 to 100.
+            Every division-run listing declares the data scopes it touches, what it refuses to do, and the triggers that
+            escalate to a person. Aegis scores each declaration from 0 to 100. Open-source projects are listed for
+            reference and are not scored.
           </p>
         </div>
 

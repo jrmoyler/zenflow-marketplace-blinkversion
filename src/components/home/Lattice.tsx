@@ -2,7 +2,9 @@
  * Lattice — the registry drawn as a neural lattice.
  *
  * One node per listing, clustered by category. Node radius follows the Aegis
- * score; lines join listings that share an integration. Layout is a pure,
+ * score; listings with no Aegis assessment (open-source projects) are drawn as
+ * small hollow rings so they never read as scored. Lines join listings that
+ * share an integration. Layout is a pure,
  * deterministic function of the catalog (no Math.random), so the same catalog
  * always draws the same picture, whatever order the listings arrive in.
  */
@@ -34,6 +36,13 @@ const CLUSTER_CENTRES: Record<ProductCategory, { x: number; y: number; labelSide
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 const MAX_CLUSTER_RADIUS = 84;
 const MAX_DEGREE = 4;
+/** Fixed radius for unassessed listings: no score, so size carries no meaning. */
+export const UNASSESSED_RADIUS = 2.75;
+/** Room kept between a node centre and the viewBox edge (x) / edge band (y). */
+const EDGE_X = 14;
+const EDGE_Y = 30;
+/** Label height plus gap, so a cluster never runs into its own label. */
+const LABEL_ROOM = 36;
 
 export interface LatticeNode {
   id: string;
@@ -42,7 +51,8 @@ export interface LatticeNode {
   x: number;
   y: number;
   r: number;
-  score: number;
+  /** null when the listing has not been assessed. */
+  score: number | null;
 }
 
 export interface LatticeEdge {
@@ -86,16 +96,29 @@ export function hash01(input: string): number {
 const round = (n: number) => Math.round(n * 100) / 100;
 const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
 
-export function nodeRadius(score: number): number {
-  return round(3 + (clamp(score, 0, 100) / 100) * 5);
+/** Radius for an assessed listing; `scale` (0–1) shrinks every node in a dense cluster. */
+export function nodeRadius(score: number, scale = 1): number {
+  return round((3 + (clamp(score, 0, 100) / 100) * 5) * scale);
+}
+
+/**
+ * Largest spiral radius a cluster can use without leaving the viewBox or running
+ * into its own category label (above for top clusters, below for bottom ones).
+ */
+function fitRadius(c: { x: number; y: number; labelSide: 'top' | 'bottom' }): number {
+  const top = c.labelSide === 'top' ? c.y - LABEL_ROOM : c.y - EDGE_Y;
+  const bottom = c.labelSide === 'bottom' ? LATTICE_H - LABEL_ROOM - c.y : LATTICE_H - EDGE_Y - c.y;
+  return Math.min(MAX_CLUSTER_RADIUS, c.x - EDGE_X, LATTICE_W - EDGE_X - c.x, top, bottom);
 }
 
 /**
  * Pure layout. Within each category the listings sit on a Vogel (sunflower)
  * spiral, highest Aegis score at the centre; each node gets a small jitter
  * from a hash of its id so the spiral does not look machined. The spiral's
- * spacing shrinks as a cluster grows, keeping every cluster inside a fixed
- * radius for 1..60 listings.
+ * spacing shrinks as a cluster grows, so the outermost node plus its jitter
+ * stays inside the cluster's fit radius for any size (tested to ~130 listings);
+ * once spacing gets tight, node radii shrink with it so nodes do not pile up.
+ * Unassessed listings sort after every assessed one, on the outer rings.
  */
 export function computeLattice(products: Product[]): LatticeLayout {
   const nodes: LatticeNode[] = [];
@@ -106,10 +129,13 @@ export function computeLattice(products: Product[]): LatticeLayout {
     const members = products
       .filter((p) => p.category === cat.id)
       .map((p) => ({ p, score: aegisScore(p) }))
-      .sort((a, b) => b.score - a.score || a.p.id.localeCompare(b.p.id));
+      .sort((a, b) => (b.score ?? -1) - (a.score ?? -1) || a.p.id.localeCompare(b.p.id));
 
     const n = members.length;
-    const spacing = n > 0 ? Math.min(21, MAX_CLUSTER_RADIUS / Math.sqrt(n)) : 0;
+    const JITTER = 0.22;
+    // Outermost node sits at spacing * sqrt(n - 0.65), plus up to JITTER * spacing.
+    const spacing = n > 1 ? Math.min(21, fitRadius(centre) / (Math.sqrt(n - 0.65) + JITTER)) : n === 1 ? 21 : 0;
+    const scale = clamp(spacing / 16, 0.45, 1);
     const rotation = hash01(cat.id) * Math.PI * 2;
     let radius = 0;
 
@@ -118,11 +144,12 @@ export function computeLattice(products: Product[]): LatticeLayout {
       const h2 = hash01(`${p.id}:y`);
       const rr = spacing * Math.sqrt(i + (i === 0 ? 0 : 0.35));
       const theta = rotation + i * GOLDEN_ANGLE;
-      const jitter = n > 1 ? spacing * 0.22 : 0;
-      const x = clamp(centre.x + rr * Math.cos(theta) + (h1 - 0.5) * 2 * jitter, 14, LATTICE_W - 14);
-      const y = clamp(centre.y + rr * Math.sin(theta) + (h2 - 0.5) * 2 * jitter, 30, LATTICE_H - 30);
+      const jitter = n > 1 ? spacing * JITTER : 0;
+      const x = clamp(centre.x + rr * Math.cos(theta) + (h1 - 0.5) * 2 * jitter, EDGE_X, LATTICE_W - EDGE_X);
+      const y = clamp(centre.y + rr * Math.sin(theta) + (h2 - 0.5) * 2 * jitter, EDGE_Y, LATTICE_H - EDGE_Y);
       radius = Math.max(radius, Math.hypot(x - centre.x, y - centre.y));
-      nodes.push({ id: p.id, product: p, category: cat.id, x: round(x), y: round(y), r: nodeRadius(score), score });
+      const r = score === null ? UNASSESSED_RADIUS : nodeRadius(score, scale);
+      nodes.push({ id: p.id, product: p, category: cat.id, x: round(x), y: round(y), r, score });
     });
 
     const pad = radius + 18;
@@ -328,6 +355,7 @@ export default function Lattice({
                 .map((n) => {
                   const lit = isLit(n.id);
                   const isActive = activeId === n.id;
+                  const assessed = n.score !== null;
                   return (
                     <g
                       key={n.id}
@@ -336,7 +364,8 @@ export default function Lattice({
                       data-node-id={n.id}
                       data-x={n.x}
                       data-y={n.y}
-                      aria-label={`${n.product.title}, ${registryId(n.product)}, Aegis ${n.score}. Open details`}
+                      data-assessed={assessed ? 'true' : 'false'}
+                      aria-label={`${n.product.title}, ${registryId(n.product)}, ${assessed ? `Aegis ${n.score}` : 'not assessed'}. Open details`}
                       className="cursor-pointer outline-none"
                       style={{ opacity: lit ? 1 : 0.2, transition: 'opacity 200ms ease-out' }}
                       onClick={() => onSelectProduct?.(n.product)}
@@ -349,14 +378,27 @@ export default function Lattice({
                       <title>{n.product.title}</title>
                       {/* Larger invisible hit area so small nodes are easy to tap. */}
                       <circle cx={n.x} cy={n.y} r={Math.max(n.r + 4, 9)} fill="transparent" />
-                      <circle
-                        cx={n.x}
-                        cy={n.y}
-                        r={n.r}
-                        fill={CATEGORY_FILL[n.category]}
-                        stroke={isActive ? '#F8FAFC' : '#050810'}
-                        strokeWidth={isActive ? 1.5 : 1}
-                      />
+                      {assessed ? (
+                        <circle
+                          cx={n.x}
+                          cy={n.y}
+                          r={n.r}
+                          fill={CATEGORY_FILL[n.category]}
+                          stroke={isActive ? '#F8FAFC' : '#050810'}
+                          strokeWidth={isActive ? 1.5 : 1}
+                        />
+                      ) : (
+                        // Hollow ring: stroke only, so an unscored listing never reads as a small score.
+                        <circle
+                          cx={n.x}
+                          cy={n.y}
+                          r={n.r}
+                          fill="none"
+                          data-hollow="true"
+                          stroke={isActive ? '#F8FAFC' : CATEGORY_FILL[n.category]}
+                          strokeWidth={isActive ? 1.5 : 1.1}
+                        />
+                      )}
                       {focusId === n.id && (
                         <circle cx={n.x} cy={n.y} r={n.r + 4} fill="none" stroke="#3B82F6" strokeWidth={2} />
                       )}
@@ -376,10 +418,16 @@ export default function Lattice({
           <>
             <span className="truncate text-zf-text">{active.product.title}</span>
             <span className="hidden font-mono sm:inline">{registryId(active.product)}</span>
-            <span className="font-mono text-zf-aegis">Aegis {active.score}</span>
+            {active.score !== null ? (
+              <span className="font-mono text-zf-aegis">Aegis {active.score}</span>
+            ) : (
+              <span>Not assessed</span>
+            )}
           </>
         ) : (
-          <span className="truncate">Node size is the Aegis score; lines are shared integrations.</span>
+          <span className="truncate">
+            Node size is the Aegis score; hollow rings are not assessed; lines are shared integrations.
+          </span>
         )}
       </p>
     </div>

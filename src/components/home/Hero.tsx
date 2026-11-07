@@ -8,15 +8,22 @@ import Lattice, { CATEGORY_FILL } from './Lattice';
 import { ZfButton } from '../brand/Button';
 
 export interface HeroStats {
+  /** Every listing, from every source. */
   listings: number;
+  /** Distinct division publishers ('Open source' is not a division). */
   departments: number;
-  /** Median Aegis score, rounded; null when the catalog is empty. */
+  /** Median Aegis score over assessed listings, rounded; null when none are assessed. */
   medianAegis: number | null;
   humanInLoop: number;
+  /** Open-source projects listed for reference. */
+  openSource: number;
 }
 
 export function heroStats(products: Product[]): HeroStats {
-  const scores = products.map(aegisScore).sort((a, b) => a - b);
+  const scores = products
+    .map(aegisScore)
+    .filter((s): s is number => s !== null)
+    .sort((a, b) => a - b);
   let medianAegis: number | null = null;
   if (scores.length) {
     const mid = Math.floor(scores.length / 2);
@@ -24,9 +31,10 @@ export function heroStats(products: Product[]): HeroStats {
   }
   return {
     listings: products.length,
-    departments: new Set(products.map((p) => p.publisher)).size,
+    departments: new Set(products.map((p) => p.publisher).filter((p) => p !== 'Open source')).size,
     medianAegis,
-    humanInLoop: products.filter((p) => p.aegis.humanInLoop).length,
+    humanInLoop: products.filter((p) => p.aegis?.humanInLoop).length,
+    openSource: products.filter((p) => p.source === 'open-source').length,
   };
 }
 
@@ -80,7 +88,9 @@ export default function Hero({
     { label: 'Divisions', value: String(stats.departments) },
     { label: 'Median Aegis', value: stats.medianAegis === null ? '–' : String(stats.medianAegis), aegis: true },
     { label: 'Human-in-loop', value: String(stats.humanInLoop) },
+    ...(stats.openSource > 0 ? [{ label: 'Open source', value: String(stats.openSource) }] : []),
   ];
+  const fiveStats = statItems.length > 4;
 
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden border-b border-zf-grid">
@@ -97,8 +107,9 @@ export default function Hero({
               Agents built to be trusted, published by the teams that run them.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-zf-muted sm:text-lg">
-              Every listing in this registry already runs inside a Collective AI division, and declares what data it
+              Every division-run listing already runs inside a Collective AI division, and declares what data it
               touches, what it refuses to do, and when it hands control to a person.
+              {stats.openSource > 0 && ' Open-source projects are listed for reference and carry no Aegis score.'}
             </p>
           </div>
 
@@ -136,7 +147,12 @@ export default function Hero({
             Describe a task instead
           </button>
 
-          <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-zf-grid pt-6 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+          <dl
+            className={cn(
+              'mt-10 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-zf-grid pt-6',
+              fiveStats ? 'sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3' : 'sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4',
+            )}
+          >
             {statItems.map((s) => (
               <div key={s.label} className="min-w-0">
                 <dt className="whitespace-nowrap text-xs text-zf-muted">{s.label}</dt>

@@ -4,7 +4,8 @@ import type {
   Product,
   ProductCategory,
   PricingModel,
-  Publisher,
+  ListingPublisher,
+  Source,
 } from '../types/marketplace';
 
 export const CATEGORIES: { id: ProductCategory; label: string; singular: string }[] = [
@@ -19,6 +20,13 @@ export const PRICING_LABELS: Record<PricingModel, string> = {
   monthly: 'Monthly',
   usage: 'Usage-based',
   'one-time': 'One-time',
+  quote: 'Quoted',
+};
+
+export const SOURCE_LABELS: Record<Source, string> = {
+  collective: 'Run by a division',
+  directory: 'Division service',
+  'open-source': 'Open source',
 };
 
 /** Scopes that carry regulated or personal data. Touching them costs Aegis points. */
@@ -30,11 +38,17 @@ export const DEFAULT_FILTERS: FilterState = {
   pricingModels: [],
   excludeScopes: [],
   publishers: [],
+  sources: [],
   minAegis: 0,
   sort: 'aegis',
 };
 
-export function registryId(p: Pick<Product, 'id' | 'category'>): string {
+/**
+ * The id shown to buyers. Open-source projects keep their GitHub name: a zf/
+ * id would imply ZenFlow publishes them.
+ */
+export function registryId(p: Pick<Product, 'id' | 'category'> & { openSource?: { repo: string } }): string {
+  if (p.openSource) return `github.com/${p.openSource.repo}`;
   const singular = CATEGORIES.find((c) => c.id === p.category)?.singular ?? p.category;
   return `zf/${singular}/${p.id}`;
 }
@@ -49,6 +63,8 @@ export function formatPrice(p: Product['pricing']): string {
       return `$${p.amount.toFixed(2)} / 1k runs`;
     case 'one-time':
       return `$${p.amount} once`;
+    case 'quote':
+      return 'Quoted';
   }
 }
 
@@ -63,6 +79,7 @@ export interface AegisLine {
  * declared, so the buyer can audit the number line by line.
  */
 export function aegisBreakdown(p: Product): AegisLine[] {
+  if (!p.aegis) return [];
   const sensitive = p.scopes.filter((s) => SENSITIVE_SCOPES.includes(s)).length;
   return [
     { label: 'Every decision written to a decision log you can read', points: p.aegis.auditLog ? 25 : 0, max: 25 },
@@ -74,12 +91,23 @@ export function aegisBreakdown(p: Product): AegisLine[] {
   ];
 }
 
-export function aegisScore(p: Product): number {
+/** null when the listing has not been assessed (open-source projects). */
+export function aegisScore(p: Product): number | null {
+  if (!p.aegis) return null;
   return aegisBreakdown(p).reduce((sum, line) => sum + line.points, 0);
 }
 
+/** Score for ordering: unassessed listings sort below every assessed one. */
+function rankScore(p: Product): number {
+  return aegisScore(p) ?? -1;
+}
+
 function haystack(p: Product): string {
-  return [p.title, p.summary, p.audience, p.publisher, p.deployedIn, ...p.capabilities, ...p.tags, ...p.integrations]
+  return [
+    p.title, p.summary, p.audience, p.publisher, p.deployedIn,
+    p.openSource?.repo ?? '', p.openSource?.language ?? '',
+    ...p.capabilities, ...p.tags, ...p.integrations,
+  ]
     .join(' ')
     .toLowerCase();
 }
@@ -97,7 +125,9 @@ function passesNonCategory(p: Product, f: FilterState): boolean {
   if (f.pricingModels.length && !f.pricingModels.includes(p.pricing.model)) return false;
   if (f.excludeScopes.length && p.scopes.some((s) => f.excludeScopes.includes(s))) return false;
   if (f.publishers.length && !f.publishers.includes(p.publisher)) return false;
-  if (aegisScore(p) < f.minAegis) return false;
+  if (f.sources.length && !f.sources.includes(p.source)) return false;
+  // A minimum Aegis score hides unassessed listings: no score cannot clear a bar.
+  if (f.minAegis > 0 && rankScore(p) < f.minAegis) return false;
   return true;
 }
 
@@ -108,11 +138,21 @@ export function filterProducts(products: Product[], f: FilterState): Product[] {
   return sortProducts(result, f.sort);
 }
 
+export function sourceCounts(products: Product[], f: FilterState): Record<Source, number> {
+  const counts: Record<Source, number> = { collective: 0, directory: 0, 'open-source': 0 };
+  for (const p of products) {
+    if (passesNonCategory(p, { ...f, sources: [] }) && (f.categories.length === 0 || f.categories.includes(p.category))) {
+      counts[p.source] += 1;
+    }
+  }
+  return counts;
+}
+
 export function sortProducts(products: Product[], sort: FilterState['sort']): Product[] {
   const copy = [...products];
   switch (sort) {
     case 'aegis':
-      return copy.sort((a, b) => aegisScore(b) - aegisScore(a) || a.title.localeCompare(b.title));
+      return copy.sort((a, b) => rankScore(b) - rankScore(a) || a.title.localeCompare(b.title));
     case 'updated':
       return copy.sort((a, b) => b.updated.localeCompare(a.updated));
     case 'price-asc':
@@ -137,11 +177,12 @@ export function isFiltered(f: FilterState): boolean {
     f.pricingModels.length > 0 ||
     f.excludeScopes.length > 0 ||
     f.publishers.length > 0 ||
+    f.sources.length > 0 ||
     f.minAegis > 0
   );
 }
 
-export function allPublishers(products: Product[]): Publisher[] {
+export function allPublishers(products: Product[]): ListingPublisher[] {
   return [...new Set(products.map((p) => p.publisher))].sort();
 }
 
@@ -188,6 +229,6 @@ export function matchTask(products: Product[], brief: string, limit = 5): TaskMa
     if (score > 0) matches.push({ product, score, matched });
   }
   return matches
-    .sort((a, b) => b.score - a.score || aegisScore(b.product) - aegisScore(a.product))
+    .sort((a, b) => b.score - a.score || rankScore(b.product) - rankScore(a.product))
     .slice(0, limit);
 }

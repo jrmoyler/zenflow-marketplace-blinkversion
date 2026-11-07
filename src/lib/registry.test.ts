@@ -11,6 +11,8 @@ import {
   matchTask,
   matchesQuery,
   registryId,
+  sortProducts,
+  sourceCounts,
 } from './registry';
 import type { FilterState, Product } from '../types/marketplace';
 import { catalog } from '../data/catalog';
@@ -21,6 +23,7 @@ function make(overrides: Partial<Product> & Pick<Product, 'id'>): Product {
     summary: 'Does one job.',
     audience: 'Someone with that job.',
     category: 'agents',
+    source: 'collective',
     publisher: 'ZenFlow',
     deployedIn: 'ZenFlow test bench',
     capabilities: ['First thing', 'Second thing'],
@@ -98,6 +101,39 @@ const cleanup = make({
 
 const products = [reconciler, watcher, intake, cleanup];
 
+/** Open-source project: no Aegis declaration, so no score. */
+const ossKit = make({
+  id: 'ledger-kit',
+  title: 'Ledger Kit',
+  summary: 'Open-source scripts for bank reconciliation.',
+  category: 'agents',
+  source: 'open-source',
+  publisher: 'Open source',
+  aegis: null,
+  openSource: {
+    repo: 'acme/ledger-kit',
+    url: 'https://github.com/acme/ledger-kit',
+    license: 'MIT',
+    stars: 12345,
+    language: 'Python',
+    pushedAt: '2026-10-30',
+    checkedAt: '2026-11-07',
+  },
+});
+
+/** Division service listed on a division site, sold by quote. */
+const service = make({
+  id: 'brand-audit',
+  title: 'Brand Audit',
+  category: 'workflows',
+  source: 'directory',
+  publisher: 'Nexus Labs',
+  pricing: { model: 'quote', amount: 0 },
+  directory: { url: 'https://example.com/nexus-labs/', status: 'available' },
+});
+
+const mixed = [...products, ossKit, service];
+
 describe('registryId', () => {
   it('uses the singular category', () => {
     expect(registryId({ id: 'ledger-reconciler', category: 'agents' })).toBe('zf/agent/ledger-reconciler');
@@ -113,6 +149,7 @@ describe('formatPrice', () => {
     expect(formatPrice({ model: 'monthly', amount: 89 })).toBe('$89/mo');
     expect(formatPrice({ model: 'usage', amount: 2.4 })).toBe('$2.40 / 1k runs');
     expect(formatPrice({ model: 'one-time', amount: 149 })).toBe('$149 once');
+    expect(formatPrice({ model: 'quote', amount: 0 })).toBe('Quoted');
   });
 });
 
@@ -147,6 +184,11 @@ describe('aegisBreakdown / aegisScore', () => {
     expect(aegisScore(intake)).toBe(35);
   });
 
+  it('returns null and an empty breakdown for an unassessed listing', () => {
+    expect(aegisScore(ossKit)).toBeNull();
+    expect(aegisBreakdown(ossKit)).toEqual([]);
+  });
+
   it('breakdown maxes sum to 100 and score equals the sum of points', () => {
     const lines = aegisBreakdown(reconciler);
     expect(lines.reduce((s, l) => s + l.max, 0)).toBe(100);
@@ -171,7 +213,7 @@ describe('filterProducts', () => {
   it('returns everything with default filters, sorted by Aegis descending', () => {
     const result = filterProducts(products, filters());
     expect(result).toHaveLength(products.length);
-    const scores = result.map(aegisScore);
+    const scores = result.map((p) => aegisScore(p)!);
     expect(scores).toEqual([...scores].sort((a, b) => b - a));
     expect(result[0].id).toBe('ledger-reconciler');
   });
@@ -200,8 +242,39 @@ describe('filterProducts', () => {
 
   it('filters by minimum Aegis score', () => {
     const result = filterProducts(products, filters({ minAegis: 30 }));
-    expect(result.every((p) => aegisScore(p) >= 30)).toBe(true);
+    expect(result.every((p) => (aegisScore(p) ?? -1) >= 30)).toBe(true);
     expect(result.map((p) => p.id)).not.toContain('pricing-page-watcher');
+  });
+
+  it('sorts unassessed listings after every assessed one on aegis', () => {
+    const ids = sortProducts(mixed, 'aegis').map((p) => p.id);
+    expect(ids[ids.length - 1]).toBe('ledger-kit');
+    // Even below a listing that scores 0-ish.
+    const zero = make({
+      id: 'zero',
+      scopes: ['pii', 'health', 'payments'],
+      aegis: { refusals: [], escalations: [], auditLog: false, humanInLoop: false, inspectable: false },
+    });
+    expect(aegisScore(zero)).toBe(0);
+    expect(sortProducts([ossKit, zero], 'aegis').map((p) => p.id)).toEqual(['zero', 'ledger-kit']);
+  });
+
+  it('keeps unassessed listings with no minimum, hides them behind any minimum', () => {
+    expect(filterProducts(mixed, filters()).map((p) => p.id)).toContain('ledger-kit');
+    expect(filterProducts(mixed, filters({ minAegis: 1 })).map((p) => p.id)).not.toContain('ledger-kit');
+  });
+
+  it('filters by source', () => {
+    expect(filterProducts(mixed, filters({ sources: ['open-source'] })).map((p) => p.id)).toEqual(['ledger-kit']);
+    expect(filterProducts(mixed, filters({ sources: ['directory'] })).map((p) => p.id)).toEqual(['brand-audit']);
+    const both = filterProducts(mixed, filters({ sources: ['collective', 'directory'] })).map((p) => p.id);
+    expect(both).toHaveLength(products.length + 1);
+    expect(both).not.toContain('ledger-kit');
+  });
+
+  it('filters by the Open source publisher and finds open-source repos by query', () => {
+    expect(filterProducts(mixed, filters({ publishers: ['Open source'] })).map((p) => p.id)).toEqual(['ledger-kit']);
+    expect(filterProducts(mixed, filters({ query: 'acme/ledger-kit' })).map((p) => p.id)).toEqual(['ledger-kit']);
   });
 
   it('combines facets with AND', () => {
@@ -254,6 +327,29 @@ describe('categoryCounts', () => {
   });
 });
 
+describe('sourceCounts', () => {
+  it('counts every source with no filters', () => {
+    expect(sourceCounts(mixed, filters())).toEqual({ collective: 4, directory: 1, 'open-source': 1 });
+  });
+
+  it('ignores its own facet so other sources still show counts', () => {
+    expect(sourceCounts(mixed, filters({ sources: ['open-source'] }))).toEqual({
+      collective: 4,
+      directory: 1,
+      'open-source': 1,
+    });
+  });
+
+  it('reflects the other active filters, including category and minimum Aegis', () => {
+    expect(sourceCounts(mixed, filters({ categories: ['agents'] }))).toEqual({
+      collective: 1,
+      directory: 0,
+      'open-source': 1,
+    });
+    expect(sourceCounts(mixed, filters({ minAegis: 1 }))['open-source']).toBe(0);
+  });
+});
+
 describe('isFiltered', () => {
   it('is false for defaults and whitespace-only query', () => {
     expect(isFiltered(filters())).toBe(false);
@@ -271,6 +367,7 @@ describe('isFiltered', () => {
     expect(isFiltered(filters({ excludeScopes: ['pii'] }))).toBe(true);
     expect(isFiltered(filters({ publishers: ['Obsidian Arc'] }))).toBe(true);
     expect(isFiltered(filters({ minAegis: 50 }))).toBe(true);
+    expect(isFiltered(filters({ sources: ['open-source'] }))).toBe(true);
   });
 });
 
@@ -282,6 +379,12 @@ describe('allPublishers', () => {
       'Signal Velocity',
       'The Collective',
     ]);
+  });
+});
+
+describe('registryId for open source', () => {
+  it('uses the GitHub repo instead of a zf/ id', () => {
+    expect(registryId({ id: 'oss-aider', category: 'agents', openSource: { repo: 'Aider-AI/aider' } })).toBe('github.com/Aider-AI/aider');
   });
 });
 

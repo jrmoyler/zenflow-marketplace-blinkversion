@@ -10,6 +10,7 @@ const full: FilterState = {
   pricingModels: ['free', 'monthly'],
   excludeScopes: ['pii', 'health'],
   publishers: ['Juris Guard', 'Quantum Ledger'],
+  sources: ['collective', 'open-source'],
   minAegis: 70,
   sort: 'updated',
 };
@@ -29,7 +30,7 @@ describe('serializeQuery', () => {
   it('encodes the documented shape', () => {
     expect(serializeQuery(full, 'ledger-reconciler')).toBe(
       '?q=reconcile%20invoices&cat=agents,bots&price=free,monthly&noscope=pii,health' +
-        '&pub=Juris%20Guard,Quantum%20Ledger&aegis=70&sort=updated&listing=ledger-reconciler',
+        '&pub=Juris%20Guard,Quantum%20Ledger&src=collective,open-source&aegis=70&sort=updated&listing=ledger-reconciler',
     );
   });
 
@@ -51,6 +52,13 @@ describe('parseQuery', () => {
 
   it('accepts + as a space (form encoding)', () => {
     expect(parseQuery('?pub=Juris+Guard').filters.publishers).toEqual(['Juris Guard']);
+  });
+
+  it('parses sources and the open-source publisher', () => {
+    const { filters } = parseQuery('?src=collective,directory,open-source,vendor,directory&pub=Open%20source');
+    expect(filters.sources).toEqual(['collective', 'directory', 'open-source']);
+    expect(filters.publishers).toEqual(['Open source']);
+    expect(serializeQuery(filters, null)).toBe('?pub=Open%20source&src=collective,directory,open-source');
   });
 
   it('falls back to defaults for an empty or garbage string', () => {

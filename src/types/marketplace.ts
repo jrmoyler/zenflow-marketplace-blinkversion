@@ -1,6 +1,15 @@
 export type ProductCategory = 'agents' | 'workflows' | 'automations' | 'bots';
 
-export type PricingModel = 'free' | 'monthly' | 'usage' | 'one-time';
+export type PricingModel = 'free' | 'monthly' | 'usage' | 'one-time' | 'quote';
+
+/**
+ * Where a listing comes from.
+ * - collective: built by ZenFlow, run inside a Collective AI division.
+ * - directory: a live offer on a division site (collective-ai-divisions).
+ * - open-source: a public GitHub project, listed for reference. Collective AI
+ *   does not run, vet or support it, and it carries no Aegis score.
+ */
+export type Source = 'collective' | 'directory' | 'open-source';
 
 /**
  * The nine active Collective AI divisions (charter order, source:
@@ -17,6 +26,29 @@ export type Publisher =
   | 'Quantum Ledger'
   | 'Juris Guard'
   | 'Signal Velocity';
+
+/** Publisher shown for third-party GitHub projects. */
+export type ListingPublisher = Publisher | 'Open source';
+
+export interface OpenSourceInfo {
+  /** owner/name */
+  repo: string;
+  url: string;
+  /** SPDX id from the GitHub API, e.g. MIT, Apache-2.0, AGPL-3.0 */
+  license: string;
+  stars: number;
+  language: string;
+  /** ISO date of the last push, from the GitHub API */
+  pushedAt: string;
+  /** ISO date the facts above were read from the GitHub API */
+  checkedAt: string;
+}
+
+export interface DirectoryInfo {
+  /** Page on the division site where the offer is listed */
+  url: string;
+  status: 'available' | 'in-the-lab';
+}
 
 /** What a listing is allowed to read or write. Drives the Aegis score and a facet. */
 export type DataScope =
@@ -66,7 +98,8 @@ export interface Product {
   /** Who it's for, one sentence. */
   audience: string;
   category: ProductCategory;
-  publisher: Publisher;
+  source: Source;
+  publisher: ListingPublisher;
   /** Where it already runs inside Collective AI, e.g. "Juris Guard intake desk". */
   deployedIn: string;
   capabilities: string[];
@@ -75,7 +108,10 @@ export interface Product {
   integrations: string[];
   scopes: DataScope[];
   pricing: Pricing;
-  aegis: AegisDeclaration;
+  /** null = not assessed (every open-source listing). Never invent declarations. */
+  aegis: AegisDeclaration | null;
+  openSource?: OpenSourceInfo;
+  directory?: DirectoryInfo;
   version: string;
   /** ISO date of last update. */
   updated: string;
@@ -92,7 +128,8 @@ export interface FilterState {
   pricingModels: PricingModel[];
   /** Exclude listings touching any of these scopes. */
   excludeScopes: DataScope[];
-  publishers: Publisher[];
+  publishers: ListingPublisher[];
+  sources: Source[];
   minAegis: number;
   sort: SortKey;
 }

@@ -128,24 +128,31 @@ export default function TaskFinder({ open, onClose, products, onOpenProduct }: T
                     {results.length === 1 ? '1 listing matched' : `${results.length} listings matched`}, best first
                   </p>
                   <ul aria-label="Matching listings" className="mt-2 divide-y divide-zf-grid rounded-[4px] border border-zf-grid">
-                    {results.map(({ product, matched }) => (
-                      <li key={product.id}>
-                        <button
-                          type="button"
-                          onClick={() => openResult(product)}
-                          className="flex min-h-11 w-full flex-col gap-1 px-3 py-3 text-left transition-colors duration-150 hover:bg-zf-raised"
-                        >
-                          <span className="flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-1">
-                            <span className="text-sm font-medium text-zf-text">{product.title}</span>
-                            <AegisMeter score={aegisScore(product)} />
-                          </span>
-                          <span className="max-w-full truncate font-mono text-xs text-zf-muted">{registryId(product)}</span>
-                          <span className="text-xs text-zf-muted">
-                            Matched: <span className="text-zf-text">{matched.join(', ')}</span>
-                          </span>
-                        </button>
-                      </li>
-                    ))}
+                    {results.map(({ product, matched }) => {
+                      const score = aegisScore(product);
+                      return (
+                        <li key={product.id}>
+                          <button
+                            type="button"
+                            onClick={() => openResult(product)}
+                            className="flex min-h-11 w-full flex-col gap-1 px-3 py-3 text-left transition-colors duration-150 hover:bg-zf-raised"
+                          >
+                            <span className="flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                              <span className="text-sm font-medium text-zf-text">{product.title}</span>
+                              {score !== null ? (
+                                <AegisMeter score={score} />
+                              ) : (
+                                <span className="text-xs text-zf-muted">Not assessed</span>
+                              )}
+                            </span>
+                            <span className="max-w-full truncate font-mono text-xs text-zf-muted">{registryId(product)}</span>
+                            <span className="text-xs text-zf-muted">
+                              Matched: <span className="text-zf-text">{matched.join(', ')}</span>
+                            </span>
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </>
               )}

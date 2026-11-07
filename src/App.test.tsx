@@ -6,7 +6,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import App from './App';
-import { catalog } from './data/catalog';
+import { catalog } from './data';
 import { DEFAULT_FILTERS, filterProducts } from './lib/registry';
 import type { FilterState, Product } from './types/marketplace';
 
