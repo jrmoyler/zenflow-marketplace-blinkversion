@@ -1,4 +1,4 @@
-import { useId, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { ZfButton } from '@/components/brand/Button';
 import { LEAD_ENDPOINT, divisionUrl } from '@/lib/network';
 import { cn } from '@/lib/utils';
@@ -45,6 +45,11 @@ export default function RentForm({ title, registryId, version, endpoint = LEAD_E
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const startUrl = divisionUrl('zenflow', 'start.html');
+
+  // The form is revealed by a click on "Rent this agent", so move focus into it.
+  useEffect(() => {
+    nameRef.current?.focus();
+  }, []);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
