@@ -23,14 +23,16 @@ export const CATEGORY_FILL: Record<ProductCategory, string> = {
   workflows: '#3B82F6',
   automations: '#A78BFA',
   bots: '#93C5FD',
+  databases: '#C4B5FD',
 };
 
 /** Cluster centres, deliberately off-grid so the lattice does not read as a 2x2 table. */
 const CLUSTER_CENTRES: Record<ProductCategory, { x: number; y: number; labelSide: 'top' | 'bottom' }> = {
-  agents: { x: 122, y: 132, labelSide: 'top' },
-  workflows: { x: 398, y: 108, labelSide: 'top' },
-  automations: { x: 404, y: 276, labelSide: 'bottom' },
-  bots: { x: 136, y: 286, labelSide: 'bottom' },
+  agents: { x: 108, y: 124, labelSide: 'top' },
+  workflows: { x: 412, y: 104, labelSide: 'top' },
+  automations: { x: 420, y: 282, labelSide: 'bottom' },
+  bots: { x: 114, y: 290, labelSide: 'bottom' },
+  databases: { x: 264, y: 196, labelSide: 'bottom' },
 };
 
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));

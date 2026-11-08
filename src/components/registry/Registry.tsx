@@ -10,6 +10,9 @@ import ListingRow, { SCOPE_LABELS } from './ListingRow';
 
 export type RegistryView = 'grid' | 'list';
 
+/** Listings rendered per page; "Show more" adds another page. */
+export const PAGE_SIZE = 48;
+
 /** localStorage key for the grid/list choice. A viewer preference, not a filter. */
 export const VIEW_KEY = 'zf.view';
 
@@ -109,6 +112,12 @@ export default function Registry({ products, filters, onFiltersChange, onOpenPro
     writeView(v);
   };
   const results = useMemo(() => filterProducts(products, filters), [products, filters]);
+  // Paging resets whenever the result set changes (new filters, new sort).
+  const [paging, setPaging] = useState({ results, limit: PAGE_SIZE });
+  const limit = paging.results === results ? paging.limit : PAGE_SIZE;
+  const shown = results.slice(0, limit);
+  const remaining = results.length - shown.length;
+  const showMore = () => setPaging({ results, limit: limit + PAGE_SIZE });
   const chips = activeFilters(filters);
   // The query is set from the nav search, so the mobile button counts facet filters only.
   const facetCount = chips.filter((c) => c.key !== 'query').length;
@@ -246,7 +255,7 @@ export default function Registry({ products, filters, onFiltersChange, onOpenPro
 
           {results.length > 0 && view === 'grid' ? (
             <ul aria-label="Listings" className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {results.map((p) => (
+              {shown.map((p) => (
                 <ListingCard key={p.id} product={p} onOpen={onOpenProduct} />
               ))}
             </ul>
@@ -265,7 +274,7 @@ export default function Registry({ products, filters, onFiltersChange, onOpenPro
                 aria-label="Listings"
                 className="mt-4 flex flex-col gap-3 lg:mt-1 lg:gap-0 lg:divide-y lg:divide-zf-grid"
               >
-                {results.map((p) => (
+                {shown.map((p) => (
                   <ListingRow key={p.id} product={p} onOpen={onOpenProduct} />
                 ))}
               </ul>
@@ -310,6 +319,22 @@ export default function Registry({ products, filters, onFiltersChange, onOpenPro
                   </div>
                 </>
               )}
+            </div>
+          )}
+
+          {remaining > 0 && (
+            <div className="mt-6 flex flex-col items-center gap-2">
+              <button
+                type="button"
+                onClick={showMore}
+                data-testid="show-more"
+                className={cn(controlBase, 'inline-flex min-h-11 items-center px-4')}
+              >
+                Show {Math.min(PAGE_SIZE, remaining)} more
+              </button>
+              <p className="text-xs text-zf-muted" aria-live="polite">
+                Showing <span className="font-mono">{shown.length}</span> of <span className="font-mono">{results.length}</span>
+              </p>
             </div>
           )}
         </div>

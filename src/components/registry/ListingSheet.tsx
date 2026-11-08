@@ -16,6 +16,7 @@ import {
 import AegisMeter from './AegisMeter';
 import CoverArt from './CoverArt';
 import RentForm from './RentForm';
+import ConnectPanel from './ConnectPanel';
 import { Mark } from '@/components/brand/Mark';
 import { ZfButton } from '@/components/brand/Button';
 import { divisionUrl, publisherSlug } from '@/lib/network';
@@ -205,9 +206,10 @@ function SheetBody({
   const dir = p.source === 'directory' && p.directory ? p.directory : null;
   const repoUrl = oss ? githubUrl(oss) : null;
   // Directory offers are bought on the division site: no install command.
+  // Runtime listings are called over HTTPS (Connect section), not installed.
   const installCmd = oss
     ? `git clone https://github.com/${oss.repo}.git`
-    : dir
+    : dir || p.runtime
       ? null
       : `zenflow install ${rid}@${p.version}`;
   const rubric = aegisBreakdown(p);
@@ -218,7 +220,9 @@ function SheetBody({
   const owner = oss ? oss.repo.split('/')[0] : null;
   // Open-source projects are never rented through Collective AI. Directory offers keep the
   // rent form only when ZenFlow itself publishes them (agent rentals and setups).
-  const canRent = p.source === 'collective' || (p.source === 'directory' && p.publisher === 'ZenFlow');
+  // Pending listings (Vital Helix) are shown but cannot be rented until the division activates.
+  const canRent = !p.pending && (p.source === 'collective' || (p.source === 'directory' && p.publisher === 'ZenFlow'));
+  const singular = CATEGORIES.find((c) => c.id === p.category)?.singular ?? 'listing';
 
   return (
     <>
@@ -265,6 +269,11 @@ function SheetBody({
               <dd className="text-zf-text">
                 {oss ? (
                   <span data-testid="publisher-open-source">Open source · maintained on GitHub by {owner}</span>
+                ) : p.publisher === 'Vital Helix' ? (
+                  <span className="inline-flex items-center gap-1.5" data-testid="publisher-pending">
+                    <Mark division="vital-helix" size={18} title="" />
+                    Vital Helix · pending activation
+                  </span>
                 ) : pubSlug ? (
                   <a
                     href={divisionUrl(pubSlug)}
@@ -286,6 +295,11 @@ function SheetBody({
             </div>
           </dl>
           <div className="mt-5 flex flex-col gap-3">
+            {p.pending && (
+              <p data-testid="pending-notice" className="rounded-[4px] border border-zf-grid bg-zf-canvas px-3 py-3 text-sm text-zf-text">
+                {p.deployedIn}. Listed so you can see what is coming; it cannot be rented yet.
+              </p>
+            )}
             {oss && repoUrl && (
               <div>
                 <ZfButton asChild>
@@ -310,7 +324,7 @@ function SheetBody({
                 <RentForm title={p.title} registryId={rid} version={p.version} />
               ) : (
                 <div>
-                  <ZfButton onClick={() => setRentOpen(true)}>Rent this agent</ZfButton>
+                  <ZfButton onClick={() => setRentOpen(true)}>Rent this {singular}</ZfButton>
                 </div>
               ))}
           </div>
@@ -385,6 +399,16 @@ function SheetBody({
             <p className="mt-3 text-xs text-zf-muted" data-testid="repo-checked">
               Checked <time dateTime={oss.checkedAt}>{formatDate(oss.checkedAt)}</time> from the GitHub API
             </p>
+          </Section>
+        )}
+
+        {p.runtime && (
+          <Section
+            id="connect"
+            title="Connect"
+            description="A live HTTPS endpoint on the ZenFlow runtime API, with signed webhooks and an audit log."
+          >
+            <ConnectPanel product={p} />
           </Section>
         )}
 

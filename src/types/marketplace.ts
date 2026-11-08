@@ -1,4 +1,4 @@
-export type ProductCategory = 'agents' | 'workflows' | 'automations' | 'bots';
+export type ProductCategory = 'agents' | 'workflows' | 'automations' | 'bots' | 'databases';
 
 export type PricingModel = 'free' | 'monthly' | 'usage' | 'one-time' | 'quote';
 
@@ -27,7 +27,9 @@ export type Publisher =
   | 'Kinetic Edge'
   | 'Quantum Ledger'
   | 'Juris Guard'
-  | 'Signal Velocity';
+  | 'Signal Velocity'
+  /** Twelfth division, not yet active: its listings are shown but held. */
+  | 'Vital Helix';
 
 /** Publisher shown for third-party GitHub projects. */
 export type ListingPublisher = Publisher | 'Open source';
@@ -120,7 +122,34 @@ export interface Product {
   changelog: ChangelogEntry[];
   tags: string[];
   featured?: boolean;
+  /** Held until the publisher activates: listed, not rentable, runtime returns 409. */
+  pending?: boolean;
+  /** How to call it on the ZenFlow runtime API (inventory listings). */
+  runtime?: Runtime;
+  /** Where it came from in the ZenFlow Master Inventory PDF. */
+  inventory?: { section: string; number: number };
 }
+
+export interface RuntimeParam {
+  name: string;
+  required: boolean;
+  description: string;
+  example: string;
+}
+
+export type Runtime =
+  | { kind: 'llm-agent'; method: 'POST'; endpoint: string; prompt?: string }
+  | { kind: 'llm-bot'; method: 'POST'; endpoint: string; prompt?: string; adapters: ('slack' | 'discord' | 'sms')[] }
+  | { kind: 'n8n-workflow'; method: 'POST'; endpoint: string; n8n: string; trigger: 'schedule' | 'webhook'; steps: string[] }
+  | {
+      kind: 'dataset';
+      method: 'GET';
+      endpoint: string;
+      source: { name: string; url: string; license: string };
+      params: RuntimeParam[];
+      key: string | null;
+      byo?: boolean;
+    };
 
 export type SortKey = 'aegis' | 'updated' | 'price-asc' | 'price-desc' | 'name';
 

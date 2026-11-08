@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
  *   workflows   → agent threads (left-to-right decision DAG, one path taken)
  *   automations → orbital data rings (concentric rings, data points on them)
  *   bots        → signal waveforms (stacked message-like waveforms, in and out)
+ *   databases   → orbital data rings, the same motif as automations (data at rest)
  *
  * Colour comes from the publisher: the division's locked mark colour for
  * division listings, ZenFlow silver with blue accents for open-source projects.
@@ -36,10 +37,11 @@ export const MOTIFS: Record<ProductCategory, Motif> = {
   workflows: 'threads',
   automations: 'orbits',
   bots: 'waveform',
+  databases: 'orbits',
 };
 
 interface Palette {
-  key: DivisionSlug | 'open-source';
+  key: DivisionSlug | 'vital-helix' | 'open-source';
   canvas: string;
   /** Main stroke and fill: the publisher's identity. */
   primary: string;
@@ -52,6 +54,9 @@ const SILVER = '#94A3B8';
 const BLUE = '#3B82F6';
 
 export function paletteFor(p: Pick<Product, 'publisher' | 'source'>): Palette {
+  if (p.publisher === 'Vital Helix') {
+    return { key: 'vital-helix', canvas: '#050810', primary: MARKS['vital-helix'].tg, accent: SILVER, grid: '#1E2235' };
+  }
   const slug = p.source === 'open-source' ? null : publisherSlug(p.publisher);
   if (!slug) {
     return { key: 'open-source', canvas: '#0A0D1A', primary: SILVER, accent: BLUE, grid: '#1E2235' };

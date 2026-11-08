@@ -12,7 +12,8 @@ import { cn } from '@/lib/utils';
 
 const NAMES: Record<MarkKey, string> = {
   parent: 'Collective AI',
-  ...(Object.fromEntries(DIVISIONS.map((d) => [d.slug, d.name])) as Record<Exclude<MarkKey, 'parent'>, string>),
+  ...(Object.fromEntries(DIVISIONS.map((d) => [d.slug, d.name])) as Record<Exclude<MarkKey, 'parent' | 'vital-helix'>, string>),
+  'vital-helix': 'Vital Helix',
 };
 
 export interface MarkProps {

@@ -11,7 +11,8 @@ export type MarkKey =
   | 'kinetic-edge'
   | 'quantum-ledger'
   | 'juris-guard'
-  | 'signal-velocity';
+  | 'signal-velocity'
+  | 'vital-helix';
 
 export interface MarkDef {
   /** Tile gradient, light end. */

@@ -49,7 +49,8 @@ describe('catalog', () => {
   });
 
   it('has at least 7 listings in every category', () => {
-    for (const c of CATEGORIES) {
+    // Databases come only from the runtime inventory (inventory.test.ts), not this hand-written catalog.
+    for (const c of CATEGORIES.filter((x) => x.id !== 'databases')) {
       expect(catalog.filter((p) => p.category === c.id).length, c.id).toBeGreaterThanOrEqual(7);
     }
   });

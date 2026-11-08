@@ -61,7 +61,7 @@ export default function Hero({
   const stats = useMemo(() => heroStats(products), [products]);
 
   const counts = useMemo(() => {
-    const c = { agents: 0, workflows: 0, automations: 0, bots: 0 } as Record<ProductCategory, number>;
+    const c = { agents: 0, workflows: 0, automations: 0, bots: 0, databases: 0 } as Record<ProductCategory, number>;
     for (const p of products) c[p.category] += 1;
     return c;
   }, [products]);

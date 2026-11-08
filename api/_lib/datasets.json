@@ -1,0 +1,2639 @@
+{
+ "retail-sales-census": {
+  "handler": "census",
+  "cfg": {
+   "url": "https://api.census.gov/data/timeseries/eits/marts",
+   "get": "cell_value,data_type_code,time_slot_id,category_code,seasonally_adj",
+   "time_from": true
+  },
+  "key": "CENSUS_API_KEY",
+  "params": [
+   {
+    "name": "from",
+    "required": false,
+    "description": "First year to return (YYYY)",
+    "example": "2024"
+   },
+   {
+    "name": "category_code",
+    "required": false,
+    "description": "NAICS-based category, e.g. 44X72 (all retail)",
+    "example": ""
+   }
+  ],
+  "source": {
+   "name": "US Census Bureau, Advance Monthly Retail Trade",
+   "url": "https://www.census.gov/retail/index.html",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "executive-changes-sec": {
+  "handler": "sec_fts",
+  "cfg": {
+   "phrase": "Item 5.02",
+   "forms": "8-K"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": false,
+    "description": "Company name or keyword to narrow results",
+    "example": ""
+   }
+  ],
+  "source": {
+   "name": "SEC EDGAR full-text search",
+   "url": "https://efts.sec.gov/LATEST/search-index",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "consumer-prices-bls": {
+  "handler": "bls",
+  "cfg": {
+   "default_series": "CUUR0000SA0"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "series",
+    "required": false,
+    "description": "BLS series id",
+    "example": "CUUR0000SA0"
+   }
+  ],
+  "source": {
+   "name": "US Bureau of Labor Statistics",
+   "url": "https://www.bls.gov/cpi/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "lobbying-filings-senate": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://lda.gov/api/v1/filings/",
+   "query": {
+    "client_name": "{q}",
+    "filing_year": "{year}"
+   },
+   "items": "results",
+   "pick": [
+    "filing_uuid",
+    "filing_year",
+    "filing_type_display",
+    "income",
+    "expenses",
+    "registrant.name",
+    "client.name",
+    "dt_posted"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Client name",
+    "example": "Microsoft"
+   },
+   {
+    "name": "year",
+    "required": false,
+    "description": "Filing year",
+    "example": "2026"
+   }
+  ],
+  "source": {
+   "name": "US Senate Lobbying Disclosure",
+   "url": "https://lda.gov/api/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "insider-trades-sec": {
+  "handler": "sec_filings",
+  "cfg": {
+   "form": "4"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "ticker",
+    "required": true,
+    "description": "Stock ticker",
+    "example": "AAPL"
+   }
+  ],
+  "source": {
+   "name": "SEC EDGAR submissions API",
+   "url": "https://www.sec.gov/edgar/sec-api-documentation",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "us-imports-census": {
+  "handler": "census",
+  "cfg": {
+   "url": "https://api.census.gov/data/timeseries/intltrade/imports/hs",
+   "get": "CTY_NAME,GEN_VAL_MO,I_COMMODITY,I_COMMODITY_SDESC",
+   "time_param": "month",
+   "filters": {
+    "I_COMMODITY": "hs"
+   }
+  },
+  "key": "CENSUS_API_KEY",
+  "params": [
+   {
+    "name": "hs",
+    "required": true,
+    "description": "HS code (2, 4 or 6 digits)",
+    "example": "8471"
+   },
+   {
+    "name": "month",
+    "required": true,
+    "description": "Month as YYYY-MM",
+    "example": "2026-06"
+   }
+  ],
+  "source": {
+   "name": "US Census Bureau, International Trade",
+   "url": "https://www.census.gov/foreign-trade/data/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "package-adoption-npm": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.npmjs.org/downloads/range/last-month/{package}",
+   "items": "downloads"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "package",
+    "required": true,
+    "description": "npm package name",
+    "example": "react"
+   }
+  ],
+  "source": {
+   "name": "npm registry download counts",
+   "url": "https://github.com/npm/registry/blob/main/docs/download-counts.md",
+   "license": "npm public API"
+  }
+ },
+ "short-volume-finra": {
+  "handler": "finra_shortvol",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "symbol",
+    "required": true,
+    "description": "Ticker symbol",
+    "example": "TSLA"
+   }
+  ],
+  "source": {
+   "name": "FINRA Reg SHO daily files",
+   "url": "https://www.finra.org/finra-data/browse-catalog/short-sale-volume-data",
+   "license": "FINRA public data"
+  }
+ },
+ "eth-large-transfers": {
+  "handler": "eth_whales",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "min_eth",
+    "required": false,
+    "description": "Minimum value in ETH",
+    "example": "1"
+   }
+  ],
+  "source": {
+   "name": "Blockscout Ethereum explorer",
+   "url": "https://eth.blockscout.com/api-docs",
+   "license": "Public blockchain data"
+  }
+ },
+ "esg-controversy-gdelt": {
+  "handler": "gdelt",
+  "cfg": {
+   "mode": "artlist",
+   "suffix": " (lawsuit OR fine OR recall OR scandal OR investigation)",
+   "timespan": "7d"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Company name",
+    "example": "Boeing"
+   }
+  ],
+  "source": {
+   "name": "GDELT Project DOC 2.0 API",
+   "url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+   "license": "GDELT open data"
+  }
+ },
+ "building-permits-census": {
+  "handler": "census",
+  "cfg": {
+   "url": "https://api.census.gov/data/timeseries/eits/resconst",
+   "get": "cell_value,data_type_code,time_slot_id,category_code,seasonally_adj,geo_level_code",
+   "time_from": true,
+   "fixed": {
+    "category_code": "APERMITS"
+   }
+  },
+  "key": "CENSUS_API_KEY",
+  "params": [
+   {
+    "name": "from",
+    "required": false,
+    "description": "First year (YYYY)",
+    "example": "2024"
+   }
+  ],
+  "source": {
+   "name": "US Census Bureau, New Residential Construction",
+   "url": "https://www.census.gov/construction/nrc/index.html",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "lodging-prices-bls": {
+  "handler": "bls",
+  "cfg": {
+   "default_series": "CUUR0000SEHB01"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "series",
+    "required": false,
+    "description": "BLS series id",
+    "example": "CUUR0000SEHB01"
+   }
+  ],
+  "source": {
+   "name": "US Bureau of Labor Statistics",
+   "url": "https://www.bls.gov/cpi/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "land-use-osm": {
+  "handler": "overpass",
+  "cfg": {
+   "query": "way[\"landuse\"](around:{radius},{lat},{lon});out tags center 300;",
+   "summarize": "landuse"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "lat",
+    "required": true,
+    "description": "Latitude",
+    "example": "39.9612"
+   },
+   {
+    "name": "lon",
+    "required": true,
+    "description": "Longitude",
+    "example": "-82.9988"
+   },
+   {
+    "name": "radius",
+    "required": false,
+    "description": "Radius in metres (max 5000)",
+    "example": "1500"
+   }
+  ],
+  "source": {
+   "name": "OpenStreetMap via Overpass API",
+   "url": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+   "license": "ODbL 1.0 (OpenStreetMap contributors)"
+  }
+ },
+ "crime-agency-fbi": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.usa.gov/crime/fbi/cde/agency/byStateAbbr/{state}",
+   "query": {
+    "API_KEY": "{key}"
+   },
+   "items": null,
+   "flatten": true,
+   "key_default": "DEMO_KEY"
+  },
+  "key": "DATA_GOV_API_KEY",
+  "params": [
+   {
+    "name": "state",
+    "required": true,
+    "description": "Two-letter state code",
+    "example": "OH"
+   }
+  ],
+  "source": {
+   "name": "FBI Crime Data Explorer",
+   "url": "https://cde.ucr.cjis.gov/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "schools-urban": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://educationdata.urban.org/api/v1/schools/ccd/directory/2022/",
+   "query": {
+    "state_location": "{state}"
+   },
+   "items": "results",
+   "match": {
+    "city_location": "{city}"
+   },
+   "pick": [
+    "school_name",
+    "ncessch",
+    "city_location",
+    "zip_location",
+    "school_level",
+    "lowest_grade_offered",
+    "highest_grade_offered",
+    "enrollment",
+    "charter"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "state",
+    "required": true,
+    "description": "Two-letter state code",
+    "example": "OH"
+   },
+   {
+    "name": "city",
+    "required": true,
+    "description": "City name",
+    "example": "Columbus"
+   }
+  ],
+  "source": {
+   "name": "Urban Institute Education Data Portal (NCES CCD)",
+   "url": "https://educationdata.urban.org/documentation/",
+   "license": "Open data, cite the Urban Institute"
+  }
+ },
+ "flood-claims-fema": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://www.fema.gov/api/open/v3/NfipClaims",
+   "query": {
+    "$filter": "reportedZipCode eq '{zip}'",
+    "$top": "500"
+   },
+   "items": "NfipClaims",
+   "sort_desc": "dateOfLoss",
+   "limit": 100,
+   "pick": [
+    "dateOfLoss",
+    "yearOfLoss",
+    "amountPaidOnBuildingClaim",
+    "amountPaidOnContentsClaim",
+    "ratedFloodZone",
+    "occupancyType",
+    "causeOfDamage"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "zip",
+    "required": true,
+    "description": "5-digit US ZIP code",
+    "example": "43215"
+   }
+  ],
+  "source": {
+   "name": "OpenFEMA, NFIP Redacted Claims (v3)",
+   "url": "https://www.fema.gov/openfema-data-page/fima-nfip-redacted-claims-v2",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "median-rent-acs": {
+  "handler": "census_acs",
+  "cfg": {
+   "year": "2022",
+   "vars": "NAME,B25064_001E,B25003_003E"
+  },
+  "key": "CENSUS_API_KEY",
+  "params": [
+   {
+    "name": "zip",
+    "required": true,
+    "description": "5-digit US ZIP code",
+    "example": "43215"
+   }
+  ],
+  "source": {
+   "name": "US Census Bureau, ACS 5-year",
+   "url": "https://www.census.gov/programs-surveys/acs",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "solar-yield-nrel": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://developer.nrel.gov/api/pvwatts/v8.json",
+   "query": {
+    "api_key": "{key}",
+    "lat": "{lat}",
+    "lon": "{lon}",
+    "system_capacity": "{kw}",
+    "azimuth": "180",
+    "tilt": "20",
+    "array_type": "1",
+    "module_type": "0",
+    "losses": "14"
+   },
+   "items": null,
+   "key_default": "DEMO_KEY"
+  },
+  "key": "NREL_API_KEY",
+  "params": [
+   {
+    "name": "lat",
+    "required": true,
+    "description": "Latitude",
+    "example": "39.9612"
+   },
+   {
+    "name": "lon",
+    "required": true,
+    "description": "Longitude",
+    "example": "-82.9988"
+   },
+   {
+    "name": "kw",
+    "required": false,
+    "description": "System size in kW",
+    "example": "4"
+   }
+  ],
+  "source": {
+   "name": "NREL PVWatts v8",
+   "url": "https://developer.nrel.gov/docs/solar/pvwatts/v8/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "cell-towers-osm": {
+  "handler": "overpass",
+  "cfg": {
+   "query": "(node[\"man_made\"~\"mast|tower\"][\"tower:type\"=\"communication\"](around:{radius},{lat},{lon});node[\"communication:mobile_phone\"=\"yes\"](around:{radius},{lat},{lon}););out 300;"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "lat",
+    "required": true,
+    "description": "Latitude",
+    "example": "39.9612"
+   },
+   {
+    "name": "lon",
+    "required": true,
+    "description": "Longitude",
+    "example": "-82.9988"
+   },
+   {
+    "name": "radius",
+    "required": false,
+    "description": "Radius in metres (max 5000)",
+    "example": "1500"
+   }
+  ],
+  "source": {
+   "name": "OpenStreetMap via Overpass API",
+   "url": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+   "license": "ODbL 1.0 (OpenStreetMap contributors)"
+  }
+ },
+ "cafe-density-osm": {
+  "handler": "overpass",
+  "cfg": {
+   "query": "node[\"amenity\"=\"cafe\"](around:{radius},{lat},{lon});out 500;"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "lat",
+    "required": true,
+    "description": "Latitude",
+    "example": "39.9612"
+   },
+   {
+    "name": "lon",
+    "required": true,
+    "description": "Longitude",
+    "example": "-82.9988"
+   },
+   {
+    "name": "radius",
+    "required": false,
+    "description": "Radius in metres (max 5000)",
+    "example": "1500"
+   }
+  ],
+  "source": {
+   "name": "OpenStreetMap via Overpass API",
+   "url": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+   "license": "ODbL 1.0 (OpenStreetMap contributors)"
+  }
+ },
+ "brand-attention-wikipedia": {
+  "handler": "pageviews",
+  "cfg": {
+   "mode": "article",
+   "days": 90
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "article",
+    "required": true,
+    "description": "Wikipedia article title",
+    "example": "Stanley_Black_&_Decker"
+   }
+  ],
+  "source": {
+   "name": "Wikimedia Pageviews API",
+   "url": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/",
+   "license": "CC0 (Wikimedia pageview data)"
+  }
+ },
+ "ecommerce-sales-census": {
+  "handler": "census",
+  "cfg": {
+   "url": "https://api.census.gov/data/timeseries/eits/ecomm",
+   "get": "cell_value,data_type_code,time_slot_id,category_code,seasonally_adj",
+   "time_from": true
+  },
+  "key": "CENSUS_API_KEY",
+  "params": [
+   {
+    "name": "from",
+    "required": false,
+    "description": "First year (YYYY)",
+    "example": "2023"
+   }
+  ],
+  "source": {
+   "name": "US Census Bureau, Quarterly E-Commerce Report",
+   "url": "https://www.census.gov/retail/ecommerce.html",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "trending-topics-wikipedia": {
+  "handler": "pageviews",
+  "cfg": {
+   "mode": "top"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "date",
+    "required": false,
+    "description": "Day as YYYY-MM-DD (defaults to two days ago)",
+    "example": ""
+   }
+  ],
+  "source": {
+   "name": "Wikimedia Pageviews API",
+   "url": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/",
+   "license": "CC0 (Wikimedia pageview data)"
+  }
+ },
+ "meta-ad-library": {
+  "handler": "meta_ads",
+  "cfg": {},
+  "key": "META_ACCESS_TOKEN",
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Search terms",
+    "example": "running shoes"
+   },
+   {
+    "name": "country",
+    "required": false,
+    "description": "Two-letter country code",
+    "example": "US"
+   }
+  ],
+  "source": {
+   "name": "Meta Ad Library API",
+   "url": "https://www.facebook.com/ads/library/api/",
+   "license": "Meta Platform Terms"
+  }
+ },
+ "youtube-channel-stats": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://www.googleapis.com/youtube/v3/channels",
+   "query": {
+    "part": "snippet,statistics",
+    "forHandle": "{handle}",
+    "key": "{key}"
+   },
+   "items": "items",
+   "pick": [
+    "id",
+    "snippet.title",
+    "snippet.customUrl",
+    "statistics.subscriberCount",
+    "statistics.viewCount",
+    "statistics.videoCount"
+   ]
+  },
+  "key": "YOUTUBE_API_KEY",
+  "params": [
+   {
+    "name": "handle",
+    "required": true,
+    "description": "Channel handle including @",
+    "example": "@mkbhd"
+   }
+  ],
+  "source": {
+   "name": "YouTube Data API v3",
+   "url": "https://developers.google.com/youtube/v3",
+   "license": "YouTube API Services Terms"
+  }
+ },
+ "company-verify-gleif": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.gleif.org/api/v1/lei-records",
+   "query": {
+    "filter[fulltext]": "{q}",
+    "page[size]": "20"
+   },
+   "items": "data",
+   "pick": [
+    "id",
+    "attributes.entity.legalName.name",
+    "attributes.entity.status",
+    "attributes.entity.jurisdiction",
+    "attributes.entity.legalAddress.country",
+    "attributes.registration.status"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Company name",
+    "example": "Anker Innovations"
+   }
+  ],
+  "source": {
+   "name": "GLEIF LEI records API",
+   "url": "https://www.gleif.org/en/lei-data/gleif-api",
+   "license": "CC0 1.0"
+  }
+ },
+ "brand-websites-wikidata": {
+  "handler": "sparql",
+  "cfg": {
+   "query": "SELECT ?item ?itemLabel ?website ?countryLabel WHERE { SERVICE wikibase:mwapi { bd:serviceParam wikibase:endpoint \"www.wikidata.org\"; wikibase:api \"EntitySearch\"; mwapi:search \"{q}\"; mwapi:language \"en\". ?item wikibase:apiOutputItem mwapi:item. } ?item wdt:P856 ?website . OPTIONAL { ?item wdt:P17 ?country } SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". } } LIMIT 25"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Brand name",
+    "example": "Allbirds"
+   }
+  ],
+  "source": {
+   "name": "Wikidata Query Service",
+   "url": "https://query.wikidata.org/",
+   "license": "CC0 1.0"
+  }
+ },
+ "keyword-expansion-datamuse": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.datamuse.com/words",
+   "query": {
+    "ml": "{q}",
+    "max": "50",
+    "md": "f"
+   },
+   "items": null
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Seed keyword",
+    "example": "standing desk"
+   }
+  ],
+  "source": {
+   "name": "Datamuse API",
+   "url": "https://www.datamuse.com/api/",
+   "license": "Datamuse API terms (free, attribution)"
+  }
+ },
+ "app-reviews-apple": {
+  "handler": "apple_reviews",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "app_id",
+    "required": true,
+    "description": "Numeric App Store id",
+    "example": "389801252"
+   },
+   {
+    "name": "country",
+    "required": false,
+    "description": "Store country",
+    "example": "us"
+   }
+  ],
+  "source": {
+   "name": "Apple iTunes customer reviews RSS",
+   "url": "https://www.apple.com/legal/internet-services/itunes/",
+   "license": "Apple RSS terms"
+  }
+ },
+ "product-recalls-cpsc": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://www.saferproducts.gov/RestWebServices/Recall",
+   "query": {
+    "format": "json",
+    "RecallTitle": "{q}"
+   },
+   "items": null,
+   "pick": [
+    "RecallNumber",
+    "RecallDate",
+    "Title",
+    "Hazards",
+    "Remedies",
+    "URL"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Product or brand",
+    "example": "space heater"
+   }
+  ],
+  "source": {
+   "name": "CPSC Recalls API",
+   "url": "https://www.cpsc.gov/Recalls/CPSC-Recalls-Application-Program-Interface-API-Information",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "clinical-trials": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://clinicaltrials.gov/api/v2/studies",
+   "query": {
+    "query.term": "{q}",
+    "pageSize": "20"
+   },
+   "items": "studies",
+   "pick": [
+    "protocolSection.identificationModule.nctId",
+    "protocolSection.identificationModule.briefTitle",
+    "protocolSection.statusModule.overallStatus",
+    "protocolSection.designModule.phases",
+    "hasResults"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Condition or drug",
+    "example": "semaglutide"
+   }
+  ],
+  "source": {
+   "name": "ClinicalTrials.gov API v2",
+   "url": "https://clinicaltrials.gov/data-api/api",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "hospital-directory-cms": {
+  "handler": "cms_provider",
+  "cfg": {
+   "dataset": "xubh-q36u",
+   "filter_property": "state"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "state",
+    "required": true,
+    "description": "Two-letter state code",
+    "example": "OH"
+   }
+  ],
+  "source": {
+   "name": "CMS Provider Data Catalog, Hospital General Information",
+   "url": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "fda-adverse-events": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.fda.gov/drug/event.json",
+   "query": {
+    "search": "patient.drug.medicinalproduct:\"{drug}\"",
+    "limit": "20"
+   },
+   "items": "results",
+   "pick": [
+    "safetyreportid",
+    "receivedate",
+    "serious",
+    "patient.reaction"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "drug",
+    "required": true,
+    "description": "Drug name",
+    "example": "ibuprofen"
+   }
+  ],
+  "source": {
+   "name": "openFDA drug/event",
+   "url": "https://open.fda.gov/apis/drug/event/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "provider-directory-npi": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://npiregistry.cms.hhs.gov/api/",
+   "query": {
+    "version": "2.1",
+    "taxonomy_description": "{q}",
+    "city": "{city}",
+    "state": "{state}",
+    "limit": "50"
+   },
+   "items": "results",
+   "pick": [
+    "number",
+    "basic.organization_name",
+    "basic.first_name",
+    "basic.last_name",
+    "taxonomies",
+    "addresses"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Specialty",
+    "example": "cardiology"
+   },
+   {
+    "name": "city",
+    "required": false,
+    "description": "City",
+    "example": "Columbus"
+   },
+   {
+    "name": "state",
+    "required": false,
+    "description": "State",
+    "example": "OH"
+   }
+  ],
+  "source": {
+   "name": "CMS NPPES NPI Registry API",
+   "url": "https://npiregistry.cms.hhs.gov/api-page",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "wastewater-signals-cdc": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://data.cdc.gov/resource/2ew6-ywp6.json",
+   "query": {
+    "$limit": "100",
+    "$order": "date_end DESC",
+    "wwtp_jurisdiction": "{state}"
+   },
+   "items": null
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "state",
+    "required": true,
+    "description": "State name or code as CDC lists it",
+    "example": "Ohio"
+   }
+  ],
+  "source": {
+   "name": "CDC National Wastewater Surveillance System",
+   "url": "https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Wastewater-Metric-Data/2ew6-ywp6",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "genomic-variants-clinvar": {
+  "handler": "eutils",
+  "cfg": {
+   "db": "clinvar",
+   "term": "{gene}[gene]"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "gene",
+    "required": true,
+    "description": "Gene symbol",
+    "example": "BRCA1"
+   }
+  ],
+  "source": {
+   "name": "NCBI ClinVar via E-utilities",
+   "url": "https://www.ncbi.nlm.nih.gov/clinvar/docs/maintenance_use/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "device-recalls-fda": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.fda.gov/device/recall.json",
+   "query": {
+    "search": "product_description:\"{q}\"",
+    "limit": "20"
+   },
+   "items": "results",
+   "pick": [
+    "res_event_number",
+    "event_date_initiated",
+    "recall_status",
+    "product_description",
+    "reason_for_recall",
+    "recalling_firm"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Device or product",
+    "example": "insulin pump"
+   }
+  ],
+  "source": {
+   "name": "openFDA device/recall",
+   "url": "https://open.fda.gov/apis/device/recall/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "treatment-locator-samhsa": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://findtreatment.gov/locator/exportsAsJson/v2",
+   "query": {
+    "sAddr": "{zip}",
+    "limitType": "2",
+    "limitValue": "40000",
+    "pageSize": "50",
+    "page": "1",
+    "sType": "MH",
+    "sort": "0"
+   },
+   "items": "rows",
+   "pick": [
+    "name1",
+    "street1",
+    "city",
+    "state",
+    "zip",
+    "phone",
+    "website",
+    "miles"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "zip",
+    "required": true,
+    "description": "5-digit US ZIP code",
+    "example": "43215"
+   }
+  ],
+  "source": {
+   "name": "SAMHSA FindTreatment.gov",
+   "url": "https://findtreatment.gov/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "food-barcodes-off": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://world.openfoodfacts.org/api/v2/product/{barcode}.json",
+   "query": {
+    "fields": "product_name,brands,ingredients_text,nutriments,nutriscore_grade,serving_size"
+   },
+   "items": "product"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "barcode",
+    "required": true,
+    "description": "EAN/UPC barcode",
+    "example": "3017620422003"
+   }
+  ],
+  "source": {
+   "name": "Open Food Facts",
+   "url": "https://openfoodfacts.github.io/openfoodfacts-server/api/",
+   "license": "ODbL 1.0 (Open Food Facts contributors)"
+  }
+ },
+ "longevity-papers-pubmed": {
+  "handler": "eutils",
+  "cfg": {
+   "db": "pubmed",
+   "term": "({q}) AND (aging[MeSH] OR longevity[MeSH])",
+   "sort": "pub_date"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Topic",
+    "example": "rapamycin"
+   }
+  ],
+  "source": {
+   "name": "NCBI PubMed via E-utilities",
+   "url": "https://www.ncbi.nlm.nih.gov/books/NBK25501/",
+   "license": "Citations public; abstracts per publisher"
+  }
+ },
+ "patent-expiry-patentsview": {
+  "handler": "patentsview",
+  "cfg": {},
+  "key": "PATENTSVIEW_API_KEY",
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Keyword in the title",
+    "example": "lithium battery"
+   }
+  ],
+  "source": {
+   "name": "USPTO PatentsView API",
+   "url": "https://search.patentsview.org/docs/",
+   "license": "CC BY 4.0 (USPTO PatentsView)"
+  }
+ },
+ "class-action-filings": {
+  "handler": "courtlistener",
+  "cfg": {
+   "type": "r",
+   "suffix": " \"class action\""
+  },
+  "key": "COURTLISTENER_TOKEN",
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Party or company",
+    "example": "Meta Platforms"
+   }
+  ],
+  "source": {
+   "name": "Free Law Project CourtListener (RECAP)",
+   "url": "https://www.courtlistener.com/help/api/rest/search/",
+   "license": "CourtListener terms; court records are public"
+  }
+ },
+ "ftc-privacy-actions": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://www.federalregister.gov/api/v1/documents.json",
+   "query": {
+    "conditions[agencies][]": "federal-trade-commission",
+    "conditions[term]": "{q}",
+    "order": "newest",
+    "per_page": "20"
+   },
+   "items": "results",
+   "pick": [
+    "title",
+    "type",
+    "publication_date",
+    "html_url",
+    "abstract"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Topic",
+    "example": "privacy"
+   }
+  ],
+  "source": {
+   "name": "Federal Register API",
+   "url": "https://www.federalregister.gov/developers/documentation/api/v1",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "sanctions-ofac": {
+  "handler": "ofac",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Name to screen",
+    "example": "Rosneft"
+   }
+  ],
+  "source": {
+   "name": "US Treasury OFAC Sanctions List Service",
+   "url": "https://sanctionslist.ofac.treas.gov/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "occupational-wages-bls": {
+  "handler": "bls",
+  "cfg": {
+   "default_series": "OEUN000000000000015125204"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "series",
+    "required": false,
+    "description": "OEWS series id (default: software developers, annual mean wage)",
+    "example": "OEUN000000000000015125204"
+   }
+  ],
+  "source": {
+   "name": "US Bureau of Labor Statistics, OEWS",
+   "url": "https://www.bls.gov/oes/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "court-opinions": {
+  "handler": "courtlistener",
+  "cfg": {
+   "type": "o",
+   "suffix": ""
+  },
+  "key": "COURTLISTENER_TOKEN",
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Search terms (add judge:Name to filter)",
+    "example": "non-compete enforceability"
+   }
+  ],
+  "source": {
+   "name": "Free Law Project CourtListener",
+   "url": "https://www.courtlistener.com/help/api/rest/search/",
+   "license": "CourtListener terms; opinions are public"
+  }
+ },
+ "tos-change-history": {
+  "handler": "wayback",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "url",
+    "required": true,
+    "description": "Page URL",
+    "example": "https://www.spotify.com/us/legal/end-user-agreement/"
+   }
+  ],
+  "source": {
+   "name": "Internet Archive Wayback CDX API",
+   "url": "https://github.com/internetarchive/wayback/tree/master/wayback-cdx-server",
+   "license": "Internet Archive terms"
+  }
+ },
+ "bankruptcy-dockets": {
+  "handler": "courtlistener",
+  "cfg": {
+   "type": "r",
+   "suffix": " bankruptcy"
+  },
+  "key": "COURTLISTENER_TOKEN",
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Company",
+    "example": "Rite Aid"
+   }
+  ],
+  "source": {
+   "name": "Free Law Project CourtListener (RECAP)",
+   "url": "https://www.courtlistener.com/help/api/rest/search/",
+   "license": "CourtListener terms; court records are public"
+  }
+ },
+ "foia-agencies": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.foia.gov/api/agency_components",
+   "query": {
+    "api_key": "{key}",
+    "filter[title][value]": "{q}",
+    "filter[title][operator]": "CONTAINS",
+    "fields[agency_component]": "title,abbreviation,website,submission_web"
+   },
+   "items": "data",
+   "key_default": "DEMO_KEY"
+  },
+  "key": "DATA_GOV_API_KEY",
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Agency name",
+    "example": "Environmental Protection"
+   }
+  ],
+  "source": {
+   "name": "FOIA.gov API",
+   "url": "https://www.foia.gov/developer/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "violent-crime-trend-fbi": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.usa.gov/crime/fbi/cde/summarized/state/{state}/violent-crime",
+   "query": {
+    "from": "01-{year}",
+    "to": "12-{year}",
+    "API_KEY": "{key}"
+   },
+   "items": "offenses.rates",
+   "pivot": true,
+   "key_default": "DEMO_KEY"
+  },
+  "key": "DATA_GOV_API_KEY",
+  "params": [
+   {
+    "name": "state",
+    "required": true,
+    "description": "Two-letter state code",
+    "example": "OH"
+   },
+   {
+    "name": "year",
+    "required": false,
+    "description": "Year",
+    "example": "2024"
+   }
+  ],
+  "source": {
+   "name": "FBI Crime Data Explorer",
+   "url": "https://cde.ucr.cjis.gov/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "public-attention-shifts": {
+  "handler": "pageviews",
+  "cfg": {
+   "mode": "article",
+   "days": 90,
+   "drops": true
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "article",
+    "required": true,
+    "description": "Wikipedia article title",
+    "example": "Taylor_Swift"
+   }
+  ],
+  "source": {
+   "name": "Wikimedia Pageviews API",
+   "url": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/",
+   "license": "CC0 (Wikimedia pageview data)"
+  }
+ },
+ "fireball-events-nasa": {
+  "handler": "nasa_fireball",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "limit",
+    "required": false,
+    "description": "Number of events",
+    "example": "50"
+   }
+  ],
+  "source": {
+   "name": "NASA JPL CNEOS Fireball API",
+   "url": "https://ssd-api.jpl.nasa.gov/doc/fireball.html",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "vintage-weather": {
+  "handler": "vintage",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "lat",
+    "required": true,
+    "description": "Latitude",
+    "example": "44.84"
+   },
+   {
+    "name": "lon",
+    "required": true,
+    "description": "Longitude",
+    "example": "-0.58"
+   },
+   {
+    "name": "year",
+    "required": true,
+    "description": "Vintage year",
+    "example": "2022"
+   }
+  ],
+  "source": {
+   "name": "Open-Meteo Historical Weather API",
+   "url": "https://open-meteo.com/en/docs/historical-weather-api",
+   "license": "CC BY 4.0"
+  }
+ },
+ "footwear-prices-bls": {
+  "handler": "bls",
+  "cfg": {
+   "default_series": "CUUR0000SEAE"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "series",
+    "required": false,
+    "description": "BLS series id",
+    "example": "CUUR0000SEAE"
+   }
+  ],
+  "source": {
+   "name": "US Bureau of Labor Statistics",
+   "url": "https://www.bls.gov/cpi/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "esports-pros-opendota": {
+  "handler": "opendota",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Player or team name",
+    "example": "Team Liquid"
+   }
+  ],
+  "source": {
+   "name": "OpenDota API",
+   "url": "https://docs.opendota.com/",
+   "license": "OpenDota API terms (free tier)"
+  }
+ },
+ "deepfake-incidents-gdelt": {
+  "handler": "gdelt",
+  "cfg": {
+   "mode": "artlist",
+   "prefix": "(deepfake OR \"AI likeness\" OR \"voice clone\") ",
+   "timespan": "30d"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": false,
+    "description": "Narrow by name or topic",
+    "example": ""
+   }
+  ],
+  "source": {
+   "name": "GDELT Project DOC 2.0 API",
+   "url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+   "license": "GDELT open data"
+  }
+ },
+ "space-debris-celestrak": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://celestrak.org/NORAD/elements/gp.php",
+   "query": {
+    "GROUP": "{group}",
+    "FORMAT": "json"
+   },
+   "items": null,
+   "limit": 200,
+   "pick": [
+    "OBJECT_NAME",
+    "OBJECT_ID",
+    "EPOCH",
+    "MEAN_MOTION",
+    "ECCENTRICITY",
+    "INCLINATION"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "group",
+    "required": false,
+    "description": "Debris group",
+    "example": "cosmos-2251-debris"
+   }
+  ],
+  "source": {
+   "name": "CelesTrak GP data",
+   "url": "https://celestrak.org/NORAD/documentation/gp-data-formats.php",
+   "license": "CelesTrak terms (public, attribution)"
+  }
+ },
+ "meme-lifespan": {
+  "handler": "pageviews",
+  "cfg": {
+   "mode": "lifespan"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "article",
+    "required": true,
+    "description": "Wikipedia article title",
+    "example": "Distracted_boyfriend_meme"
+   }
+  ],
+  "source": {
+   "name": "Wikimedia Pageviews API",
+   "url": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/",
+   "license": "CC0 (Wikimedia pageview data)"
+  }
+ },
+ "michelin-restaurants-wikidata": {
+  "handler": "sparql",
+  "cfg": {
+   "query": "SELECT ?r ?rLabel ?cityLabel (SAMPLE(?n) AS ?stars) WHERE { ?r p:P166 ?st . ?st ps:P166 wd:Q20824563 . OPTIONAL { ?st pq:P1114 ?n } ?r wdt:P17 ?c . ?c rdfs:label \"{country}\"@en . OPTIONAL { ?r wdt:P131 ?city } SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". } } GROUP BY ?r ?rLabel ?cityLabel LIMIT 100"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "country",
+    "required": true,
+    "description": "Country name in English",
+    "example": "Denmark"
+   }
+  ],
+  "source": {
+   "name": "Wikidata Query Service",
+   "url": "https://query.wikidata.org/",
+   "license": "CC0 1.0"
+  }
+ },
+ "lego-sets-rebrickable": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://rebrickable.com/api/v3/lego/sets/",
+   "query": {
+    "search": "{q}",
+    "key": "{key}",
+    "page_size": "50"
+   },
+   "items": "results",
+   "pick": [
+    "set_num",
+    "name",
+    "year",
+    "theme_id",
+    "num_parts",
+    "set_url"
+   ]
+  },
+  "key": "REBRICKABLE_API_KEY",
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Set name",
+    "example": "Millennium Falcon"
+   }
+  ],
+  "source": {
+   "name": "Rebrickable API v3",
+   "url": "https://rebrickable.com/api/v3/docs/",
+   "license": "Rebrickable API terms"
+  }
+ },
+ "code-instruct-pairs": {
+  "handler": "hf_rows",
+  "cfg": {
+   "dataset": "sahil2801/CodeAlpaca-20k",
+   "config": "default",
+   "split": "train"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "offset",
+    "required": false,
+    "description": "Row offset",
+    "example": "0"
+   },
+   {
+    "name": "length",
+    "required": false,
+    "description": "Rows to return (max 100)",
+    "example": "20"
+   }
+  ],
+  "source": {
+   "name": "Hugging Face: sahil2801/CodeAlpaca-20k",
+   "url": "https://huggingface.co/datasets/sahil2801/CodeAlpaca-20k",
+   "license": "CC BY 4.0"
+  }
+ },
+ "contract-clauses-cuad": {
+  "handler": "hf_rows",
+  "cfg": {
+   "dataset": "dvgodoy/CUAD_v1_Contract_Understanding_clause_classification",
+   "config": "default",
+   "split": "train"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "offset",
+    "required": false,
+    "description": "Row offset",
+    "example": "0"
+   },
+   {
+    "name": "length",
+    "required": false,
+    "description": "Rows (max 100)",
+    "example": "10"
+   }
+  ],
+  "source": {
+   "name": "Hugging Face: dvgodoy/CUAD_v1_Contract_Understanding_clause_classification",
+   "url": "https://huggingface.co/datasets/dvgodoy/CUAD_v1_Contract_Understanding_clause_classification",
+   "license": "CC BY 4.0"
+  }
+ },
+ "medical-qa-medquad": {
+  "handler": "hf_rows",
+  "cfg": {
+   "dataset": "keivalya/MedQuad-MedicalQnADataset",
+   "config": "default",
+   "split": "train"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "offset",
+    "required": false,
+    "description": "Row offset",
+    "example": "0"
+   },
+   {
+    "name": "length",
+    "required": false,
+    "description": "Rows (max 100)",
+    "example": "20"
+   }
+  ],
+  "source": {
+   "name": "Hugging Face: keivalya/MedQuad-MedicalQnADataset",
+   "url": "https://huggingface.co/datasets/keivalya/MedQuad-MedicalQnADataset",
+   "license": "CC BY 4.0"
+  }
+ },
+ "math-reasoning-gsm8k": {
+  "handler": "hf_rows",
+  "cfg": {
+   "dataset": "openai/gsm8k",
+   "config": "main",
+   "split": "train"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "offset",
+    "required": false,
+    "description": "Row offset",
+    "example": "0"
+   },
+   {
+    "name": "length",
+    "required": false,
+    "description": "Rows (max 100)",
+    "example": "20"
+   }
+  ],
+  "source": {
+   "name": "Hugging Face: openai/gsm8k",
+   "url": "https://huggingface.co/datasets/openai/gsm8k",
+   "license": "MIT"
+  }
+ },
+ "support-intents-bitext": {
+  "handler": "hf_rows",
+  "cfg": {
+   "dataset": "bitext/Bitext-customer-support-llm-chatbot-training-dataset",
+   "config": "default",
+   "split": "train"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "offset",
+    "required": false,
+    "description": "Row offset",
+    "example": "0"
+   },
+   {
+    "name": "length",
+    "required": false,
+    "description": "Rows (max 100)",
+    "example": "20"
+   }
+  ],
+  "source": {
+   "name": "Hugging Face: bitext/Bitext-customer-support-llm-chatbot-training-dataset",
+   "url": "https://huggingface.co/datasets/bitext/Bitext-customer-support-llm-chatbot-training-dataset",
+   "license": "CDLA-Sharing 1.0"
+  }
+ },
+ "image-prompts-sd": {
+  "handler": "hf_rows",
+  "cfg": {
+   "dataset": "Gustavosta/Stable-Diffusion-Prompts",
+   "config": "default",
+   "split": "train"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "offset",
+    "required": false,
+    "description": "Row offset",
+    "example": "0"
+   },
+   {
+    "name": "length",
+    "required": false,
+    "description": "Rows (max 100)",
+    "example": "20"
+   }
+  ],
+  "source": {
+   "name": "Hugging Face: Gustavosta/Stable-Diffusion-Prompts",
+   "url": "https://huggingface.co/datasets/Gustavosta/Stable-Diffusion-Prompts",
+   "license": "Public dataset (see card)"
+  }
+ },
+ "phishing-corpus": {
+  "handler": "hf_rows",
+  "cfg": {
+   "dataset": "zefang-liu/phishing-email-dataset",
+   "config": "default",
+   "split": "train"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "offset",
+    "required": false,
+    "description": "Row offset",
+    "example": "0"
+   },
+   {
+    "name": "length",
+    "required": false,
+    "description": "Rows (max 100)",
+    "example": "20"
+   }
+  ],
+  "source": {
+   "name": "Hugging Face: zefang-liu/phishing-email-dataset",
+   "url": "https://huggingface.co/datasets/zefang-liu/phishing-email-dataset",
+   "license": "LGPL-3.0"
+  }
+ },
+ "text-to-sql-pairs": {
+  "handler": "hf_rows",
+  "cfg": {
+   "dataset": "b-mc2/sql-create-context",
+   "config": "default",
+   "split": "train"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "offset",
+    "required": false,
+    "description": "Row offset",
+    "example": "0"
+   },
+   {
+    "name": "length",
+    "required": false,
+    "description": "Rows (max 100)",
+    "example": "20"
+   }
+  ],
+  "source": {
+   "name": "Hugging Face: b-mc2/sql-create-context",
+   "url": "https://huggingface.co/datasets/b-mc2/sql-create-context",
+   "license": "CC BY 4.0"
+  }
+ },
+ "hate-speech-labels": {
+  "handler": "hf_rows",
+  "cfg": {
+   "dataset": "ucberkeley-dlab/measuring-hate-speech",
+   "config": "default",
+   "split": "train"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "offset",
+    "required": false,
+    "description": "Row offset",
+    "example": "0"
+   },
+   {
+    "name": "length",
+    "required": false,
+    "description": "Rows (max 100)",
+    "example": "20"
+   }
+  ],
+  "source": {
+   "name": "Hugging Face: ucberkeley-dlab/measuring-hate-speech",
+   "url": "https://huggingface.co/datasets/ucberkeley-dlab/measuring-hate-speech",
+   "license": "CC BY 4.0"
+  }
+ },
+ "summarization-billsum": {
+  "handler": "hf_rows",
+  "cfg": {
+   "dataset": "FiscalNote/billsum",
+   "config": "default",
+   "split": "train"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "offset",
+    "required": false,
+    "description": "Row offset",
+    "example": "0"
+   },
+   {
+    "name": "length",
+    "required": false,
+    "description": "Rows (max 100)",
+    "example": "5"
+   }
+  ],
+  "source": {
+   "name": "Hugging Face: FiscalNote/billsum",
+   "url": "https://huggingface.co/datasets/FiscalNote/billsum",
+   "license": "CC0 1.0"
+  }
+ },
+ "discussion-velocity-hn": {
+  "handler": "hn_velocity",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Topic",
+    "example": "vector database"
+   }
+  ],
+  "source": {
+   "name": "Hacker News Search by Algolia",
+   "url": "https://hn.algolia.com/api",
+   "license": "HN API terms"
+  }
+ },
+ "youtube-comments": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://www.googleapis.com/youtube/v3/commentThreads",
+   "query": {
+    "part": "snippet",
+    "videoId": "{video_id}",
+    "maxResults": "50",
+    "order": "relevance",
+    "key": "{key}"
+   },
+   "items": "items",
+   "pick": [
+    "snippet.topLevelComment.snippet.textDisplay",
+    "snippet.topLevelComment.snippet.likeCount",
+    "snippet.topLevelComment.snippet.publishedAt",
+    "snippet.totalReplyCount"
+   ]
+  },
+  "key": "YOUTUBE_API_KEY",
+  "params": [
+   {
+    "name": "video_id",
+    "required": true,
+    "description": "YouTube video id",
+    "example": "dQw4w9WgXcQ"
+   }
+  ],
+  "source": {
+   "name": "YouTube Data API v3",
+   "url": "https://developers.google.com/youtube/v3/docs/commentThreads",
+   "license": "YouTube API Services Terms"
+  }
+ },
+ "crisis-velocity-gdelt": {
+  "handler": "gdelt",
+  "cfg": {
+   "mode": "timelinetone",
+   "timespan": "14d"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Brand",
+    "example": "Peloton"
+   }
+  ],
+  "source": {
+   "name": "GDELT Project DOC 2.0 API",
+   "url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+   "license": "GDELT open data"
+  }
+ },
+ "job-openings-jolts": {
+  "handler": "bls",
+  "cfg": {
+   "default_series": "JTS000000000000000JOL"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "series",
+    "required": false,
+    "description": "JOLTS series id",
+    "example": "JTS000000000000000JOL"
+   }
+  ],
+  "source": {
+   "name": "US Bureau of Labor Statistics, JOLTS",
+   "url": "https://www.bls.gov/jlt/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "app-rankings-apple": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://rss.marketingtools.apple.com/api/v2/{country}/apps/{chart}/50/apps.json",
+   "query": {},
+   "items": "feed.results",
+   "pick": [
+    "id",
+    "name",
+    "artistName",
+    "releaseDate",
+    "url"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "country",
+    "required": false,
+    "description": "Store country",
+    "example": "us"
+   },
+   {
+    "name": "chart",
+    "required": false,
+    "description": "top-free or top-paid",
+    "example": "top-free"
+   }
+  ],
+  "source": {
+   "name": "Apple Marketing Tools RSS",
+   "url": "https://rss.marketingtools.apple.com/",
+   "license": "Apple RSS terms"
+  }
+ },
+ "podcast-directory-apple": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://itunes.apple.com/search",
+   "query": {
+    "media": "podcast",
+    "term": "{q}",
+    "limit": "50"
+   },
+   "items": "results",
+   "pick": [
+    "collectionName",
+    "artistName",
+    "primaryGenreName",
+    "trackCount",
+    "feedUrl",
+    "collectionViewUrl"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Topic",
+    "example": "marketing"
+   }
+  ],
+  "source": {
+   "name": "iTunes Search API",
+   "url": "https://performance-partners.apple.com/search-api",
+   "license": "Apple Search API terms"
+  }
+ },
+ "newsletter-feed-tracker": {
+  "handler": "feed",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "url",
+    "required": true,
+    "description": "Feed URL (https)",
+    "example": "https://www.platformer.news/rss/"
+   }
+  ],
+  "source": {
+   "name": "The publication's own RSS/Atom feed",
+   "url": "https://www.rssboard.org/rss-specification",
+   "license": "Per publisher"
+  }
+ },
+ "twitch-live-streams": {
+  "handler": "twitch",
+  "cfg": {},
+  "key": "TWITCH_CLIENT_ID",
+  "params": [
+   {
+    "name": "login",
+    "required": false,
+    "description": "Channel login",
+    "example": ""
+   },
+   {
+    "name": "game_id",
+    "required": false,
+    "description": "Twitch game id",
+    "example": ""
+   }
+  ],
+  "source": {
+   "name": "Twitch Helix API",
+   "url": "https://dev.twitch.tv/docs/api/",
+   "license": "Twitch Developer Agreement"
+  }
+ },
+ "github-repo-velocity": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.github.com/repos/{repo}",
+   "query": {},
+   "items": null,
+   "pick": [
+    "full_name",
+    "stargazers_count",
+    "forks_count",
+    "open_issues_count",
+    "subscribers_count",
+    "pushed_at",
+    "created_at",
+    "license.spdx_id"
+   ],
+   "headers": {
+    "Authorization": "Bearer {key}"
+   },
+   "key_optional": true
+  },
+  "key": "GITHUB_TOKEN",
+  "params": [
+   {
+    "name": "repo",
+    "required": true,
+    "description": "owner/name",
+    "example": "vercel/next.js"
+   }
+  ],
+  "source": {
+   "name": "GitHub REST API",
+   "url": "https://docs.github.com/en/rest",
+   "license": "GitHub API terms"
+  }
+ },
+ "trend-correlations-wikipedia": {
+  "handler": "pageviews",
+  "cfg": {
+   "mode": "correlate",
+   "days": 90
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "articles",
+    "required": true,
+    "description": "Comma-separated Wikipedia titles (2–5)",
+    "example": "Nvidia,Advanced_Micro_Devices,Intel"
+   }
+  ],
+  "source": {
+   "name": "Wikimedia Pageviews API",
+   "url": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/",
+   "license": "CC0 (Wikimedia pageview data)"
+  }
+ },
+ "construction-materials-ppi": {
+  "handler": "bls",
+  "cfg": {
+   "default_series": "WPUSI012011"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "series",
+    "required": false,
+    "description": "PPI series id",
+    "example": "WPUSI012011"
+   }
+  ],
+  "source": {
+   "name": "US Bureau of Labor Statistics, PPI",
+   "url": "https://www.bls.gov/ppi/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "grid-demand-eia": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.eia.gov/v2/electricity/rto/region-data/data/",
+   "query": {
+    "api_key": "{key}",
+    "frequency": "hourly",
+    "data[0]": "value",
+    "facets[respondent][]": "{ba}",
+    "facets[type][]": "D",
+    "sort[0][column]": "period",
+    "sort[0][direction]": "desc",
+    "length": "48"
+   },
+   "items": "response.data"
+  },
+  "key": "EIA_API_KEY",
+  "params": [
+   {
+    "name": "ba",
+    "required": false,
+    "description": "Balancing authority code",
+    "example": "PJM"
+   }
+  ],
+  "source": {
+   "name": "US Energy Information Administration API v2",
+   "url": "https://www.eia.gov/opendata/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "used-vehicle-prices-bls": {
+  "handler": "bls",
+  "cfg": {
+   "default_series": "CUUR0000SETA02"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "series",
+    "required": false,
+    "description": "BLS series id",
+    "example": "CUUR0000SETA02"
+   }
+  ],
+  "source": {
+   "name": "US Bureau of Labor Statistics",
+   "url": "https://www.bls.gov/cpi/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "airport-delays-faa": {
+  "handler": "faa_status",
+  "cfg": {},
+  "key": null,
+  "params": [],
+  "source": {
+   "name": "FAA National Airspace System Status",
+   "url": "https://nasstatus.faa.gov/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "crop-yields-nass": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://quickstats.nass.usda.gov/api/api_GET/",
+   "query": {
+    "key": "{key}",
+    "commodity_desc": "{crop}",
+    "statisticcat_desc": "YIELD",
+    "agg_level_desc": "NATIONAL",
+    "year__GE": "2015",
+    "format": "JSON"
+   },
+   "items": "data",
+   "pick": [
+    "year",
+    "commodity_desc",
+    "short_desc",
+    "Value",
+    "unit_desc"
+   ]
+  },
+  "key": "NASS_API_KEY",
+  "params": [
+   {
+    "name": "crop",
+    "required": false,
+    "description": "Commodity in capitals",
+    "example": "CORN"
+   }
+  ],
+  "source": {
+   "name": "USDA NASS Quick Stats",
+   "url": "https://quickstats.nass.usda.gov/api",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "ocean-freight-ppi": {
+  "handler": "bls",
+  "cfg": {
+   "default_series": "PCU483111483111"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "series",
+    "required": false,
+    "description": "PPI series id",
+    "example": "PCU483111483111"
+   }
+  ],
+  "source": {
+   "name": "US Bureau of Labor Statistics, PPI",
+   "url": "https://www.bls.gov/ppi/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "crude-oil-eia": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.eia.gov/v2/petroleum/pri/spt/data/",
+   "query": {
+    "api_key": "{key}",
+    "frequency": "daily",
+    "data[0]": "value",
+    "facets[series][]": "{series}",
+    "sort[0][column]": "period",
+    "sort[0][direction]": "desc",
+    "length": "30"
+   },
+   "items": "response.data"
+  },
+  "key": "EIA_API_KEY",
+  "params": [
+   {
+    "name": "series",
+    "required": false,
+    "description": "RWTC (WTI) or RBRTE (Brent)",
+    "example": "RWTC"
+   }
+  ],
+  "source": {
+   "name": "US Energy Information Administration API v2",
+   "url": "https://www.eia.gov/opendata/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "ev-stations-nrel": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json",
+   "query": {
+    "api_key": "{key}",
+    "latitude": "{lat}",
+    "longitude": "{lon}",
+    "fuel_type": "ELEC",
+    "radius": "10",
+    "limit": "50"
+   },
+   "items": "fuel_stations",
+   "pick": [
+    "station_name",
+    "street_address",
+    "city",
+    "ev_network",
+    "ev_connector_types",
+    "ev_dc_fast_num",
+    "ev_level2_evse_num",
+    "distance"
+   ],
+   "key_default": "DEMO_KEY"
+  },
+  "key": "NREL_API_KEY",
+  "params": [
+   {
+    "name": "lat",
+    "required": true,
+    "description": "Latitude",
+    "example": "39.9612"
+   },
+   {
+    "name": "lon",
+    "required": true,
+    "description": "Longitude",
+    "example": "-82.9988"
+   }
+  ],
+  "source": {
+   "name": "NREL Alternative Fuels Data Center",
+   "url": "https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "restaurant-inspections-nyc": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.json",
+   "query": {
+    "$where": "upper(dba) like upper('%{q}%')",
+    "$limit": "50",
+    "$order": "inspection_date DESC"
+   },
+   "items": null,
+   "pick": [
+    "dba",
+    "boro",
+    "zipcode",
+    "cuisine_description",
+    "inspection_date",
+    "grade",
+    "score",
+    "violation_description"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Restaurant name",
+    "example": "joe's pizza"
+   }
+  ],
+  "source": {
+   "name": "NYC Open Data, DOHMH Restaurant Inspections",
+   "url": "https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j",
+   "license": "NYC Open Data terms"
+  }
+ },
+ "hospitality-employment-bls": {
+  "handler": "bls",
+  "cfg": {
+   "default_series": "CES7000000001"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "series",
+    "required": false,
+    "description": "CES series id",
+    "example": "CES7000000001"
+   }
+  ],
+  "source": {
+   "name": "US Bureau of Labor Statistics, CES",
+   "url": "https://www.bls.gov/ces/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "federal-regulations-ecfr": {
+  "handler": "ecfr",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Question or terms",
+    "example": "overtime exemption salary threshold"
+   }
+  ],
+  "source": {
+   "name": "eCFR API",
+   "url": "https://www.ecfr.gov/developers/documentation/api/v1",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "medical-guidelines-medlineplus": {
+  "handler": "medlineplus",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Question or terms",
+    "example": "type 2 diabetes"
+   }
+  ],
+  "source": {
+   "name": "NLM MedlinePlus Web Service",
+   "url": "https://medlineplus.gov/about/developers/webservices/",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "repair-guides-ifixit": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://www.ifixit.com/api/2.0/search/{q}",
+   "query": {
+    "filter": "guide",
+    "limit": "20"
+   },
+   "items": "results",
+   "pick": [
+    "title",
+    "summary",
+    "difficulty",
+    "url"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Device or problem",
+    "example": "iPhone 13 battery"
+   }
+  ],
+  "source": {
+   "name": "iFixit API 2.0",
+   "url": "https://www.ifixit.com/api/2.0/doc",
+   "license": "CC BY-NC-SA 3.0 (guides)"
+  }
+ },
+ "financial-statements-xbrl": {
+  "handler": "sec_xbrl",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "ticker",
+    "required": true,
+    "description": "Stock ticker",
+    "example": "MSFT"
+   }
+  ],
+  "source": {
+   "name": "SEC EDGAR XBRL company facts",
+   "url": "https://www.sec.gov/edgar/sec-api-documentation",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "stackoverflow-answers": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://api.stackexchange.com/2.3/search/advanced",
+   "query": {
+    "order": "desc",
+    "sort": "relevance",
+    "q": "{q}",
+    "accepted": "True",
+    "site": "stackoverflow",
+    "pagesize": "15"
+   },
+   "items": "items",
+   "pick": [
+    "title",
+    "link",
+    "score",
+    "answer_count",
+    "tags",
+    "owner.display_name"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Error or task",
+    "example": "TypeError cannot read properties of undefined map"
+   }
+  ],
+  "source": {
+   "name": "Stack Exchange API 2.3",
+   "url": "https://api.stackexchange.com/docs",
+   "license": "CC BY-SA 4.0 (attribute the authors)"
+  }
+ },
+ "workplace-rules-ecfr": {
+  "handler": "ecfr",
+  "cfg": {
+   "title": "29"
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Policy question",
+    "example": "lactation break time"
+   }
+  ],
+  "source": {
+   "name": "eCFR API",
+   "url": "https://www.ecfr.gov/developers/documentation/api/v1",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "physics-papers-arxiv": {
+  "handler": "arxiv",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Topic",
+    "example": "quantum error correction"
+   }
+  ],
+  "source": {
+   "name": "arXiv API",
+   "url": "https://info.arxiv.org/help/api/index.html",
+   "license": "arXiv terms (metadata CC0)"
+  }
+ },
+ "travel-guides-wikivoyage": {
+  "handler": "wikivoyage",
+  "cfg": {},
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Place",
+    "example": "Lisbon"
+   }
+  ],
+  "source": {
+   "name": "Wikivoyage (MediaWiki API)",
+   "url": "https://en.wikivoyage.org/w/api.php",
+   "license": "CC BY-SA 4.0"
+  }
+ },
+ "cve-nvd": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://services.nvd.nist.gov/rest/json/cves/2.0",
+   "query": {
+    "keywordSearch": "{q}",
+    "resultsPerPage": "20"
+   },
+   "items": "vulnerabilities",
+   "pick": [
+    "cve.id",
+    "cve.published",
+    "cve.vulnStatus",
+    "cve.descriptions",
+    "cve.metrics"
+   ]
+  },
+  "key": "NVD_API_KEY",
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Product or keyword",
+    "example": "openssl"
+   }
+  ],
+  "source": {
+   "name": "NIST National Vulnerability Database API 2.0",
+   "url": "https://nvd.nist.gov/developers/vulnerabilities",
+   "license": "Public domain (US government work)"
+  }
+ },
+ "philosophy-texts-gutenberg": {
+  "handler": "json",
+  "cfg": {
+   "url": "https://openlibrary.org/search.json",
+   "query": {
+    "q": "{q}",
+    "subject": "philosophy",
+    "has_fulltext": "true",
+    "limit": "25",
+    "fields": "key,title,author_name,first_publish_year,ebook_access,ia"
+   },
+   "items": "docs",
+   "pick": [
+    "key",
+    "title",
+    "author_name",
+    "first_publish_year",
+    "ebook_access",
+    "ia"
+   ]
+  },
+  "key": null,
+  "params": [
+   {
+    "name": "q",
+    "required": true,
+    "description": "Author or idea",
+    "example": "Seneca"
+   }
+  ],
+  "source": {
+   "name": "Open Library (Internet Archive)",
+   "url": "https://openlibrary.org/developers/api",
+   "license": "Catalog data CC0; texts public domain where marked"
+  }
+ }
+}

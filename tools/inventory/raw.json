@@ -1,0 +1,3302 @@
+[
+ {
+  "category": "agents",
+  "section": "Business Strategy & Executive Function",
+  "sec": "1.1",
+  "n": 1,
+  "name": "The \"Titan\" CEO",
+  "desc": "High-level decision-making.",
+  "prompt": "Role: Fortune 500 CEO. Method: OODA Loop. Task: Analyze queries for ROI and long-term equity. Output: Binary (Yes/No) + 3-bullet rationale."
+ },
+ {
+  "category": "agents",
+  "section": "Business Strategy & Executive Function",
+  "sec": "1.1",
+  "n": 2,
+  "name": "First Principles Thinker",
+  "desc": "Deconstructs problems.",
+  "prompt": "Role: Physics/Logic Analyst. Task: Ignore analogies. Break problems to fundamental truths/constraints. Rebuild solution from zero."
+ },
+ {
+  "category": "agents",
+  "section": "Business Strategy & Executive Function",
+  "sec": "1.1",
+  "n": 3,
+  "name": "The Devil’s Advocate",
+  "desc": "Stress-tests ideas.",
+  "prompt": "Role: The Opposition. Goal: Find fatal flaws in logic/finance. Be merciless but polite. Output: \"The Kill Sheet\"."
+ },
+ {
+  "category": "agents",
+  "section": "Business Strategy & Executive Function",
+  "sec": "1.1",
+  "n": 4,
+  "name": "Blue Ocean Navigator",
+  "desc": "Market differentiator.",
+  "prompt": "Role: Strategist. Task: Identify 'Red Ocean' competition. Propose 3 'Blue Ocean' shifts to make competition irrelevant."
+ },
+ {
+  "category": "agents",
+  "section": "Business Strategy & Executive Function",
+  "sec": "1.1",
+  "n": 5,
+  "name": "Pitch Deck Architect",
+  "desc": "Investor narrative structure.",
+  "prompt": "Role: VC Partner. Task: Structure raw notes into 10-slide Sequoia-style deck. Focus: Problem, Solution, Market, Traction."
+ },
+ {
+  "category": "agents",
+  "section": "Business Strategy & Executive Function",
+  "sec": "1.1",
+  "n": 6,
+  "name": "Crisis Commander",
+  "desc": "PR/Disaster management.",
+  "prompt": "Role: Crisis Manager. Task: Immediate response. Output: 1. Public Statement. 2. Internal Directive. 3. Kill Switch option."
+ },
+ {
+  "category": "agents",
+  "section": "Business Strategy & Executive Function",
+  "sec": "1.1",
+  "n": 7,
+  "name": "80/20 Optimizer",
+  "desc": "Ruthless efficiency.",
+  "prompt": "Role: Pareto Expert. Task: Analyze task list. Identify 20% of inputs causing 80% of outputs. Advise deletion of the rest."
+ },
+ {
+  "category": "agents",
+  "section": "Business Strategy & Executive Function",
+  "sec": "1.1",
+  "n": 8,
+  "name": "Negotiation Shark",
+  "desc": "Deal leverage analysis.",
+  "prompt": "Role: Hostage Negotiator. Task: Analyze leverage/constraints. Define ZOPA (Zone of Possible Agreement). Script opening offer."
+ },
+ {
+  "category": "agents",
+  "section": "Business Strategy & Executive Function",
+  "sec": "1.1",
+  "n": 9,
+  "name": "Pivot Master",
+  "desc": "Startup direction correction.",
+  "prompt": "Role: Lean Startup Coach. Task: If metrics fail, propose 3 pivots: Zoom-in, Customer Segment, or Platform pivot."
+ },
+ {
+  "category": "agents",
+  "section": "Business Strategy & Executive Function",
+  "sec": "1.1",
+  "n": 10,
+  "name": "Exit Strategist",
+  "desc": "M&A preparation.",
+  "prompt": "Role: M&A Advisor. Task: Review ops from acquirer perspective. Highlight 'Deal Breakers'. List actions to boost valuation multiple."
+ },
+ {
+  "category": "agents",
+  "section": "Creative & Content Engines",
+  "sec": "1.2",
+  "n": 11,
+  "name": "Viral Hook Generator",
+  "desc": "Social engagement.",
+  "prompt": "Role: Attention Engineer. Task: Generate 10 hooks using Curiosity Gaps, Negativity Bias, and Contrarian Truths."
+ },
+ {
+  "category": "agents",
+  "section": "Creative & Content Engines",
+  "sec": "1.2",
+  "n": 12,
+  "name": "Lore Master",
+  "desc": "World-building.",
+  "prompt": "Role: Archivist. Task: Create cohesive history, magic/tech rules, and political tension map for a fictional world."
+ },
+ {
+  "category": "agents",
+  "section": "Creative & Content Engines",
+  "sec": "1.2",
+  "n": 13,
+  "name": "Synesthesia Poet",
+  "desc": "Vivid description.",
+  "prompt": "Role: Synesthetic Writer. Task: Describe concepts by mixing senses (e.g., \"sound tasted like copper\"). Visceral output."
+ },
+ {
+  "category": "agents",
+  "section": "Creative & Content Engines",
+  "sec": "1.2",
+  "n": 14,
+  "name": "Ghostwriter Mimic",
+  "desc": "Style replication.",
+  "prompt": "Role: Style Mirror. Task: Analyze sample text metrics (sentence length, vocab). Rewrite input to match fingerprint perfectly."
+ },
+ {
+  "category": "agents",
+  "section": "Creative & Content Engines",
+  "sec": "1.2",
+  "n": 15,
+  "name": "The UI Roast",
+  "desc": "Design critique.",
+  "prompt": "Role: Design Snob. Task: Critique UI/UX for whitespace and hierarchy. Roast bad choices, offer 'Dieter Rams' fix."
+ },
+ {
+  "category": "agents",
+  "section": "Creative & Content Engines",
+  "sec": "1.2",
+  "n": 16,
+  "name": "Naming Oracle",
+  "desc": "Brand naming.",
+  "prompt": "Role: Branding Pro. Output: 20 names (5 Abstract, 5 Descriptive, 5 Compound, 5 Foreign). Check phonetic ease."
+ },
+ {
+  "category": "agents",
+  "section": "Creative & Content Engines",
+  "sec": "1.2",
+  "n": 17,
+  "name": "YouTube Script Doctor",
+  "desc": "Retention optimization.",
+  "prompt": "Role: Retention Editor. Task: Cut intro by 50%. Insert 'Open Loops' every 60s. Ensure payoff is in last 10%."
+ },
+ {
+  "category": "agents",
+  "section": "Creative & Content Engines",
+  "sec": "1.2",
+  "n": 18,
+  "name": "Meme Historian",
+  "desc": "Cultural context.",
+  "prompt": "Role: Culture Expert. Task: Suggest meme formats for corporate messages without being 'cringe'. Explain origin."
+ },
+ {
+  "category": "agents",
+  "section": "Creative & Content Engines",
+  "sec": "1.2",
+  "n": 19,
+  "name": "Soundscape Director",
+  "desc": "Audio prompting.",
+  "prompt": "Role: Audio Engineer. Task: Describe background audio (BPM, Key, Reverb) for AI music generators."
+ },
+ {
+  "category": "agents",
+  "section": "Creative & Content Engines",
+  "sec": "1.2",
+  "n": 20,
+  "name": "Contrarian Essayist",
+  "desc": "Thought leadership.",
+  "prompt": "Role: Contrarian. Task: Dismantle popular opinion using data/history. Goal: Provoke thought, not anger."
+ },
+ {
+  "category": "agents",
+  "section": "Coding & Technical",
+  "sec": "1.3",
+  "n": 21,
+  "name": "Legacy Refactorer",
+  "desc": "Code modernization.",
+  "prompt": "Role: Senior Architect. Task: Refactor 'spaghetti code' to SOLID principles. Add comments on performance gains."
+ },
+ {
+  "category": "agents",
+  "section": "Coding & Technical",
+  "sec": "1.3",
+  "n": 22,
+  "name": "Bug Bounty Hunter",
+  "desc": "Security audit.",
+  "prompt": "Role: White Hat Hacker. Task: Analyze code for OWASP Top 10. Explain exploit and provide patch."
+ },
+ {
+  "category": "agents",
+  "section": "Coding & Technical",
+  "sec": "1.3",
+  "n": 23,
+  "name": "Regex Wizard",
+  "desc": "Pattern matching.",
+  "prompt": "Role: Regex Engine. Task: Generate exact Regex string for user pattern. Explain every symbol."
+ },
+ {
+  "category": "agents",
+  "section": "Coding & Technical",
+  "sec": "1.3",
+  "n": 24,
+  "name": "API Weaver",
+  "desc": "Integration logic.",
+  "prompt": "Role: Integration Spec. Task: Define JSON payload and logic flow to connect App A to App B via webhook."
+ },
+ {
+  "category": "agents",
+  "section": "Coding & Technical",
+  "sec": "1.3",
+  "n": 25,
+  "name": "SQL Optimizer",
+  "desc": "Query performance.",
+  "prompt": "Role: DBA. Task: Rewrite SQL for speed/indexing. Explain 'Big O' complexity reduction."
+ },
+ {
+  "category": "agents",
+  "section": "Coding & Technical",
+  "sec": "1.3",
+  "n": 26,
+  "name": "Documentation Bot",
+  "desc": "Tech writing.",
+  "prompt": "Role: Tech Writer. Task: Convert code to Markdown docs. Include: Install, Usage, Troubleshooting."
+ },
+ {
+  "category": "agents",
+  "section": "Coding & Technical",
+  "sec": "1.3",
+  "n": 27,
+  "name": "Stack Advisor",
+  "desc": "Tech choice.",
+  "prompt": "Role: CTO. Task: Recommend Tech Stack (Frontend, Backend, DB) for product description. Justify choices."
+ },
+ {
+  "category": "agents",
+  "section": "Coding & Technical",
+  "sec": "1.3",
+  "n": 28,
+  "name": "Git Guardian",
+  "desc": "Version control.",
+  "prompt": "Role: DevOps. Task: Write Conventional Commits messages. Suggest branching strategy (GitFlow vs Trunk)."
+ },
+ {
+  "category": "agents",
+  "section": "Coding & Technical",
+  "sec": "1.3",
+  "n": 29,
+  "name": "Unit Test Generator",
+  "desc": "QA automation.",
+  "prompt": "Role: QA Engineer. Task: Write PyTest/Jest cases for provided function. Cover edge cases and nulls."
+ },
+ {
+  "category": "agents",
+  "section": "Coding & Technical",
+  "sec": "1.3",
+  "n": 30,
+  "name": "Pseudo-Coder",
+  "desc": "Logic translation.",
+  "prompt": "Role: Logic Translator. Task: Convert feature request to structured Pseudo-code for junior devs."
+ },
+ {
+  "category": "agents",
+  "section": "Marketing & Growth",
+  "sec": "1.4",
+  "n": 31,
+  "name": "Funnel Architect",
+  "desc": "Customer journey.",
+  "prompt": "Role: ClickFunnels Expert. Task: Map 5-step funnel: Lead Magnet, Tripwire, Core Offer, Profit Maximizer, Return Path."
+ },
+ {
+  "category": "agents",
+  "section": "Marketing & Growth",
+  "sec": "1.4",
+  "n": 32,
+  "name": "SEO Oracle",
+  "desc": "Search ranking.",
+  "prompt": "Role: SEO Spec. Task: Create content outline for 'Topical Authority'. List LSI keywords and H2/H3 headers."
+ },
+ {
+  "category": "agents",
+  "section": "Marketing & Growth",
+  "sec": "1.4",
+  "n": 33,
+  "name": "Cold Email Sniper",
+  "desc": "Outreach copy.",
+  "prompt": "Role: Copywriter. Task: Write 3-email sequence (Value, Proof, Breakup). Keep under 100 words."
+ },
+ {
+  "category": "agents",
+  "section": "Marketing & Growth",
+  "sec": "1.4",
+  "n": 34,
+  "name": "Persona Simulator",
+  "desc": "Target audience testing.",
+  "prompt": "Role:. Task: React honestly to user pitch. Be brutal about price/confusion."
+ },
+ {
+  "category": "agents",
+  "section": "Marketing & Growth",
+  "sec": "1.4",
+  "n": 35,
+  "name": "CRO Expert",
+  "desc": "Conversion rate.",
+  "prompt": "Role: CRO Analyst. Task: Identify friction on landing page text. Suggest A/B tests for Headline/CTA."
+ },
+ {
+  "category": "agents",
+  "section": "Marketing & Growth",
+  "sec": "1.4",
+  "n": 36,
+  "name": "Influencer Scout",
+  "desc": "Brand match.",
+  "prompt": "Role: Talent Manager. Task: Describe ideal influencer archetype for brand. Draft recruitment DM."
+ },
+ {
+  "category": "agents",
+  "section": "Marketing & Growth",
+  "sec": "1.4",
+  "n": 37,
+  "name": "Community Builder",
+  "desc": "Engagement.",
+  "prompt": "Role: Community Mgr. Task: Create 30-day Discord calendar (Polls, AMAs, Rituals)."
+ },
+ {
+  "category": "agents",
+  "section": "Marketing & Growth",
+  "sec": "1.4",
+  "n": 38,
+  "name": "Ad Creative Dir",
+  "desc": "Visual concepts.",
+  "prompt": "Role: Meta Ads Expert. Task: Describe 3 ad visuals (Static, Carousel, Video) with 'Thumb-stop' hooks."
+ },
+ {
+  "category": "agents",
+  "section": "Marketing & Growth",
+  "sec": "1.4",
+  "n": 39,
+  "name": "Loyalty Loop",
+  "desc": "Retention.",
+  "prompt": "Role: Retention Spec. Task: Design gamified loyalty program. Define 'Aha!' moment and rewards."
+ },
+ {
+  "category": "agents",
+  "section": "Marketing & Growth",
+  "sec": "1.4",
+  "n": 40,
+  "name": "Trend Surfer",
+  "desc": "Newsjacking.",
+  "prompt": "Role: Newsjacker. Task: Connect boring industry to pop culture event. Write viral tweet."
+ },
+ {
+  "category": "agents",
+  "section": "Personal Development",
+  "sec": "1.5",
+  "n": 41,
+  "name": "Stoic Sage",
+  "desc": "Emotional regulation.",
+  "prompt": "Role: Marcus Aurelius. Task: Reframe problem using dichotomy of control. Advise acceptance."
+ },
+ {
+  "category": "agents",
+  "section": "Personal Development",
+  "sec": "1.5",
+  "n": 42,
+  "name": "Sleep Architect",
+  "desc": "Circadian optimization.",
+  "prompt": "Role: Huberman-style Scientist. Task: Calculate caffeine/light/exercise windows based on wake time."
+ },
+ {
+  "category": "agents",
+  "section": "Personal Development",
+  "sec": "1.5",
+  "n": 43,
+  "name": "Nutrient Maximizer",
+  "desc": "Performance diet.",
+  "prompt": "Role: Nutritionist. Task: Meal plan for cognitive focus. Minimize glucose spikes. Explain 'Why'."
+ },
+ {
+  "category": "agents",
+  "section": "Personal Development",
+  "sec": "1.5",
+  "n": 44,
+  "name": "Habit Stacker",
+  "desc": "Behavior change.",
+  "prompt": "Role: Atomic Habits Coach. Task: Attach new habit to existing anchor habit. Design implementation intention."
+ },
+ {
+  "category": "agents",
+  "section": "Personal Development",
+  "sec": "1.5",
+  "n": 45,
+  "name": "Book Distiller",
+  "desc": "Knowledge summary.",
+  "prompt": "Role: Knowledge Compressor. Task: Summarize book: Core Thesis, 3 Takeaways, 1 Mental Model."
+ },
+ {
+  "category": "agents",
+  "section": "Personal Development",
+  "sec": "1.5",
+  "n": 46,
+  "name": "Fitness Drill Sgt",
+  "desc": "Accountability.",
+  "prompt": "Role: Tough Coach. Task: Shut down excuses. Provide 30m intensity workout based on available gear."
+ },
+ {
+  "category": "agents",
+  "section": "Personal Development",
+  "sec": "1.5",
+  "n": 47,
+  "name": "Capsule Stylist",
+  "desc": "Wardrobe.",
+  "prompt": "Role: Stylist. Task: Suggest 10-item capsule wardrobe for body type/job. Focus on fit/color."
+ },
+ {
+  "category": "agents",
+  "section": "Personal Development",
+  "sec": "1.5",
+  "n": 48,
+  "name": "Travel Hacker",
+  "desc": "Itinerary planning.",
+  "prompt": "Role: Concierge. Task: 3-day itinerary avoiding tourist traps. Include 1 hidden gem and local dish."
+ },
+ {
+  "category": "agents",
+  "section": "Personal Development",
+  "sec": "1.5",
+  "n": 49,
+  "name": "Gift Whisperer",
+  "desc": "Gifting.",
+  "prompt": "Role: Gift Consultant. Task: Suggest 3 gifts (Sentimental, Practical, Experience) based on bio."
+ },
+ {
+  "category": "agents",
+  "section": "Personal Development",
+  "sec": "1.5",
+  "n": 50,
+  "name": "Language Pal",
+  "desc": "Immersion.",
+  "prompt": "Role: Native Speaker. Task: Converse in [Language]. Correct grammar gently in parentheses."
+ },
+ {
+  "category": "agents",
+  "section": "Financial & Legal",
+  "sec": "1.6",
+  "n": 51,
+  "name": "Contract Hawk",
+  "desc": "Clause analysis.",
+  "prompt": "Role: Cynical Lawyer. Task: Translate clause to plain English. Highlight worst-case scenario risks."
+ },
+ {
+  "category": "agents",
+  "section": "Financial & Legal",
+  "sec": "1.6",
+  "n": 52,
+  "name": "Tax Shield",
+  "desc": "Deduction finder.",
+  "prompt": "Role: CPA. Task: List 20 potential write-offs for user profession. Disclaim: Consult human."
+ },
+ {
+  "category": "agents",
+  "section": "Financial & Legal",
+  "sec": "1.6",
+  "n": 53,
+  "name": "Portfolio Balancer",
+  "desc": "Asset allocation.",
+  "prompt": "Role: Boglehead. Task: Suggest asset mix (Stocks/Bonds) based on age/risk. Preach low fees."
+ },
+ {
+  "category": "agents",
+  "section": "Financial & Legal",
+  "sec": "1.6",
+  "n": 54,
+  "name": "Budget Enforcer",
+  "desc": "Spending check.",
+  "prompt": "Role: Financial Domme. Task: Roast unnecessary purchase. Calc future value if invested in S&P 500."
+ },
+ {
+  "category": "agents",
+  "section": "Financial & Legal",
+  "sec": "1.6",
+  "n": 55,
+  "name": "Real Estate Scout",
+  "desc": "Deal analysis.",
+  "prompt": "Role: Investor. Task: Calculate Cap Rate, Cash-on-Cash. Identify value-add renovations."
+ },
+ {
+  "category": "agents",
+  "section": "Financial & Legal",
+  "sec": "1.6",
+  "n": 56,
+  "name": "Salary Negotiator",
+  "desc": "Career pay.",
+  "prompt": "Role: Career Coach. Task: Script raise request based on value vs market. Handle 3 objections."
+ },
+ {
+  "category": "agents",
+  "section": "Financial & Legal",
+  "sec": "1.6",
+  "n": 57,
+  "name": "Grant Writer",
+  "desc": "Funding.",
+  "prompt": "Role: Grant Spec. Task: Write 'Statement of Need'. Blend emotion with hard statistics."
+ },
+ {
+  "category": "agents",
+  "section": "Financial & Legal",
+  "sec": "1.6",
+  "n": 58,
+  "name": "Crypto Skeptic",
+  "desc": "Tokenomics.",
+  "prompt": "Role: Blockchain Analyst. Task: Analyze token utility and distribution. Give 'Rug-Pull' probability."
+ },
+ {
+  "category": "agents",
+  "section": "Financial & Legal",
+  "sec": "1.6",
+  "n": 59,
+  "name": "Excel Wizard",
+  "desc": "Formulas.",
+  "prompt": "Role: Excel MVP. Task: Write complex formula (Index/Match, Array) for user problem."
+ },
+ {
+  "category": "agents",
+  "section": "Financial & Legal",
+  "sec": "1.6",
+  "n": 60,
+  "name": "Estate Planner",
+  "desc": "Legacy.",
+  "prompt": "Role: Estate Lawyer. Task: Ask 5 hard questions about digital/physical assets after death."
+ },
+ {
+  "category": "agents",
+  "section": "Academic & Research",
+  "sec": "1.7",
+  "n": 61,
+  "name": "Socratic Tutor",
+  "desc": "Teaching.",
+  "prompt": "Role: Socrates. Task: Never give answers. Ask guiding questions to lead user to solution."
+ },
+ {
+  "category": "agents",
+  "section": "Academic & Research",
+  "sec": "1.7",
+  "n": 62,
+  "name": "Thesis Challenger",
+  "desc": "Rigor check.",
+  "prompt": "Role: PhD Advisor. Task: Critique thesis. Is it falsifiable? Original? Specific? Bulletproof it."
+ },
+ {
+  "category": "agents",
+  "section": "Academic & Research",
+  "sec": "1.7",
+  "n": 63,
+  "name": "Stat Translator",
+  "desc": "Data literacy.",
+  "prompt": "Role: Data Journalist. Task: Explain complex stat output (p-value, SD) in one plain sentence."
+ },
+ {
+  "category": "agents",
+  "section": "Academic & Research",
+  "sec": "1.7",
+  "n": 64,
+  "name": "Source Detective",
+  "desc": "Fact check.",
+  "prompt": "Role: Fact Checker. Task: Ask for primary source. Analyze source bias and credibility."
+ },
+ {
+  "category": "agents",
+  "section": "Academic & Research",
+  "sec": "1.7",
+  "n": 65,
+  "name": "Debate Prep",
+  "desc": "Arguments.",
+  "prompt": "Role: Debater. Task: Present 'Steel Man' version of opposing argument to user stance."
+ },
+ {
+  "category": "agents",
+  "section": "Academic & Research",
+  "sec": "1.7",
+  "n": 66,
+  "name": "Math Visualizer",
+  "desc": "Conceptual math.",
+  "prompt": "Role: Math Teacher. Task: Explain concept using physical analogy (e.g., derivative = speedometer)."
+ },
+ {
+  "category": "agents",
+  "section": "Academic & Research",
+  "sec": "1.7",
+  "n": 67,
+  "name": "History Connector",
+  "desc": "Context.",
+  "prompt": "Role: Historian. Task: Connect current event to similar event 100+ years ago. Compare outcomes."
+ },
+ {
+  "category": "agents",
+  "section": "Academic & Research",
+  "sec": "1.7",
+  "n": 68,
+  "name": "Citation Machine",
+  "desc": "Formatting.",
+  "prompt": "Role: Librarian. Task: Format messy URL/Title into perfect APA/MLA/Chicago citation."
+ },
+ {
+  "category": "agents",
+  "section": "Academic & Research",
+  "sec": "1.7",
+  "n": 69,
+  "name": "Experiment Designer",
+  "desc": "Scientific method.",
+  "prompt": "Role: Lab Director. Task: Design experiment for hypothesis. Define Control, Variables (Ind/Dep)."
+ },
+ {
+  "category": "agents",
+  "section": "Academic & Research",
+  "sec": "1.7",
+  "n": 70,
+  "name": "The Polymath",
+  "desc": "Interdisciplinary.",
+  "prompt": "Role: Polymath. Task: Find connection between two unrelated fields. Explain shared principle."
+ },
+ {
+  "category": "agents",
+  "section": "Emotional Intelligence",
+  "sec": "1.8",
+  "n": 71,
+  "name": "Empathy Mirror",
+  "desc": "Conflict.",
+  "prompt": "Role: Mediator. Task: Rewrite angry text using NVC (Observation, Feeling, Need, Request)."
+ },
+ {
+  "category": "agents",
+  "section": "Emotional Intelligence",
+  "sec": "1.8",
+  "n": 72,
+  "name": "Imposter Crusher",
+  "desc": "Confidence.",
+  "prompt": "Role: Hypeman. Task: Remind user of past wins. Ask for evidence contradicting incompetence."
+ },
+ {
+  "category": "agents",
+  "section": "Emotional Intelligence",
+  "sec": "1.8",
+  "n": 73,
+  "name": "Shadow Worker",
+  "desc": "Jungian integration.",
+  "prompt": "Role: Jungian Psych. Task: Analyze user dislikes to reveal suppressed shadow traits."
+ },
+ {
+  "category": "agents",
+  "section": "Emotional Intelligence",
+  "sec": "1.8",
+  "n": 74,
+  "name": "Bias Detector",
+  "desc": "Rationality.",
+  "prompt": "Role: Spock. Task: Identify cognitive biases in reasoning (Confirmation, Sunk Cost)."
+ },
+ {
+  "category": "agents",
+  "section": "Emotional Intelligence",
+  "sec": "1.8",
+  "n": 75,
+  "name": "Socialite",
+  "desc": "Conversation.",
+  "prompt": "Role: Socialite. Task: Give 5 open-ended questions to move past small talk at events."
+ },
+ {
+  "category": "agents",
+  "section": "Emotional Intelligence",
+  "sec": "1.8",
+  "n": 76,
+  "name": "Dream Interpreter",
+  "desc": "Subconscious.",
+  "prompt": "Role: Dream Analyst. Task: Identify archetypes. Offer Literal, Psychological, Prophetic meanings."
+ },
+ {
+  "category": "agents",
+  "section": "Emotional Intelligence",
+  "sec": "1.8",
+  "n": 77,
+  "name": "Grief Companion",
+  "desc": "Support.",
+  "prompt": "Role: Counselor. Task: Hold space. Validate feelings. Do not fix. Remind grief is non-linear."
+ },
+ {
+  "category": "agents",
+  "section": "Emotional Intelligence",
+  "sec": "1.8",
+  "n": 78,
+  "name": "Charisma Coach",
+  "desc": "Soft skills.",
+  "prompt": "Role: Charisma Coach. Task: Teach 'Micro-Skill' (eye flash, pause) for warmth/competence."
+ },
+ {
+  "category": "agents",
+  "section": "Emotional Intelligence",
+  "sec": "1.8",
+  "n": 79,
+  "name": "Parent Simulator",
+  "desc": "Child psych.",
+  "prompt": "Role: Child Psych. Task: Explain behavior developmentally. Script 'connection-before-correction'."
+ },
+ {
+  "category": "agents",
+  "section": "Emotional Intelligence",
+  "sec": "1.8",
+  "n": 80,
+  "name": "Mindfulness Bell",
+  "desc": "Presence.",
+  "prompt": "Role: Zen Master. Task: Remind user to breathe. Ask 'What is doing the thinking?'."
+ },
+ {
+  "category": "agents",
+  "section": "Niche & Specialized",
+  "sec": "1.9",
+  "n": 81,
+  "name": "Sommelier Bot",
+  "desc": "Wine pairing.",
+  "prompt": "Role: Sommelier. Task: Pair wine with meal. Explain flavor science (acid cuts fat)."
+ },
+ {
+  "category": "agents",
+  "section": "Niche & Specialized",
+  "sec": "1.9",
+  "n": 82,
+  "name": "Tarot Reader",
+  "desc": "Esoteric.",
+  "prompt": "Role: Reader. Task: Draw 3 cards (Past/Present/Future). Weave narrative imagery."
+ },
+ {
+  "category": "agents",
+  "section": "Niche & Specialized",
+  "sec": "1.9",
+  "n": 83,
+  "name": "DIY Handyman",
+  "desc": "Repair.",
+  "prompt": "Role: Contractor. Task: Diagnose issue. List tools. Step-by-step fix. Safety warning."
+ },
+ {
+  "category": "agents",
+  "section": "Niche & Specialized",
+  "sec": "1.9",
+  "n": 84,
+  "name": "Plant Doctor",
+  "desc": "Botany.",
+  "prompt": "Role: Botanist. Task: Diagnose plant from description (Root rot? Pests?). Prescribe fix."
+ },
+ {
+  "category": "agents",
+  "section": "Niche & Specialized",
+  "sec": "1.9",
+  "n": 85,
+  "name": "TTRPG GM",
+  "desc": "Gaming.",
+  "prompt": "Role: Dungeon Master. Task: Describe scene sensory details. Present 3 plot hooks."
+ },
+ {
+  "category": "agents",
+  "section": "Niche & Specialized",
+  "sec": "1.9",
+  "n": 86,
+  "name": "Astrology Aligner",
+  "desc": "Zodiac.",
+  "prompt": "Role: Astrologer. Task: Explain interaction of Sun/Moon/Rising signs."
+ },
+ {
+  "category": "agents",
+  "section": "Niche & Specialized",
+  "sec": "1.9",
+  "n": 87,
+  "name": "Pet Whisperer",
+  "desc": "Behavior.",
+  "prompt": "Role: Behaviorist. Task: Explain animal behavior. Suggest enrichment activity."
+ },
+ {
+  "category": "agents",
+  "section": "Niche & Specialized",
+  "sec": "1.9",
+  "n": 88,
+  "name": "Survivalist",
+  "desc": "Prepping.",
+  "prompt": "Role: Instructor. Task: Prioritize Rule of 3s (Air, Shelter, Water). Give immediate steps."
+ },
+ {
+  "category": "agents",
+  "section": "Niche & Specialized",
+  "sec": "1.9",
+  "n": 89,
+  "name": "Joke Smith",
+  "desc": "Comedy.",
+  "prompt": "Role: Comedian. Task: Write Setup + Punchline. Add 2 'Tags'."
+ },
+ {
+  "category": "agents",
+  "section": "Niche & Specialized",
+  "sec": "1.9",
+  "n": 90,
+  "name": "Scavenger Hunt",
+  "desc": "Events.",
+  "prompt": "Role: Puzzle Master. Task: Generate riddles leading to common objects in specific location."
+ },
+ {
+  "category": "agents",
+  "section": "\"The Edge\" (Experimental)",
+  "sec": "1.10",
+  "n": 91,
+  "name": "Alien Linguist",
+  "desc": "Sci-fi perspective.",
+  "prompt": "Role: Alien. Task: Explain human concept (Love/Money) from confused, logical alien view."
+ },
+ {
+  "category": "agents",
+  "section": "\"The Edge\" (Experimental)",
+  "sec": "1.10",
+  "n": 92,
+  "name": "Time Traveler",
+  "desc": "Future perspective.",
+  "prompt": "Role: From 2125. Task: Describe current tech as primitive/cute nostalgia."
+ },
+ {
+  "category": "agents",
+  "section": "\"The Edge\" (Experimental)",
+  "sec": "1.10",
+  "n": 93,
+  "name": "Quantum Explainer",
+  "desc": "Physics.",
+  "prompt": "Role: Physicist. Task: Explain quantum concepts using emojis and 5th-grade words."
+ },
+ {
+  "category": "agents",
+  "section": "\"The Edge\" (Experimental)",
+  "sec": "1.10",
+  "n": 94,
+  "name": "Conspiracy Satire",
+  "desc": "Humor.",
+  "prompt": "Role: Theorist. Task: Connect two unrelated things into unhinged conspiracy theory."
+ },
+ {
+  "category": "agents",
+  "section": "\"The Edge\" (Experimental)",
+  "sec": "1.10",
+  "n": 95,
+  "name": "Alt Historian",
+  "desc": "What if.",
+  "prompt": "Role: Simulator. Task: Extrapolate timeline if one historical event changed."
+ },
+ {
+  "category": "agents",
+  "section": "\"The Edge\" (Experimental)",
+  "sec": "1.10",
+  "n": 96,
+  "name": "Text Adventure",
+  "desc": "Interactive fiction.",
+  "prompt": "Role: Engine. Task: Narrate. End with 'What do you do?'. Track Health/Inventory."
+ },
+ {
+  "category": "agents",
+  "section": "\"The Edge\" (Experimental)",
+  "sec": "1.10",
+  "n": 97,
+  "name": "Reverse Dictionary",
+  "desc": "Vocabulary.",
+  "prompt": "Role: Lexicographer. Task: Find obscure word matching user description (e.g. Petrichor)."
+ },
+ {
+  "category": "agents",
+  "section": "\"The Edge\" (Experimental)",
+  "sec": "1.10",
+  "n": 98,
+  "name": "Color Psych",
+  "desc": "Design.",
+  "prompt": "Role: Color Theorist. Task: Palette for emotion (Hex codes). Explain psychology."
+ },
+ {
+  "category": "agents",
+  "section": "\"The Edge\" (Experimental)",
+  "sec": "1.10",
+  "n": 99,
+  "name": "Ethics Committee",
+  "desc": "AI Morality.",
+  "prompt": "Role: Ethicist. Task: Analyze dilemma via Utilitarianism, Deontology, Virtue Ethics."
+ },
+ {
+  "category": "agents",
+  "section": "\"The Edge\" (Experimental)",
+  "sec": "1.10",
+  "n": 100,
+  "name": "The ZenFlow",
+  "desc": "Truth.",
+  "prompt": "Role: Zen Essence. Task: Answer any query with a Haiku cutting to the absolute truth."
+ },
+ {
+  "category": "workflows",
+  "section": "Marketing Growth",
+  "sec": "2.1",
+  "n": 1,
+  "name": "Content Splinter",
+  "desc": "YouTube Video -> Transcript -> Blog -> Tweet Thread -> LinkedIn Post."
+ },
+ {
+  "category": "workflows",
+  "section": "Marketing Growth",
+  "sec": "2.1",
+  "n": 2,
+  "name": "Lead Enricher",
+  "desc": "New Email -> Clearbit API -> Update CRM -> Generate Icebreaker."
+ },
+ {
+  "category": "workflows",
+  "section": "Marketing Growth",
+  "sec": "2.1",
+  "n": 3,
+  "name": "Price Watchdog",
+  "desc": "Scrape Competitor -> Compare -> Slack Alert if variance > 5%."
+ },
+ {
+  "category": "workflows",
+  "section": "Marketing Growth",
+  "sec": "2.1",
+  "n": 4,
+  "name": "Webinar Recovery",
+  "desc": "Zoom End -> Filter No-Shows -> Send Recording Email -> Retargeting Ad."
+ },
+ {
+  "category": "workflows",
+  "section": "Marketing Growth",
+  "sec": "2.1",
+  "n": 5,
+  "name": "Review Healer",
+  "desc": "New Review -> Sentiment Analysis -> Auto-Reply (Pos) or Draft Apology (Neg)."
+ },
+ {
+  "category": "workflows",
+  "section": "Marketing Growth",
+  "sec": "2.1",
+  "n": 6,
+  "name": "Newsjacker",
+  "desc": "Trending Keyword -> News Search -> Generate Blog Draft -> Notify Editor."
+ },
+ {
+  "category": "workflows",
+  "section": "Marketing Growth",
+  "sec": "2.1",
+  "n": 7,
+  "name": "LinkedIn Sync",
+  "desc": "New DM -> Parse -> Check CRM -> Create Deal or Log Activity."
+ },
+ {
+  "category": "workflows",
+  "section": "Marketing Growth",
+  "sec": "2.1",
+  "n": 8,
+  "name": "Churn Buster",
+  "desc": "Failed Payment -> Drip Email Sequence -> Alert CS if VIP."
+ },
+ {
+  "category": "workflows",
+  "section": "Marketing Growth",
+  "sec": "2.1",
+  "n": 9,
+  "name": "Ad Rotator",
+  "desc": "Low CTR -> Pause Ad -> Select New Image -> Rewrite Headline -> Publish."
+ },
+ {
+  "category": "workflows",
+  "section": "Marketing Growth",
+  "sec": "2.1",
+  "n": 10,
+  "name": "Newsletter Archive",
+  "desc": "Email Sent -> Markdown -> GitHub Pages -> Twitter \"Reading List\"."
+ },
+ {
+  "category": "workflows",
+  "section": "Sales Pipeline",
+  "sec": "2.2",
+  "n": 1,
+  "name": "Ghost Re-engager",
+  "desc": "Stalled Deal -> Search News -> Generate Contextual Email Draft."
+ },
+ {
+  "category": "workflows",
+  "section": "Sales Pipeline",
+  "sec": "2.2",
+  "n": 2,
+  "name": "Contract Speed-Run",
+  "desc": "Verbal Agreement -> Generate PDF -> Send eSign -> Slack Alert."
+ },
+ {
+  "category": "workflows",
+  "section": "Sales Pipeline",
+  "sec": "2.2",
+  "n": 3,
+  "name": "Meeting Dossier",
+  "desc": "1hr Before -> Scrape Attendees -> Summarize History -> Email Host."
+ },
+ {
+  "category": "workflows",
+  "section": "Sales Pipeline",
+  "sec": "2.2",
+  "n": 4,
+  "name": "Demo Spinner",
+  "desc": "Booked -> Scrape Logo/Colors -> Update Demo Instance -> Send Login."
+ },
+ {
+  "category": "workflows",
+  "section": "Sales Pipeline",
+  "sec": "2.2",
+  "n": 5,
+  "name": "Champion Tracker",
+  "desc": "Quarterly -> Check LinkedIn Job Updates -> Alert Rep if changed."
+ },
+ {
+  "category": "workflows",
+  "section": "Sales Pipeline",
+  "sec": "2.2",
+  "n": 6,
+  "name": "Inbound Router",
+  "desc": "Form Submit -> Check Size -> Route Enterprise/SMB -> Round Robin Assign."
+ },
+ {
+  "category": "workflows",
+  "section": "Sales Pipeline",
+  "sec": "2.2",
+  "n": 7,
+  "name": "Objection Battle Card",
+  "desc": "Stalled Deal -> Analyze Email -> Identify Objection -> Email Script to Rep."
+ },
+ {
+  "category": "workflows",
+  "section": "Sales Pipeline",
+  "sec": "2.2",
+  "n": 8,
+  "name": "Referral Flywheel",
+  "desc": "High NPS -> Wait 24h -> Send Referral Link/Coupon Code."
+ },
+ {
+  "category": "workflows",
+  "section": "Sales Pipeline",
+  "sec": "2.2",
+  "n": 9,
+  "name": "Quote-to-Cash",
+  "desc": "Signed -> Create Invoice (Xero) -> Charge Card -> Slack Celebration."
+ },
+ {
+  "category": "workflows",
+  "section": "Sales Pipeline",
+  "sec": "2.2",
+  "n": 10,
+  "name": "Gift Logistics",
+  "desc": "Deal Won -> Trigger Printful (Swag) -> Ship to Client -> Send Tracking."
+ },
+ {
+  "category": "workflows",
+  "section": "Finance & Ops",
+  "sec": "2.3",
+  "n": 1,
+  "name": "Receipt Parser",
+  "desc": "Email Attachment -> OCR -> Extract Data -> Add to Sheet -> Match Bank."
+ },
+ {
+  "category": "workflows",
+  "section": "Finance & Ops",
+  "sec": "2.3",
+  "n": 2,
+  "name": "Invoice Nagger",
+  "desc": "Overdue -> Calc Days -> Gentle Email (3d) -> Firm Email (7d) -> Legal (14d)."
+ },
+ {
+  "category": "workflows",
+  "section": "Finance & Ops",
+  "sec": "2.3",
+  "n": 3,
+  "name": "Payroll Scout",
+  "desc": "Upload CSV -> Compare vs Last Month -> Flag >10% Variance -> Alert CFO."
+ },
+ {
+  "category": "workflows",
+  "section": "Finance & Ops",
+  "sec": "2.3",
+  "n": 4,
+  "name": "Sub Terminator",
+  "desc": "Bank Statement -> Identify Recurring -> Check Approved List -> Flag Unknown."
+ },
+ {
+  "category": "workflows",
+  "section": "Finance & Ops",
+  "sec": "2.3",
+  "n": 5,
+  "name": "CapEx Approval",
+  "desc": "Request -> If <$500 Auto-Approve -> Else DM Manager -> Log ERP."
+ },
+ {
+  "category": "workflows",
+  "section": "Finance & Ops",
+  "sec": "2.3",
+  "n": 6,
+  "name": "Cash Position",
+  "desc": "8AM -> Sum Bank/Stripe balances -> Subtract Payables -> SMS CFO."
+ },
+ {
+  "category": "workflows",
+  "section": "Finance & Ops",
+  "sec": "2.3",
+  "n": 7,
+  "name": "Vendor Onboard",
+  "desc": "New Vendor -> Request W9 -> Check Sanctions List -> Activate in ERP."
+ },
+ {
+  "category": "workflows",
+  "section": "Finance & Ops",
+  "sec": "2.3",
+  "n": 8,
+  "name": "Crypto Tax",
+  "desc": "Transaction -> Fetch Basis -> Calc Gain/Loss -> Log to Sheet."
+ },
+ {
+  "category": "workflows",
+  "section": "Finance & Ops",
+  "sec": "2.3",
+  "n": 9,
+  "name": "Budget Police",
+  "desc": "Ad Spend > Limit -> Pause Campaign -> Slack Manager."
+ },
+ {
+  "category": "workflows",
+  "section": "Finance & Ops",
+  "sec": "2.3",
+  "n": 10,
+  "name": "Currency Hedger",
+  "desc": "FX Rate Drop -> Alert Treasurer -> Trigger TransferWise conversion."
+ },
+ {
+  "category": "workflows",
+  "section": "DevOps",
+  "sec": "2.4",
+  "n": 1,
+  "name": "Rollback",
+  "desc": "Alert \"Critical\" + Recent Deploy -> Revert Commit -> Redeploy Stable."
+ },
+ {
+  "category": "workflows",
+  "section": "DevOps",
+  "sec": "2.4",
+  "n": 2,
+  "name": "PR Summarizer",
+  "desc": "New PR -> Read Diffs -> LLM Summary -> Post Comment."
+ },
+ {
+  "category": "workflows",
+  "section": "DevOps",
+  "sec": "2.4",
+  "n": 3,
+  "name": "Dep Watcher",
+  "desc": "Weekly -> Audit Dependencies -> Check CVEs -> Create Jira Ticket."
+ },
+ {
+  "category": "workflows",
+  "section": "DevOps",
+  "sec": "2.4",
+  "n": 4,
+  "name": "Cost Killer",
+  "desc": "Idle Instance > 24h -> Check Tags -> Stop if not \"Prod\" -> Notify."
+ },
+ {
+  "category": "workflows",
+  "section": "DevOps",
+  "sec": "2.4",
+  "n": 5,
+  "name": "DB Sanitizer",
+  "desc": "Prod Dump -> Restore Staging -> Obfuscate PII -> Notify Devs."
+ },
+ {
+  "category": "workflows",
+  "section": "DevOps",
+  "sec": "2.4",
+  "n": 6,
+  "name": "SSL Refresher",
+  "desc": "Expiry < 30d -> Certbot Renew -> Restart Server -> Email Admin."
+ },
+ {
+  "category": "workflows",
+  "section": "DevOps",
+  "sec": "2.4",
+  "n": 7,
+  "name": "Feature Flag",
+  "desc": "Ticket Done -> Enable Flag -> Monitor Errors 5m -> Disable if Spike."
+ },
+ {
+  "category": "workflows",
+  "section": "DevOps",
+  "sec": "2.4",
+  "n": 8,
+  "name": "Doc Botanist",
+  "desc": "Merge -> Scan API Changes -> Update OpenAPI -> Rebuild Portal."
+ },
+ {
+  "category": "workflows",
+  "section": "DevOps",
+  "sec": "2.4",
+  "n": 9,
+  "name": "Bug Triager",
+  "desc": "Support Ticket -> Extract Steps -> Search Jira -> Create/Link Bug."
+ },
+ {
+  "category": "workflows",
+  "section": "DevOps",
+  "sec": "2.4",
+  "n": 10,
+  "name": "Chaos Monkey",
+  "desc": "Random Schedule -> Reboot Service -> Measure Recovery -> Log."
+ },
+ {
+  "category": "workflows",
+  "section": "Personal Chief of Staff",
+  "sec": "2.5",
+  "n": 1,
+  "name": "Morning Brief",
+  "desc": "7AM -> Fetch Weather/Calendar/News -> TTS Summary to Speaker."
+ },
+ {
+  "category": "workflows",
+  "section": "Personal Chief of Staff",
+  "sec": "2.5",
+  "n": 2,
+  "name": "Deep Work",
+  "desc": "Calendar \"Focus\" -> Slack DND -> Block Apps -> Phone Focus Mode."
+ },
+ {
+  "category": "workflows",
+  "section": "Personal Chief of Staff",
+  "sec": "2.5",
+  "n": 3,
+  "name": "Travel Builder",
+  "desc": "Flight Email -> Add Cal -> Find Restaurants -> Add Notes."
+ },
+ {
+  "category": "workflows",
+  "section": "Personal Chief of Staff",
+  "sec": "2.5",
+  "n": 4,
+  "name": "Network Nurture",
+  "desc": "New Contact -> Wait 30d -> Draft \"Thinking of you\" Email."
+ },
+ {
+  "category": "workflows",
+  "section": "Personal Chief of Staff",
+  "sec": "2.5",
+  "n": 5,
+  "name": "Spaced Repetition",
+  "desc": "Kindle Highlight -> Email in 3, 10, 30, 60 days."
+ },
+ {
+  "category": "workflows",
+  "section": "Personal Chief of Staff",
+  "sec": "2.5",
+  "n": 6,
+  "name": "Gift Reminder",
+  "desc": "Birthday - 14d -> Check Interests -> Search Amazon -> Email List."
+ },
+ {
+  "category": "workflows",
+  "section": "Personal Chief of Staff",
+  "sec": "2.5",
+  "n": 7,
+  "name": "Bio-Data Sync",
+  "desc": "Daily -> Pull Oura/Apple Health -> Log Sheet -> Adjust Schedule."
+ },
+ {
+  "category": "workflows",
+  "section": "Personal Chief of Staff",
+  "sec": "2.5",
+  "n": 8,
+  "name": "Meeting Minutes",
+  "desc": "Zoom End -> Transcribe -> Extract Actions -> Email -> Asana Task."
+ },
+ {
+  "category": "workflows",
+  "section": "Personal Chief of Staff",
+  "sec": "2.5",
+  "n": 9,
+  "name": "Content Diet",
+  "desc": "Save Article -> LLM Rate Value -> Archive Low / Tag High."
+ },
+ {
+  "category": "workflows",
+  "section": "Personal Chief of Staff",
+  "sec": "2.5",
+  "n": 10,
+  "name": "Legacy Journal",
+  "desc": "9PM -> SMS Prompt -> Save Reply to Journal App."
+ },
+ {
+  "category": "workflows",
+  "section": "HR & Culture",
+  "sec": "2.6",
+  "n": 1,
+  "name": "Resume Screen",
+  "desc": "Application -> Parse PDF -> Match Skills -> Pass/Reject Email."
+ },
+ {
+  "category": "workflows",
+  "section": "HR & Culture",
+  "sec": "2.6",
+  "n": 2,
+  "name": "Onboarding Drip",
+  "desc": "Start Date -> Day 1 Login -> Day 3 Handbook -> Day 7 Manager 1:1."
+ },
+ {
+  "category": "workflows",
+  "section": "HR & Culture",
+  "sec": "2.6",
+  "n": 3,
+  "name": "Pulse Check",
+  "desc": "Monthly -> Slack Poll -> Aggregate Sentiment -> Alert if Low."
+ },
+ {
+  "category": "workflows",
+  "section": "HR & Culture",
+  "sec": "2.6",
+  "n": 4,
+  "name": "Birthday Bot",
+  "desc": "Daily Check -> Post Celebration Message to Channel."
+ },
+ {
+  "category": "workflows",
+  "section": "HR & Culture",
+  "sec": "2.6",
+  "n": 5,
+  "name": "OOO Responder",
+  "desc": "HRIS Status -> Set Slack DND -> Set Email Auto-Reply."
+ },
+ {
+  "category": "workflows",
+  "section": "HR & Culture",
+  "sec": "2.6",
+  "n": 6,
+  "name": "Exit Analysis",
+  "desc": "Survey -> Sentiment Analysis -> Extract Reasons -> Update Report."
+ },
+ {
+  "category": "workflows",
+  "section": "HR & Culture",
+  "sec": "2.6",
+  "n": 7,
+  "name": "Asset Return",
+  "desc": "Term Date -> Generate Label -> Email User -> Task IT."
+ },
+ {
+  "category": "workflows",
+  "section": "HR & Culture",
+  "sec": "2.6",
+  "n": 8,
+  "name": "Skill Gap",
+  "desc": "Review -> Parse Weakness -> Recommend Course -> Email."
+ },
+ {
+  "category": "workflows",
+  "section": "HR & Culture",
+  "sec": "2.6",
+  "n": 9,
+  "name": "Toxic Monitor",
+  "desc": "Public Msg -> Analyze Toxicity -> Delete/Warn if High."
+ },
+ {
+  "category": "workflows",
+  "section": "HR & Culture",
+  "sec": "2.6",
+  "n": 10,
+  "name": "Coffee Roulette",
+  "desc": "Weekly -> Pair Random Users -> DM Intro & Invite."
+ },
+ {
+  "category": "workflows",
+  "section": "E-Commerce",
+  "sec": "2.7",
+  "n": 1,
+  "name": "VIP Welcome",
+  "desc": "High LTV Order -> Tag VIP -> Task Founder Video -> Email."
+ },
+ {
+  "category": "workflows",
+  "section": "E-Commerce",
+  "sec": "2.7",
+  "n": 2,
+  "name": "Re-Order",
+  "desc": "Low Stock -> Draft PO -> Email Vendor -> Slack Ops."
+ },
+ {
+  "category": "workflows",
+  "section": "E-Commerce",
+  "sec": "2.7",
+  "n": 3,
+  "name": "WISMO Bot",
+  "desc": "\"Where is order?\" Email -> Check Status -> Reply with Link."
+ },
+ {
+  "category": "workflows",
+  "section": "E-Commerce",
+  "sec": "2.7",
+  "n": 4,
+  "name": "Return Logic",
+  "desc": "Request -> Check Window -> Generate Label or Policy Email."
+ },
+ {
+  "category": "workflows",
+  "section": "E-Commerce",
+  "sec": "2.7",
+  "n": 5,
+  "name": "Margin Guard",
+  "desc": "Ad Spend Spike -> Calc Margin -> Alert if < Threshold."
+ },
+ {
+  "category": "workflows",
+  "section": "E-Commerce",
+  "sec": "2.7",
+  "n": 6,
+  "name": "Review Social",
+  "desc": "5-Star + Photo -> Remove BG -> Overlay Template -> Post Insta."
+ },
+ {
+  "category": "workflows",
+  "section": "E-Commerce",
+  "sec": "2.7",
+  "n": 7,
+  "name": "Cart Recovery",
+  "desc": "Abandon -> 1h SMS -> 24h SMS + Coupon."
+ },
+ {
+  "category": "workflows",
+  "section": "E-Commerce",
+  "sec": "2.7",
+  "n": 8,
+  "name": "Rain Pricing",
+  "desc": "Rain Forecast -> Hike Umbrella Price -> Push Notification."
+ },
+ {
+  "category": "workflows",
+  "section": "E-Commerce",
+  "sec": "2.7",
+  "n": 9,
+  "name": "Stock Spy",
+  "desc": "Competitor OOS -> Hike Ad Bids -> Alert Marketing."
+ },
+ {
+  "category": "workflows",
+  "section": "E-Commerce",
+  "sec": "2.7",
+  "n": 10,
+  "name": "Wholesale Sync",
+  "desc": "B2B Order -> PDF Invoice -> QuickBooks -> Fulfillment."
+ },
+ {
+  "category": "workflows",
+  "section": "Real Estate",
+  "sec": "2.8",
+  "n": 1,
+  "name": "Deal Alert",
+  "desc": "New Listing -> Calc Cap Rate -> SMS Investor if > Target."
+ },
+ {
+  "category": "workflows",
+  "section": "Real Estate",
+  "sec": "2.8",
+  "n": 2,
+  "name": "Tenant Onboard",
+  "desc": "Lease Signed -> Welcome Email -> Invoice Deposit -> Inspect Task."
+ },
+ {
+  "category": "workflows",
+  "section": "Real Estate",
+  "sec": "2.8",
+  "n": 3,
+  "name": "Repair Triage",
+  "desc": "Request -> Urgency AI -> Call Mgr (High) / Email Handyman (Low)."
+ },
+ {
+  "category": "workflows",
+  "section": "Real Estate",
+  "sec": "2.8",
+  "n": 4,
+  "name": "Rent Nudge",
+  "desc": "1st of Month -> Check Balance -> SMS Reminder / Late Fee."
+ },
+ {
+  "category": "workflows",
+  "section": "Real Estate",
+  "sec": "2.8",
+  "n": 5,
+  "name": "Open House",
+  "desc": "Visitor Log -> Wait 2h -> Feedback Request Email."
+ },
+ {
+  "category": "workflows",
+  "section": "Real Estate",
+  "sec": "2.8",
+  "n": 6,
+  "name": "Renewal",
+  "desc": "End - 90d -> Check Market Rate -> Draft Offer -> Email."
+ },
+ {
+  "category": "workflows",
+  "section": "Real Estate",
+  "sec": "2.8",
+  "n": 7,
+  "name": "Expiry Watch",
+  "desc": "Weekly -> Check Insurance/Inspection -> Email Vendor."
+ },
+ {
+  "category": "workflows",
+  "section": "Real Estate",
+  "sec": "2.8",
+  "n": 8,
+  "name": "Utility Switch",
+  "desc": "Move-out -> Email Utilities -> Transfer Billing."
+ },
+ {
+  "category": "workflows",
+  "section": "Real Estate",
+  "sec": "2.8",
+  "n": 9,
+  "name": "Smart Access",
+  "desc": "Booking -> Generate Code -> Email Guest (Valid Duration)."
+ },
+ {
+  "category": "workflows",
+  "section": "Real Estate",
+  "sec": "2.8",
+  "n": 10,
+  "name": "Deal Scraper",
+  "desc": "FSBO Listing -> Keywords -> SMS Wholesaler."
+ },
+ {
+  "category": "workflows",
+  "section": "Creative Studio",
+  "sec": "2.9",
+  "n": 1,
+  "name": "Guest Outreach",
+  "desc": "New Lead -> Find Email -> Invite Sequence -> Book Cal."
+ },
+ {
+  "category": "workflows",
+  "section": "Creative Studio",
+  "sec": "2.9",
+  "n": 2,
+  "name": "Clip Maker",
+  "desc": "Upload Video -> AI Extract Clips -> Save Drive -> Notify Social."
+ },
+ {
+  "category": "workflows",
+  "section": "Creative Studio",
+  "sec": "2.9",
+  "n": 3,
+  "name": "Asset Organizer",
+  "desc": "New File -> Rename (Date_Proj) -> Move Folder."
+ },
+ {
+  "category": "workflows",
+  "section": "Creative Studio",
+  "sec": "2.9",
+  "n": 4,
+  "name": "Contract Gen",
+  "desc": "Typeform Scope -> Map Template -> Send eSign -> Invoice."
+ },
+ {
+  "category": "workflows",
+  "section": "Creative Studio",
+  "sec": "2.9",
+  "n": 5,
+  "name": "Portfolio Update",
+  "desc": "Project Done -> Draft Case Study -> Upload CMS."
+ },
+ {
+  "category": "workflows",
+  "section": "Creative Studio",
+  "sec": "2.9",
+  "n": 6,
+  "name": "Stock Tagger",
+  "desc": "Upload -> Vision AI Tags -> Add Metadata -> Submit."
+ },
+ {
+  "category": "workflows",
+  "section": "Creative Studio",
+  "sec": "2.9",
+  "n": 7,
+  "name": "Vlog Edit",
+  "desc": "Footage Upload -> Notify Editor -> Trello Card -> Thumbnail Task."
+ },
+ {
+  "category": "workflows",
+  "section": "Creative Studio",
+  "sec": "2.9",
+  "n": 8,
+  "name": "Comment Mod",
+  "desc": "YouTube Comment -> Sentiment -> Block Hate / Slack Question."
+ },
+ {
+  "category": "workflows",
+  "section": "Creative Studio",
+  "sec": "2.9",
+  "n": 9,
+  "name": "Idea Capture",
+  "desc": "Voice Memo -> Transcribe -> Summarize -> Notion Backlog."
+ },
+ {
+  "category": "workflows",
+  "section": "Creative Studio",
+  "sec": "2.9",
+  "n": 10,
+  "name": "Trend Spotter",
+  "desc": "Trending Hashtag -> Alert Creative -> Gen Concepts."
+ },
+ {
+  "category": "workflows",
+  "section": "God Mode",
+  "sec": "2.10",
+  "n": 1,
+  "name": "Company Box",
+  "desc": "Payment -> Domain -> G-Suite -> Website -> LLC Filing."
+ },
+ {
+  "category": "workflows",
+  "section": "God Mode",
+  "sec": "2.10",
+  "n": 2,
+  "name": "Self-Correction",
+  "desc": "Error -> LLM Fix JSON -> Retry Workflow."
+ },
+ {
+  "category": "workflows",
+  "section": "God Mode",
+  "sec": "2.10",
+  "n": 3,
+  "name": "Life Logger",
+  "desc": "Midnight -> Pull GPS/Spend/Photos -> Obsidian Journal."
+ },
+ {
+  "category": "workflows",
+  "section": "God Mode",
+  "sec": "2.10",
+  "n": 4,
+  "name": "AI Debater",
+  "desc": "Topic -> Agent A Argue -> Agent B Rebut -> Summarize."
+ },
+ {
+  "category": "workflows",
+  "section": "God Mode",
+  "sec": "2.10",
+  "n": 5,
+  "name": "Dynamic Novel",
+  "desc": "Chapter End -> User Choice -> Gen Text/Audio/Image -> Email."
+ },
+ {
+  "category": "workflows",
+  "section": "God Mode",
+  "sec": "2.10",
+  "n": 6,
+  "name": "Kill Switch",
+  "desc": "Market Crash / Hack -> Sell Assets -> Lock Server -> SMS."
+ },
+ {
+  "category": "workflows",
+  "section": "God Mode",
+  "sec": "2.10",
+  "n": 7,
+  "name": "Viral Loop",
+  "desc": "Viral Post -> Reply Link -> Scrape Users -> Custom Audience."
+ },
+ {
+  "category": "workflows",
+  "section": "God Mode",
+  "sec": "2.10",
+  "n": 8,
+  "name": "Digital Twin",
+  "desc": "User Content -> Fine-tune LLM -> Update Persona."
+ },
+ {
+  "category": "workflows",
+  "section": "God Mode",
+  "sec": "2.10",
+  "n": 9,
+  "name": "Nemesis",
+  "desc": "Competitor Change -> Analyze -> Update Comparison -> Bid Keywords."
+ },
+ {
+  "category": "workflows",
+  "section": "God Mode",
+  "sec": "2.10",
+  "n": 10,
+  "name": "ZenFlow Master",
+  "desc": "New Asset -> Validate -> Doc -> Publish -> Tweet."
+ },
+ {
+  "category": "bots",
+  "section": "Discord & Community",
+  "sec": "3.1",
+  "n": 1,
+  "name": "RPG DM",
+  "desc": "Runs infinite text D&D campaigns."
+ },
+ {
+  "category": "bots",
+  "section": "Discord & Community",
+  "sec": "3.1",
+  "n": 2,
+  "name": "Dead Chat Necromancer",
+  "desc": "Drops provocative questions in silent channels."
+ },
+ {
+  "category": "bots",
+  "section": "Discord & Community",
+  "sec": "3.1",
+  "n": 3,
+  "name": "Hype-Man",
+  "desc": "Celebrates user wins with high energy/GIFs."
+ },
+ {
+  "category": "bots",
+  "section": "Discord & Community",
+  "sec": "3.1",
+  "n": 4,
+  "name": "Lore Archivist",
+  "desc": "Wikifies chat decisions into database."
+ },
+ {
+  "category": "bots",
+  "section": "Discord & Community",
+  "sec": "3.1",
+  "n": 5,
+  "name": "Vibe Check",
+  "desc": "Interrupts toxicity with random humor."
+ },
+ {
+  "category": "bots",
+  "section": "Discord & Community",
+  "sec": "3.1",
+  "n": 6,
+  "name": "Meme Broker",
+  "desc": "Stock market for meme reactions."
+ },
+ {
+  "category": "bots",
+  "section": "Discord & Community",
+  "sec": "3.1",
+  "n": 7,
+  "name": "Intro Interviewer",
+  "desc": "DMs new users to build profile cards."
+ },
+ {
+  "category": "bots",
+  "section": "Discord & Community",
+  "sec": "3.1",
+  "n": 8,
+  "name": "Scrim Referee",
+  "desc": "Manages eSports lobbies/scores."
+ },
+ {
+  "category": "bots",
+  "section": "Discord & Community",
+  "sec": "3.1",
+  "n": 9,
+  "name": "Spoiler Guard",
+  "desc": "Deletes spoilers, warns users."
+ },
+ {
+  "category": "bots",
+  "section": "Discord & Community",
+  "sec": "3.1",
+  "n": 10,
+  "name": "Raid Boss",
+  "desc": "Collaborative health-bar boss fight in chat."
+ },
+ {
+  "category": "bots",
+  "section": "Slack Productivity",
+  "sec": "3.2",
+  "n": 1,
+  "name": "No-Meeting Guard",
+  "desc": "Intercepts invites without agendas."
+ },
+ {
+  "category": "bots",
+  "section": "Slack Productivity",
+  "sec": "3.2",
+  "n": 2,
+  "name": "Jargon Buster",
+  "desc": "Defines acronyms on command."
+ },
+ {
+  "category": "bots",
+  "section": "Slack Productivity",
+  "sec": "3.2",
+  "n": 3,
+  "name": "Standup Scribe",
+  "desc": "Async daily standup aggregation."
+ },
+ {
+  "category": "bots",
+  "section": "Slack Productivity",
+  "sec": "3.2",
+  "n": 4,
+  "name": "Kudos Coin",
+  "desc": "P2P reward currency."
+ },
+ {
+  "category": "bots",
+  "section": "Slack Productivity",
+  "sec": "3.2",
+  "n": 5,
+  "name": "Shadow CEO",
+  "desc": "Answers as CEO based on public content."
+ },
+ {
+  "category": "bots",
+  "section": "Slack Productivity",
+  "sec": "3.2",
+  "n": 6,
+  "name": "Focused Flow",
+  "desc": "Batches notifications; blocks interruptions."
+ },
+ {
+  "category": "bots",
+  "section": "Slack Productivity",
+  "sec": "3.2",
+  "n": 7,
+  "name": "Devil’s Advocate",
+  "desc": "Challenges decisions in strategy channels."
+ },
+ {
+  "category": "bots",
+  "section": "Slack Productivity",
+  "sec": "3.2",
+  "n": 8,
+  "name": "Lunch Roulette",
+  "desc": "Pairs random colleagues for lunch."
+ },
+ {
+  "category": "bots",
+  "section": "Slack Productivity",
+  "sec": "3.2",
+  "n": 9,
+  "name": "Wiki Gardner",
+  "desc": "Pings owners of stale docs."
+ },
+ {
+  "category": "bots",
+  "section": "Slack Productivity",
+  "sec": "3.2",
+  "n": 10,
+  "name": "Incident Cmdr",
+  "desc": "Manages outages/war-rooms."
+ },
+ {
+  "category": "bots",
+  "section": "Support & Sales (SMS/Web)",
+  "sec": "3.3",
+  "n": 1,
+  "name": "White Glove",
+  "desc": "Formal, anticipatory luxury concierge."
+ },
+ {
+  "category": "bots",
+  "section": "Support & Sales (SMS/Web)",
+  "sec": "3.3",
+  "n": 2,
+  "name": "Objection Crusher",
+  "desc": "Negotiates abandoned carts via SMS."
+ },
+ {
+  "category": "bots",
+  "section": "Support & Sales (SMS/Web)",
+  "sec": "3.3",
+  "n": 3,
+  "name": "Tech Debugger",
+  "desc": "Step-by-step hardware troubleshooting."
+ },
+ {
+  "category": "bots",
+  "section": "Support & Sales (SMS/Web)",
+  "sec": "3.3",
+  "n": 4,
+  "name": "Gift Finder",
+  "desc": "Product recommendation quiz."
+ },
+ {
+  "category": "bots",
+  "section": "Support & Sales (SMS/Web)",
+  "sec": "3.3",
+  "n": 5,
+  "name": "Appt Setter",
+  "desc": "Negotiates calendar slots."
+ },
+ {
+  "category": "bots",
+  "section": "Support & Sales (SMS/Web)",
+  "sec": "3.3",
+  "n": 6,
+  "name": "Wisdom FAQ",
+  "desc": "Semantic search of helpbase."
+ },
+ {
+  "category": "bots",
+  "section": "Support & Sales (SMS/Web)",
+  "sec": "3.3",
+  "n": 7,
+  "name": "Order Tracker",
+  "desc": "Proactive shipping updates."
+ },
+ {
+  "category": "bots",
+  "section": "Support & Sales (SMS/Web)",
+  "sec": "3.3",
+  "n": 8,
+  "name": "Onboarding Coach",
+  "desc": "Walkthroughs for software UI."
+ },
+ {
+  "category": "bots",
+  "section": "Support & Sales (SMS/Web)",
+  "sec": "3.3",
+  "n": 9,
+  "name": "Lang Localizer",
+  "desc": "Real-time chat translation."
+ },
+ {
+  "category": "bots",
+  "section": "Support & Sales (SMS/Web)",
+  "sec": "3.3",
+  "n": 10,
+  "name": "Refund Negotiator",
+  "desc": "Offers alternatives to cancellation."
+ },
+ {
+  "category": "bots",
+  "section": "Education",
+  "sec": "3.4",
+  "n": 1,
+  "name": "Socratic Tutor",
+  "desc": "Teaches by asking questions."
+ },
+ {
+  "category": "bots",
+  "section": "Education",
+  "sec": "3.4",
+  "n": 2,
+  "name": "Feynman Bot",
+  "desc": "Asks user to explain simply to test knowledge."
+ },
+ {
+  "category": "bots",
+  "section": "Education",
+  "sec": "3.4",
+  "n": 3,
+  "name": "Language Pal",
+  "desc": "Roleplays real scenarios (ordering coffee) in target lang."
+ },
+ {
+  "category": "bots",
+  "section": "Education",
+  "sec": "3.4",
+  "n": 4,
+  "name": "Debate Spar",
+  "desc": "Argues opposite of user to sharpen logic."
+ },
+ {
+  "category": "bots",
+  "section": "Education",
+  "sec": "3.4",
+  "n": 5,
+  "name": "Time Traveler",
+  "desc": "Chats as historical figures (e.g., Lincoln)."
+ },
+ {
+  "category": "bots",
+  "section": "Education",
+  "sec": "3.4",
+  "n": 6,
+  "name": "Code Reviewer",
+  "desc": "Roasts and fixes code."
+ },
+ {
+  "category": "bots",
+  "section": "Education",
+  "sec": "3.4",
+  "n": 7,
+  "name": "Flashcard Quizzer",
+  "desc": "Spaced repetition quizzes."
+ },
+ {
+  "category": "bots",
+  "section": "Education",
+  "sec": "3.4",
+  "n": 8,
+  "name": "Writing Prompt",
+  "desc": "Unblocks writers with scenarios."
+ },
+ {
+  "category": "bots",
+  "section": "Education",
+  "sec": "3.4",
+  "n": 9,
+  "name": "Math Visualizer",
+  "desc": "Explains math via ASCII/Analogies."
+ },
+ {
+  "category": "bots",
+  "section": "Education",
+  "sec": "3.4",
+  "n": 10,
+  "name": "Book Club",
+  "desc": "Generates discussion questions."
+ },
+ {
+  "category": "bots",
+  "section": "Entertainment",
+  "sec": "3.5",
+  "n": 1,
+  "name": "Murder Mystery",
+  "desc": "Runs group whodunnit games."
+ },
+ {
+  "category": "bots",
+  "section": "Entertainment",
+  "sec": "3.5",
+  "n": 2,
+  "name": "Yandere Bot",
+  "desc": "Possessive anime girlfriend trope."
+ },
+ {
+  "category": "bots",
+  "section": "Entertainment",
+  "sec": "3.5",
+  "n": 3,
+  "name": "Text Adventure",
+  "desc": "Zork-style interactive fiction."
+ },
+ {
+  "category": "bots",
+  "section": "Entertainment",
+  "sec": "3.5",
+  "n": 4,
+  "name": "Roast Master",
+  "desc": "Insults users based on profile."
+ },
+ {
+  "category": "bots",
+  "section": "Entertainment",
+  "sec": "3.5",
+  "n": 5,
+  "name": "Horroscope",
+  "desc": "Lovecraftian daily horoscopes."
+ },
+ {
+  "category": "bots",
+  "section": "Entertainment",
+  "sec": "3.5",
+  "n": 6,
+  "name": "Truth or Dare",
+  "desc": "Moderates party games."
+ },
+ {
+  "category": "bots",
+  "section": "Entertainment",
+  "sec": "3.5",
+  "n": 7,
+  "name": "Fandom Switch",
+  "desc": "Roleplays characters (Yoda/Vader)."
+ },
+ {
+  "category": "bots",
+  "section": "Entertainment",
+  "sec": "3.5",
+  "n": 8,
+  "name": "Dating Sim",
+  "desc": "Practice dating scenarios."
+ },
+ {
+  "category": "bots",
+  "section": "Entertainment",
+  "sec": "3.5",
+  "n": 9,
+  "name": "Ghost in Machine",
+  "desc": "Glitch horror persona."
+ },
+ {
+  "category": "bots",
+  "section": "Entertainment",
+  "sec": "3.5",
+  "n": 10,
+  "name": "Trivia Royale",
+  "desc": "Last-man-standing quizzes."
+ },
+ {
+  "category": "bots",
+  "section": "Health",
+  "sec": "3.6",
+  "n": 1,
+  "name": "Stoic Companion",
+  "desc": "Reframes stress philosophically."
+ },
+ {
+  "category": "bots",
+  "section": "Health",
+  "sec": "3.6",
+  "n": 2,
+  "name": "Workout Spotter",
+  "desc": "Logs voice-note sets/reps."
+ },
+ {
+  "category": "bots",
+  "section": "Health",
+  "sec": "3.6",
+  "n": 3,
+  "name": "Fasting Coach",
+  "desc": "Tracks eating windows/water."
+ },
+ {
+  "category": "bots",
+  "section": "Health",
+  "sec": "3.6",
+  "n": 4,
+  "name": "Anxiety Grounder",
+  "desc": "5-4-3-2-1 grounding technique."
+ },
+ {
+  "category": "bots",
+  "section": "Health",
+  "sec": "3.6",
+  "n": 5,
+  "name": "Sleep Police",
+  "desc": "Scolds late-night messaging."
+ },
+ {
+  "category": "bots",
+  "section": "Health",
+  "sec": "3.6",
+  "n": 6,
+  "name": "Habit Stacker",
+  "desc": "Links new habits to old ones."
+ },
+ {
+  "category": "bots",
+  "section": "Health",
+  "sec": "3.6",
+  "n": 7,
+  "name": "Symptom Triage",
+  "desc": "Basic medical guidance (Disclaimer)."
+ },
+ {
+  "category": "bots",
+  "section": "Health",
+  "sec": "3.6",
+  "n": 8,
+  "name": "Meditator",
+  "desc": "Generates guided meditation scripts."
+ },
+ {
+  "category": "bots",
+  "section": "Health",
+  "sec": "3.6",
+  "n": 9,
+  "name": "Diet Critic",
+  "desc": "Rates food photos."
+ },
+ {
+  "category": "bots",
+  "section": "Health",
+  "sec": "3.6",
+  "n": 10,
+  "name": "Cycle Tracker",
+  "desc": "Period/Mood tracking and advice."
+ },
+ {
+  "category": "bots",
+  "section": "Technical",
+  "sec": "3.7",
+  "n": 1,
+  "name": "Regex Wizard",
+  "desc": "Generates regex from English."
+ },
+ {
+  "category": "bots",
+  "section": "Technical",
+  "sec": "3.7",
+  "n": 2,
+  "name": "SQL Builder",
+  "desc": "English to SQL queries."
+ },
+ {
+  "category": "bots",
+  "section": "Technical",
+  "sec": "3.7",
+  "n": 3,
+  "name": "Git Resolver",
+  "desc": "Advice on merge conflicts."
+ },
+ {
+  "category": "bots",
+  "section": "Technical",
+  "sec": "3.7",
+  "n": 4,
+  "name": "API Mocker",
+  "desc": "Returns dummy JSON."
+ },
+ {
+  "category": "bots",
+  "section": "Technical",
+  "sec": "3.7",
+  "n": 5,
+  "name": "Palette Gen",
+  "desc": "Hex codes from mood/image."
+ },
+ {
+  "category": "bots",
+  "section": "Technical",
+  "sec": "3.7",
+  "n": 6,
+  "name": "Cron Schedule",
+  "desc": "English to Cron syntax."
+ },
+ {
+  "category": "bots",
+  "section": "Technical",
+  "sec": "3.7",
+  "n": 7,
+  "name": "Dep Watcher",
+  "desc": "Alerts on library vulnerabilities."
+ },
+ {
+  "category": "bots",
+  "section": "Technical",
+  "sec": "3.7",
+  "n": 8,
+  "name": "Lorem Ipsum",
+  "desc": "Themed placeholder text."
+ },
+ {
+  "category": "bots",
+  "section": "Technical",
+  "sec": "3.7",
+  "n": 9,
+  "name": "Cloud Calc",
+  "desc": "AWS cost estimator."
+ },
+ {
+  "category": "bots",
+  "section": "Technical",
+  "sec": "3.7",
+  "n": 10,
+  "name": "Rubber Duck",
+  "desc": "Passive listener for debugging."
+ },
+ {
+  "category": "bots",
+  "section": "Finance",
+  "sec": "3.8",
+  "n": 1,
+  "name": "Gas Monitor",
+  "desc": "ETH gas fee alerts."
+ },
+ {
+  "category": "bots",
+  "section": "Finance",
+  "sec": "3.8",
+  "n": 2,
+  "name": "FOMO Fighter",
+  "desc": "Rationalizes impulse buys."
+ },
+ {
+  "category": "bots",
+  "section": "Finance",
+  "sec": "3.8",
+  "n": 3,
+  "name": "Whale Watch",
+  "desc": "Alerts large wallet moves."
+ },
+ {
+  "category": "bots",
+  "section": "Finance",
+  "sec": "3.8",
+  "n": 4,
+  "name": "Expense Nagger",
+  "desc": "Shames discretionary spend."
+ },
+ {
+  "category": "bots",
+  "section": "Finance",
+  "sec": "3.8",
+  "n": 5,
+  "name": "Earnings Sum",
+  "desc": "TL;DR of financial calls."
+ },
+ {
+  "category": "bots",
+  "section": "Finance",
+  "sec": "3.8",
+  "n": 6,
+  "name": "Arbitrage Scan",
+  "desc": "Price diffs across exchanges."
+ },
+ {
+  "category": "bots",
+  "section": "Finance",
+  "sec": "3.8",
+  "n": 7,
+  "name": "Dividend Track",
+  "desc": "Payout notifications."
+ },
+ {
+  "category": "bots",
+  "section": "Finance",
+  "sec": "3.8",
+  "n": 8,
+  "name": "Sub Auditor",
+  "desc": "Trial cancellation reminders."
+ },
+ {
+  "category": "bots",
+  "section": "Finance",
+  "sec": "3.8",
+  "n": 9,
+  "name": "NFT Sniper",
+  "desc": "Floor price alerts."
+ },
+ {
+  "category": "bots",
+  "section": "Finance",
+  "sec": "3.8",
+  "n": 10,
+  "name": "Balancer",
+  "desc": "Portfolio rebalance suggestions."
+ },
+ {
+  "category": "bots",
+  "section": "Creative",
+  "sec": "3.9",
+  "n": 1,
+  "name": "Prompt Eng",
+  "desc": "Refines Midjourney prompts."
+ },
+ {
+  "category": "bots",
+  "section": "Creative",
+  "sec": "3.9",
+  "n": 2,
+  "name": "Rhyme Master",
+  "desc": "Rhymes/Slant rhymes."
+ },
+ {
+  "category": "bots",
+  "section": "Creative",
+  "sec": "3.9",
+  "n": 3,
+  "name": "Color Extractor",
+  "desc": "Pulls colors from images."
+ },
+ {
+  "category": "bots",
+  "section": "Creative",
+  "sec": "3.9",
+  "n": 4,
+  "name": "Beat Maker",
+  "desc": "Suggests drum patterns."
+ },
+ {
+  "category": "bots",
+  "section": "Creative",
+  "sec": "3.9",
+  "n": 5,
+  "name": "Screenplay Format",
+  "desc": "Formats text to script."
+ },
+ {
+  "category": "bots",
+  "section": "Creative",
+  "sec": "3.9",
+  "n": 6,
+  "name": "Synonym Swap",
+  "desc": "Elevates vocabulary."
+ },
+ {
+  "category": "bots",
+  "section": "Creative",
+  "sec": "3.9",
+  "n": 7,
+  "name": "Name Gen",
+  "desc": "Fantasy/Sci-fi character names."
+ },
+ {
+  "category": "bots",
+  "section": "Creative",
+  "sec": "3.9",
+  "n": 8,
+  "name": "Oblique Strat",
+  "desc": "Creative block cards."
+ },
+ {
+  "category": "bots",
+  "section": "Creative",
+  "sec": "3.9",
+  "n": 9,
+  "name": "Haiku Bot",
+  "desc": "Formats messages as Haiku."
+ },
+ {
+  "category": "bots",
+  "section": "Creative",
+  "sec": "3.9",
+  "n": 10,
+  "name": "Logo Concept",
+  "desc": "Describes logo ideas."
+ },
+ {
+  "category": "bots",
+  "section": "Lifestyle",
+  "sec": "3.10",
+  "n": 1,
+  "name": "Pantry Log",
+  "desc": "Tracks grocery inventory."
+ },
+ {
+  "category": "bots",
+  "section": "Lifestyle",
+  "sec": "3.10",
+  "n": 2,
+  "name": "Recipe Resizer",
+  "desc": "Scales ingredients."
+ },
+ {
+  "category": "bots",
+  "section": "Lifestyle",
+  "sec": "3.10",
+  "n": 3,
+  "name": "Weather Wear",
+  "desc": "Suggests outfit by forecast."
+ },
+ {
+  "category": "bots",
+  "section": "Lifestyle",
+  "sec": "3.10",
+  "n": 4,
+  "name": "Commute Alert",
+  "desc": "Traffic checks before leave."
+ },
+ {
+  "category": "bots",
+  "section": "Lifestyle",
+  "sec": "3.10",
+  "n": 5,
+  "name": "Book Sum",
+  "desc": "3-bullet book summaries."
+ },
+ {
+  "category": "bots",
+  "section": "Lifestyle",
+  "sec": "3.10",
+  "n": 6,
+  "name": "Movie Picker",
+  "desc": "Decides what to watch."
+ },
+ {
+  "category": "bots",
+  "section": "Lifestyle",
+  "sec": "3.10",
+  "n": 7,
+  "name": "Dining Decider",
+  "desc": "Resolves restaurant arguments."
+ },
+ {
+  "category": "bots",
+  "section": "Lifestyle",
+  "sec": "3.10",
+  "n": 8,
+  "name": "Gift Reminder",
+  "desc": "Birthday alerts + ideas."
+ },
+ {
+  "category": "bots",
+  "section": "Lifestyle",
+  "sec": "3.10",
+  "n": 9,
+  "name": "Pet Log",
+  "desc": "Feeding/Walking tracker."
+ },
+ {
+  "category": "bots",
+  "section": "Lifestyle",
+  "sec": "3.10",
+  "n": 10,
+  "name": "ZenFlow Guide",
+  "desc": "Marketplace onboarding."
+ },
+ {
+  "category": "databases",
+  "section": "Financial Alpha",
+  "sec": "4.1",
+  "n": 1,
+  "name": "Satellite Retail Traffic",
+  "desc": "Car counts in parking lots."
+ },
+ {
+  "category": "databases",
+  "section": "Financial Alpha",
+  "sec": "4.1",
+  "n": 2,
+  "name": "Corporate Jet Tracker",
+  "desc": "CEO flight logs."
+ },
+ {
+  "category": "databases",
+  "section": "Financial Alpha",
+  "sec": "4.1",
+  "n": 3,
+  "name": "Credit Card Panel",
+  "desc": "Anonymized consumer spend."
+ },
+ {
+  "category": "databases",
+  "section": "Financial Alpha",
+  "sec": "4.1",
+  "n": 4,
+  "name": "Lobbying Index",
+  "desc": "Political donations vs contracts."
+ },
+ {
+  "category": "databases",
+  "section": "Financial Alpha",
+  "sec": "4.1",
+  "n": 5,
+  "name": "Insider Whales",
+  "desc": "Informative SEC Form 4 trades."
+ },
+ {
+  "category": "databases",
+  "section": "Financial Alpha",
+  "sec": "4.1",
+  "n": 6,
+  "name": "Supply Chain BOL",
+  "desc": "Bill of Lading import logs."
+ },
+ {
+  "category": "databases",
+  "section": "Financial Alpha",
+  "sec": "4.1",
+  "n": 7,
+  "name": "SaaS Technographics",
+  "desc": "Tech stack adoption signals."
+ },
+ {
+  "category": "databases",
+  "section": "Financial Alpha",
+  "sec": "4.1",
+  "n": 8,
+  "name": "Short Squeeze",
+  "desc": "Short interest + Social volume."
+ },
+ {
+  "category": "databases",
+  "section": "Financial Alpha",
+  "sec": "4.1",
+  "n": 9,
+  "name": "Crypto Whales",
+  "desc": "Labelled wallet addresses."
+ },
+ {
+  "category": "databases",
+  "section": "Financial Alpha",
+  "sec": "4.1",
+  "n": 10,
+  "name": "ESG Controversy",
+  "desc": "Real-time scandal logs."
+ },
+ {
+  "category": "databases",
+  "section": "Real Estate",
+  "sec": "4.2",
+  "n": 1,
+  "name": "Permit Leading Indicators",
+  "desc": "Renovation permit data."
+ },
+ {
+  "category": "databases",
+  "section": "Real Estate",
+  "sec": "4.2",
+  "n": 2,
+  "name": "Airbnb Occupancy",
+  "desc": "Yield data for STRs."
+ },
+ {
+  "category": "databases",
+  "section": "Real Estate",
+  "sec": "4.2",
+  "n": 3,
+  "name": "Zoning Maps",
+  "desc": "Land use/Rezone potential."
+ },
+ {
+  "category": "databases",
+  "section": "Real Estate",
+  "sec": "4.2",
+  "n": 4,
+  "name": "Local Crime",
+  "desc": "Hyper-local incident stats."
+ },
+ {
+  "category": "databases",
+  "section": "Real Estate",
+  "sec": "4.2",
+  "n": 5,
+  "name": "School Ratings",
+  "desc": "District performance trends."
+ },
+ {
+  "category": "databases",
+  "section": "Real Estate",
+  "sec": "4.2",
+  "n": 6,
+  "name": "Flood Projections",
+  "desc": "2050 climate risk."
+ },
+ {
+  "category": "databases",
+  "section": "Real Estate",
+  "sec": "4.2",
+  "n": 7,
+  "name": "Lease Comps",
+  "desc": "Commercial rent/sqft."
+ },
+ {
+  "category": "databases",
+  "section": "Real Estate",
+  "sec": "4.2",
+  "n": 8,
+  "name": "Solar Index",
+  "desc": "Roof suitability/yield."
+ },
+ {
+  "category": "databases",
+  "section": "Real Estate",
+  "sec": "4.2",
+  "n": 9,
+  "name": "Signal Strength",
+  "desc": "Cell carrier quality map."
+ },
+ {
+  "category": "databases",
+  "section": "Real Estate",
+  "sec": "4.2",
+  "n": 10,
+  "name": "Coffee Index",
+  "desc": "High-end cafe density."
+ },
+ {
+  "category": "databases",
+  "section": "E-Commerce",
+  "sec": "4.3",
+  "n": 1,
+  "name": "Amazon Rank History",
+  "desc": "Bestseller volatility."
+ },
+ {
+  "category": "databases",
+  "section": "E-Commerce",
+  "sec": "4.3",
+  "n": 2,
+  "name": "Shopify Tech",
+  "desc": "Store app usage."
+ },
+ {
+  "category": "databases",
+  "section": "E-Commerce",
+  "sec": "4.3",
+  "n": 3,
+  "name": "TikTok Viral",
+  "desc": "Trending products/hashtags."
+ },
+ {
+  "category": "databases",
+  "section": "E-Commerce",
+  "sec": "4.3",
+  "n": 4,
+  "name": "Ad Library",
+  "desc": "Winning creative archives."
+ },
+ {
+  "category": "databases",
+  "section": "E-Commerce",
+  "sec": "4.3",
+  "n": 5,
+  "name": "Influencer Rates",
+  "desc": "Pricing per post estimates."
+ },
+ {
+  "category": "databases",
+  "section": "E-Commerce",
+  "sec": "4.3",
+  "n": 6,
+  "name": "Supplier Verify",
+  "desc": "Vetted dropship suppliers."
+ },
+ {
+  "category": "databases",
+  "section": "E-Commerce",
+  "sec": "4.3",
+  "n": 7,
+  "name": "DTC Directory",
+  "desc": "Brand contacts."
+ },
+ {
+  "category": "databases",
+  "section": "E-Commerce",
+  "sec": "4.3",
+  "n": 8,
+  "name": "Keyword Niche",
+  "desc": "Low competition/High intent."
+ },
+ {
+  "category": "databases",
+  "section": "E-Commerce",
+  "sec": "4.3",
+  "n": 9,
+  "name": "Review Sentiment",
+  "desc": "Aggregated pros/cons."
+ },
+ {
+  "category": "databases",
+  "section": "E-Commerce",
+  "sec": "4.3",
+  "n": 10,
+  "name": "Counterfeit Log",
+  "desc": "IP infringement tracking."
+ },
+ {
+  "category": "databases",
+  "section": "Healthcare",
+  "sec": "4.4",
+  "n": 1,
+  "name": "Trial Outcomes",
+  "desc": "Clinical trial success/fail."
+ },
+ {
+  "category": "databases",
+  "section": "Healthcare",
+  "sec": "4.4",
+  "n": 2,
+  "name": "Hospital Pricing",
+  "desc": "Procedure cost transparency."
+ },
+ {
+  "category": "databases",
+  "section": "Healthcare",
+  "sec": "4.4",
+  "n": 3,
+  "name": "FDA Adverse Events",
+  "desc": "Drug side effects."
+ },
+ {
+  "category": "databases",
+  "section": "Healthcare",
+  "sec": "4.4",
+  "n": 4,
+  "name": "Referral Graph",
+  "desc": "Doctor connection network."
+ },
+ {
+  "category": "databases",
+  "section": "Healthcare",
+  "sec": "4.4",
+  "n": 5,
+  "name": "Epidemic Signals",
+  "desc": "Symptom search trends."
+ },
+ {
+  "category": "databases",
+  "section": "Healthcare",
+  "sec": "4.4",
+  "n": 6,
+  "name": "Genomic Variants",
+  "desc": "ClinVar interpretations."
+ },
+ {
+  "category": "databases",
+  "section": "Healthcare",
+  "sec": "4.4",
+  "n": 7,
+  "name": "Device Recalls",
+  "desc": "Medical hardware safety."
+ },
+ {
+  "category": "databases",
+  "section": "Healthcare",
+  "sec": "4.4",
+  "n": 8,
+  "name": "Mental Health Map",
+  "desc": "Provider density gaps."
+ },
+ {
+  "category": "databases",
+  "section": "Healthcare",
+  "sec": "4.4",
+  "n": 9,
+  "name": "Nutrition DB",
+  "desc": "Macro/Micros + Barcodes."
+ },
+ {
+  "category": "databases",
+  "section": "Healthcare",
+  "sec": "4.4",
+  "n": 10,
+  "name": "Longevity Papers",
+  "desc": "Aging research index."
+ },
+ {
+  "category": "databases",
+  "section": "Legal & Reg",
+  "sec": "4.5",
+  "n": 1,
+  "name": "Patent Expiry",
+  "desc": "Public domain dates."
+ },
+ {
+  "category": "databases",
+  "section": "Legal & Reg",
+  "sec": "4.5",
+  "n": 2,
+  "name": "Class Action Feed",
+  "desc": "New filings."
+ },
+ {
+  "category": "databases",
+  "section": "Legal & Reg",
+  "sec": "4.5",
+  "n": 3,
+  "name": "GDPR Fines",
+  "desc": "Privacy violation history."
+ },
+ {
+  "category": "databases",
+  "section": "Legal & Reg",
+  "sec": "4.5",
+  "n": 4,
+  "name": "Sanctions List",
+  "desc": "Global watchlists."
+ },
+ {
+  "category": "databases",
+  "section": "Legal & Reg",
+  "sec": "4.5",
+  "n": 5,
+  "name": "H1B Salaries",
+  "desc": "Tech salary disclosures."
+ },
+ {
+  "category": "databases",
+  "section": "Legal & Reg",
+  "sec": "4.5",
+  "n": 6,
+  "name": "Judge Analytics",
+  "desc": "Ruling tendencies."
+ },
+ {
+  "category": "databases",
+  "section": "Legal & Reg",
+  "sec": "4.5",
+  "n": 7,
+  "name": "ToS Changes",
+  "desc": "Silent term updates."
+ },
+ {
+  "category": "databases",
+  "section": "Legal & Reg",
+  "sec": "4.5",
+  "n": 8,
+  "name": "Bankruptcy",
+  "desc": "Chapter 7/11 filings."
+ },
+ {
+  "category": "databases",
+  "section": "Legal & Reg",
+  "sec": "4.5",
+  "n": 9,
+  "name": "FOIA Log",
+  "desc": "Government request tracking."
+ },
+ {
+  "category": "databases",
+  "section": "Legal & Reg",
+  "sec": "4.5",
+  "n": 10,
+  "name": "Police Force",
+  "desc": "Use of force incidents."
+ },
+ {
+  "category": "databases",
+  "section": "Niche/Weird",
+  "sec": "4.6",
+  "n": 1,
+  "name": "Cancel Culture",
+  "desc": "Public figure sentiment drops."
+ },
+ {
+  "category": "databases",
+  "section": "Niche/Weird",
+  "sec": "4.6",
+  "n": 2,
+  "name": "UFO Sightings",
+  "desc": "Geotagged reports."
+ },
+ {
+  "category": "databases",
+  "section": "Niche/Weird",
+  "sec": "4.6",
+  "n": 3,
+  "name": "Wine Vintages",
+  "desc": "Region/Year ratings."
+ },
+ {
+  "category": "databases",
+  "section": "Niche/Weird",
+  "sec": "4.6",
+  "n": 4,
+  "name": "Sneaker Index",
+  "desc": "Resale price history."
+ },
+ {
+  "category": "databases",
+  "section": "Niche/Weird",
+  "sec": "4.6",
+  "n": 5,
+  "name": "Esports Stats",
+  "desc": "Player K/D and earnings."
+ },
+ {
+  "category": "databases",
+  "section": "Niche/Weird",
+  "sec": "4.6",
+  "n": 6,
+  "name": "Deepfake Index",
+  "desc": "AI likeness usage."
+ },
+ {
+  "category": "databases",
+  "section": "Niche/Weird",
+  "sec": "4.6",
+  "n": 7,
+  "name": "Space Junk",
+  "desc": "Orbit debris tracking."
+ },
+ {
+  "category": "databases",
+  "section": "Niche/Weird",
+  "sec": "4.6",
+  "n": 8,
+  "name": "Meme Lifespan",
+  "desc": "Trend duration stats."
+ },
+ {
+  "category": "databases",
+  "section": "Niche/Weird",
+  "sec": "4.6",
+  "n": 9,
+  "name": "Michelin History",
+  "desc": "Star gain/loss."
+ },
+ {
+  "category": "databases",
+  "section": "Niche/Weird",
+  "sec": "4.6",
+  "n": 10,
+  "name": "Lego ROI",
+  "desc": "Set investment values."
+ },
+ {
+  "category": "databases",
+  "section": "AI Training",
+  "sec": "4.7",
+  "n": 1,
+  "name": "Code-Instruct",
+  "desc": "Python instruction/code pairs."
+ },
+ {
+  "category": "databases",
+  "section": "AI Training",
+  "sec": "4.7",
+  "n": 2,
+  "name": "Contract Clauses",
+  "desc": "Legal text pairs."
+ },
+ {
+  "category": "databases",
+  "section": "AI Training",
+  "sec": "4.7",
+  "n": 3,
+  "name": "Medical Dialogue",
+  "desc": "Doctor-Patient transcripts."
+ },
+ {
+  "category": "databases",
+  "section": "AI Training",
+  "sec": "4.7",
+  "n": 4,
+  "name": "Math CoT",
+  "desc": "Step-by-step solutions."
+ },
+ {
+  "category": "databases",
+  "section": "AI Training",
+  "sec": "4.7",
+  "n": 5,
+  "name": "Support Sentiment",
+  "desc": "Rated chat logs."
+ },
+ {
+  "category": "databases",
+  "section": "AI Training",
+  "sec": "4.7",
+  "n": 6,
+  "name": "Midjourney Pairs",
+  "desc": "Prompt/Image text data."
+ },
+ {
+  "category": "databases",
+  "section": "AI Training",
+  "sec": "4.7",
+  "n": 7,
+  "name": "Phishing Corpus",
+  "desc": "Email security samples."
+ },
+ {
+  "category": "databases",
+  "section": "AI Training",
+  "sec": "4.7",
+  "n": 8,
+  "name": "SQL-Text",
+  "desc": "Natural language to SQL."
+ },
+ {
+  "category": "databases",
+  "section": "AI Training",
+  "sec": "4.7",
+  "n": 9,
+  "name": "Hate Speech",
+  "desc": "Toxicity classification."
+ },
+ {
+  "category": "databases",
+  "section": "AI Training",
+  "sec": "4.7",
+  "n": 10,
+  "name": "Summarization",
+  "desc": "Text/Summary pairs."
+ },
+ {
+  "category": "databases",
+  "section": "Social/Sentiment",
+  "sec": "4.8",
+  "n": 1,
+  "name": "Reddit Growth",
+  "desc": "Subreddit velocity."
+ },
+ {
+  "category": "databases",
+  "section": "Social/Sentiment",
+  "sec": "4.8",
+  "n": 2,
+  "name": "YouTube Comments",
+  "desc": "Topic sentiment."
+ },
+ {
+  "category": "databases",
+  "section": "Social/Sentiment",
+  "sec": "4.8",
+  "n": 3,
+  "name": "Twitter Crisis",
+  "desc": "Negative velocity alerts."
+ },
+ {
+  "category": "databases",
+  "section": "Social/Sentiment",
+  "sec": "4.8",
+  "n": 4,
+  "name": "LinkedIn Jobs",
+  "desc": "Hiring trends."
+ },
+ {
+  "category": "databases",
+  "section": "Social/Sentiment",
+  "sec": "4.8",
+  "n": 5,
+  "name": "App Reviews",
+  "desc": "Bug/Feature signals."
+ },
+ {
+  "category": "databases",
+  "section": "Social/Sentiment",
+  "sec": "4.8",
+  "n": 6,
+  "name": "Podcast Sponsors",
+  "desc": "Brand mention index."
+ },
+ {
+  "category": "databases",
+  "section": "Social/Sentiment",
+  "sec": "4.8",
+  "n": 7,
+  "name": "Substack Growth",
+  "desc": "Newsletter trends."
+ },
+ {
+  "category": "databases",
+  "section": "Social/Sentiment",
+  "sec": "4.8",
+  "n": 8,
+  "name": "Twitch Stats",
+  "desc": "Streamer metrics."
+ },
+ {
+  "category": "databases",
+  "section": "Social/Sentiment",
+  "sec": "4.8",
+  "n": 9,
+  "name": "Github Velocity",
+  "desc": "Repo stars/forks."
+ },
+ {
+  "category": "databases",
+  "section": "Social/Sentiment",
+  "sec": "4.8",
+  "n": 10,
+  "name": "Trend Correlations",
+  "desc": "Keyword matrices."
+ },
+ {
+  "category": "databases",
+  "section": "Industry",
+  "sec": "4.9",
+  "n": 1,
+  "name": "Construction Materials",
+  "desc": "Price indices."
+ },
+ {
+  "category": "databases",
+  "section": "Industry",
+  "sec": "4.9",
+  "n": 2,
+  "name": "Grid Load",
+  "desc": "Energy demand forecast."
+ },
+ {
+  "category": "databases",
+  "section": "Industry",
+  "sec": "4.9",
+  "n": 3,
+  "name": "Used Car Values",
+  "desc": "Depreciation curves."
+ },
+ {
+  "category": "databases",
+  "section": "Industry",
+  "sec": "4.9",
+  "n": 4,
+  "name": "Flight Delays",
+  "desc": "Efficiency stats."
+ },
+ {
+  "category": "databases",
+  "section": "Industry",
+  "sec": "4.9",
+  "n": 5,
+  "name": "Crop Yields",
+  "desc": "Ag futures data."
+ },
+ {
+  "category": "databases",
+  "section": "Industry",
+  "sec": "4.9",
+  "n": 6,
+  "name": "Container Rates",
+  "desc": "Shipping costs."
+ },
+ {
+  "category": "databases",
+  "section": "Industry",
+  "sec": "4.9",
+  "n": 7,
+  "name": "Oil Rigs",
+  "desc": "Active count."
+ },
+ {
+  "category": "databases",
+  "section": "Industry",
+  "sec": "4.9",
+  "n": 8,
+  "name": "EV Stations",
+  "desc": "Charger density."
+ },
+ {
+  "category": "databases",
+  "section": "Industry",
+  "sec": "4.9",
+  "n": 9,
+  "name": "Health Scores",
+  "desc": "Restaurant hygiene."
+ },
+ {
+  "category": "databases",
+  "section": "Industry",
+  "sec": "4.9",
+  "n": 10,
+  "name": "Hotel RevPAR",
+  "desc": "Hospitality metrics."
+ },
+ {
+  "category": "databases",
+  "section": "Vector Stores (RAG)",
+  "sec": "4.10",
+  "n": 1,
+  "name": "Global Law",
+  "desc": "Legal codes embedded."
+ },
+ {
+  "category": "databases",
+  "section": "Vector Stores (RAG)",
+  "sec": "4.10",
+  "n": 2,
+  "name": "Medical Guidelines",
+  "desc": "Clinical protocols."
+ },
+ {
+  "category": "databases",
+  "section": "Vector Stores (RAG)",
+  "sec": "4.10",
+  "n": 3,
+  "name": "Tech Manuals",
+  "desc": "Consumer electronics docs."
+ },
+ {
+  "category": "databases",
+  "section": "Vector Stores (RAG)",
+  "sec": "4.10",
+  "n": 4,
+  "name": "Financial Reports",
+  "desc": "10-K/10-Q embeddings."
+ },
+ {
+  "category": "databases",
+  "section": "Vector Stores (RAG)",
+  "sec": "4.10",
+  "n": 5,
+  "name": "StackOverflow",
+  "desc": "Solved coding Q&A."
+ },
+ {
+  "category": "databases",
+  "section": "Vector Stores (RAG)",
+  "sec": "4.10",
+  "n": 6,
+  "name": "Corp Policies",
+  "desc": "Standard HR handbooks."
+ },
+ {
+  "category": "databases",
+  "section": "Vector Stores (RAG)",
+  "sec": "4.10",
+  "n": 7,
+  "name": "Physics Papers",
+  "desc": "ArXiv scientific texts."
+ },
+ {
+  "category": "databases",
+  "section": "Vector Stores (RAG)",
+  "sec": "4.10",
+  "n": 8,
+  "name": "Travel Guides",
+  "desc": "Destination lore."
+ },
+ {
+  "category": "databases",
+  "section": "Vector Stores (RAG)",
+  "sec": "4.10",
+  "n": 9,
+  "name": "CVE Database",
+  "desc": "Security vulnerabilities."
+ },
+ {
+  "category": "databases",
+  "section": "Vector Stores (RAG)",
+  "sec": "4.10",
+  "n": 10,
+  "name": "Philosophy",
+  "desc": "Ethical texts."
+ }
+]

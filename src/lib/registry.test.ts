@@ -305,7 +305,7 @@ describe('filterProducts', () => {
 
 describe('categoryCounts', () => {
   it('counts every category with no filters', () => {
-    expect(categoryCounts(products, filters())).toEqual({ agents: 1, workflows: 1, automations: 1, bots: 1 });
+    expect(categoryCounts(products, filters())).toEqual({ agents: 1, workflows: 1, automations: 1, bots: 1, databases: 0 });
   });
 
   it('ignores its own facet so other categories still show counts', () => {
@@ -314,6 +314,7 @@ describe('categoryCounts', () => {
       workflows: 1,
       automations: 1,
       bots: 1,
+      databases: 0,
     });
   });
 
@@ -323,6 +324,7 @@ describe('categoryCounts', () => {
       workflows: 0,
       automations: 1,
       bots: 1,
+      databases: 0,
     });
   });
 });

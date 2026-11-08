@@ -115,6 +115,14 @@ export const MARKS = {
       <path d="M26 43 L32 46.5 L38 43" stroke="#8A9BB0" stroke-width="1.8"/>`)
   },
 
+  // Double helix: two teal strands with Vital Orange rungs. Twelfth division, pending activation.
+  "vital-helix": {
+    t1: "#2DD4BF", t2: "#115E59", tg: "#14B8A6",
+    svg: S(`<path d="M24 16.5 H40 M25.5 29 H38.5 M25.5 35 H38.5 M24 47.5 H40" stroke="#F97316" stroke-width="2.6"/>
+      <path d="M22 13 C22 22 42 23 42 32 C42 41 22 42 22 51" stroke="#fff" stroke-width="3.6"/>
+      <path d="M42 13 C42 22 22 23 22 32 C22 41 42 42 42 51" stroke="#CCFBF1" stroke-width="3.6" opacity=".8"/>`)
+  },
+
   // Broadcast arcs on both sides of a rising arrow.
   "signal-velocity": {
     t1: "#FB7185", t2: "#881337", tg: "#F43F5E",

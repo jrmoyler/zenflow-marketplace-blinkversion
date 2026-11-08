@@ -29,7 +29,8 @@ describe('openSource listings', () => {
   });
 
   it('every category has at least 6 listings', () => {
-    for (const c of CATEGORIES) {
+    // No open-source databases are listed; databases come from the runtime inventory.
+    for (const c of CATEGORIES.filter((x) => x.id !== 'databases')) {
       expect(openSource.filter((p) => p.category === c.id).length, c.id).toBeGreaterThanOrEqual(6);
     }
   });

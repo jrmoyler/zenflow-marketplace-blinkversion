@@ -13,6 +13,7 @@ export const CATEGORIES: { id: ProductCategory; label: string; singular: string 
   { id: 'workflows', label: 'Workflows', singular: 'workflow' },
   { id: 'automations', label: 'Automations', singular: 'automation' },
   { id: 'bots', label: 'Bots', singular: 'bot' },
+  { id: 'databases', label: 'Databases', singular: 'database' },
 ];
 
 export const PRICING_LABELS: Record<PricingModel, string> = {
@@ -165,7 +166,7 @@ export function sortProducts(products: Product[], sort: FilterState['sort']): Pr
 }
 
 export function categoryCounts(products: Product[], f: FilterState): Record<ProductCategory, number> {
-  const counts = { agents: 0, workflows: 0, automations: 0, bots: 0 } as Record<ProductCategory, number>;
+  const counts = { agents: 0, workflows: 0, automations: 0, bots: 0, databases: 0 } as Record<ProductCategory, number>;
   for (const p of products) if (passesNonCategory(p, f)) counts[p.category] += 1;
   return counts;
 }
