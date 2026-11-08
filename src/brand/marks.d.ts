@@ -5,8 +5,10 @@ export type MarkKey =
   | 'the-collective'
   | 'hybrid-living'
   | 'nexus-labs'
+  | 'terra-axis'
   | 'binary-loom'
   | 'obsidian-arc'
+  | 'kinetic-edge'
   | 'quantum-ledger'
   | 'juris-guard'
   | 'signal-velocity';

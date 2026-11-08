@@ -19,12 +19,12 @@ export function pick(value: unknown, fallback: string): string {
 const stripSlash = (url: string) => url.replace(/\/+$/, '');
 
 /** The main Collective AI site. */
-export const MAIN_URL = pick(env.VITE_MAIN_URL, 'https://collectiveai.info/');
+export const MAIN_URL = pick(env.VITE_MAIN_URL, 'https://collectiveai-roan.vercel.app/');
 /** The "Start here" link hub (repo Collective-AI-start). */
 export const HUB_URL = pick(env.VITE_HUB_URL, 'https://collective-ai-start.vercel.app/');
 /** The free AI Readiness Audit. */
 export const ASSESSMENT_URL = pick(env.VITE_ASSESSMENT_URL, 'https://the-collective-ai-assessment-platfo.vercel.app/');
-/** Base of the nine division sites, no trailing slash. */
+/** Base of the eleven division sites, no trailing slash. */
 export const DIVISIONS_URL = stripSlash(pick(env.VITE_DIVISIONS_URL, 'https://collective-ai-divisions-brown.vercel.app'));
 /** Shared lead handler (collective-ai-divisions api/lead.js, forwards to Airtable). */
 export const LEAD_ENDPOINT = pick(env.VITE_LEAD_ENDPOINT, `${DIVISIONS_URL}/api/lead`);
@@ -34,8 +34,10 @@ export type DivisionSlug =
   | 'the-collective'
   | 'hybrid-living'
   | 'nexus-labs'
+  | 'terra-axis'
   | 'binary-loom'
   | 'obsidian-arc'
+  | 'kinetic-edge'
   | 'quantum-ledger'
   | 'juris-guard'
   | 'signal-velocity';
@@ -48,14 +50,16 @@ export interface Division {
   chip: string;
 }
 
-/** The nine active divisions, in charter order. Same data as build/registry.js. */
+/** The eleven active divisions, in charter order. Same data as build/registry.js. */
 export const DIVISIONS: readonly Division[] = [
   { slug: 'zenflow', name: 'ZenFlow', chip: '#7C3AED', role: 'Agent infrastructure' },
   { slug: 'the-collective', name: 'The Collective', chip: '#065F46', role: 'AI consulting' },
   { slug: 'hybrid-living', name: 'Hybrid Living', chip: '#0EA5E9', role: 'AI education' },
   { slug: 'nexus-labs', name: 'Nexus Labs', chip: '#DC2626', role: 'Media and creative' },
+  { slug: 'terra-axis', name: 'Terra Axis', chip: '#991B1B', role: 'Property and smart buildings' },
   { slug: 'binary-loom', name: 'Binary Loom', chip: '#A3E635', role: 'Web and developer tools' },
   { slug: 'obsidian-arc', name: 'Obsidian Arc', chip: '#EF4444', role: 'Security' },
+  { slug: 'kinetic-edge', name: 'Kinetic Edge', chip: '#16A34A', role: 'Sports performance' },
   { slug: 'quantum-ledger', name: 'Quantum Ledger', chip: '#8B5CF6', role: 'Financial intelligence' },
   { slug: 'juris-guard', name: 'Juris Guard', chip: '#C9A84C', role: 'AI governance' },
   { slug: 'signal-velocity', name: 'Signal Velocity', chip: '#F43F5E', role: 'Growth and paid media' },
@@ -66,7 +70,7 @@ export function divisionUrl(slug: DivisionSlug, page = ''): string {
   return `${DIVISIONS_URL}/${slug}/${page.replace(/^\/+/, '')}`;
 }
 
-/** Slug for a publisher name, or null when the name is not one of the nine. */
+/** Slug for a publisher name, or null when the name is not one of the eleven. */
 export function publisherSlug(publisher: string): DivisionSlug | null {
   return DIVISIONS.find((d) => d.name === publisher)?.slug ?? null;
 }

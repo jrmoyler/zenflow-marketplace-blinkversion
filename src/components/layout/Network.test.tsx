@@ -9,7 +9,7 @@ describe('ParentStrip', () => {
     render(<ParentStrip />);
     const nav = screen.getByRole('navigation', { name: 'Collective AI network' });
     const href = (name: string) => within(nav).getByRole('link', { name }).getAttribute('href');
-    expect(href('A Collective AI Inc. division')).toBe('https://collectiveai.info/');
+    expect(href('A Collective AI Inc. division')).toBe('https://collectiveai-roan.vercel.app/');
     expect(href('All divisions')).toBe(`${D}/#divisions`);
     expect(href('ZenFlow site')).toBe(`${D}/zenflow/`);
     expect(href('Not sure? Start here')).toBe('https://collective-ai-start.vercel.app/');
@@ -24,17 +24,17 @@ describe('Footer', () => {
     expect(screen.getByRole('link', { name: 'Aegis standard' })).toHaveAttribute('href', '#aegis-standard');
     const net = screen.getByRole('navigation', { name: 'Collective AI network' });
     expect(within(net).getAllByRole('link').map((a) => a.getAttribute('href'))).toEqual([
-      'https://collectiveai.info/',
+      'https://collectiveai-roan.vercel.app/',
       'https://collective-ai-start.vercel.app/',
       'https://the-collective-ai-assessment-platfo.vercel.app/',
       `${D}/zenflow/`,
     ]);
   });
 
-  it('links the eight other divisions to their sites', () => {
+  it('links the ten other divisions to their sites', () => {
     render(<Footer />);
     const links = within(screen.getByRole('navigation', { name: 'Other divisions' })).getAllByRole('link');
-    expect(links).toHaveLength(8);
+    expect(links).toHaveLength(10);
     expect(links[0]).toHaveAttribute('href', `${D}/the-collective/`);
     expect(links[0]).toHaveTextContent('The Collective');
     expect(links.map((a) => a.textContent)).not.toContain('ZenFlow');

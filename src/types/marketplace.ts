@@ -12,17 +12,19 @@ export type PricingModel = 'free' | 'monthly' | 'usage' | 'one-time' | 'quote';
 export type Source = 'collective' | 'directory' | 'open-source';
 
 /**
- * The nine active Collective AI divisions (charter order, source:
+ * The eleven active Collective AI divisions (charter order, source:
  * collective-ai-divisions + collectiveai DIVISIONS list). ZenFlow builds every
- * agent; the other eight are where each one was first deployed and who owns it.
+ * agent; the other ten are where each one was first deployed and who owns it.
  */
 export type Publisher =
   | 'ZenFlow'
   | 'The Collective'
   | 'Hybrid Living'
   | 'Nexus Labs'
+  | 'Terra Axis'
   | 'Binary Loom'
   | 'Obsidian Arc'
+  | 'Kinetic Edge'
   | 'Quantum Ledger'
   | 'Juris Guard'
   | 'Signal Velocity';

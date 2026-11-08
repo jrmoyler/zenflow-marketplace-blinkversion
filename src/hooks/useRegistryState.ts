@@ -36,7 +36,7 @@ const VALID_SCOPES: readonly DataScope[] = [
   'public-web',
   'chat',
 ];
-/** The nine division names, from the network config, plus the open-source publisher. */
+/** The eleven division names, from the network config, plus the open-source publisher. */
 const VALID_PUBLISHERS: readonly ListingPublisher[] = [...DIVISIONS.map((d) => d.name), 'Open source'];
 const VALID_SOURCES = Object.keys(SOURCE_LABELS) as Source[];
 const VALID_SORTS: readonly SortKey[] = ['aegis', 'updated', 'price-asc', 'price-desc', 'name'];

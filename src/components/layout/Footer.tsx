@@ -8,7 +8,7 @@ const LINKS = [
 ];
 
 const NETWORK = [
-  { href: MAIN_URL, label: 'collectiveai.info' },
+  { href: MAIN_URL, label: 'Collective AI Inc' },
   { href: HUB_URL, label: 'Start here hub', gold: true },
   { href: ASSESSMENT_URL, label: 'AI Readiness Audit' },
   { href: divisionUrl('zenflow'), label: 'ZenFlow division site' },

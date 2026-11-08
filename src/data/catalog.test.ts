@@ -7,6 +7,7 @@ import { catalog } from './catalog';
 import { aegisScore, CATEGORIES } from '../lib/registry';
 import type { ListingPublisher, Publisher } from '../types/marketplace';
 
+// Divisions with at least one listing. Terra Axis and Kinetic Edge join once they have agents.
 const PUBLISHERS: Publisher[] = [
   'ZenFlow',
   'The Collective',

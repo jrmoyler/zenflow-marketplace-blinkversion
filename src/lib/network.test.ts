@@ -12,13 +12,15 @@ import {
 } from './network';
 import { MARKS } from '@/brand/marks.js';
 
-const NINE = [
+const DIVISION_NAMES = [
   'ZenFlow',
   'The Collective',
   'Hybrid Living',
   'Nexus Labs',
+  'Terra Axis',
   'Binary Loom',
   'Obsidian Arc',
+  'Kinetic Edge',
   'Quantum Ledger',
   'Juris Guard',
   'Signal Velocity',
@@ -26,7 +28,7 @@ const NINE = [
 
 describe('network config', () => {
   it('defaults to the production network URLs', () => {
-    expect(MAIN_URL).toBe('https://collectiveai.info/');
+    expect(MAIN_URL).toBe('https://collectiveai-roan.vercel.app/');
     expect(HUB_URL).toBe('https://collective-ai-start.vercel.app/');
     expect(ASSESSMENT_URL).toBe('https://the-collective-ai-assessment-platfo.vercel.app/');
     expect(DIVISIONS_URL).toBe('https://collective-ai-divisions-brown.vercel.app');
@@ -41,9 +43,9 @@ describe('network config', () => {
     expect(pick(true, 'd')).toBe('d');
   });
 
-  it('lists the nine divisions in charter order, each with an official mark', () => {
-    expect(DIVISIONS.map((d) => d.name)).toEqual(NINE);
-    expect(new Set(DIVISIONS.map((d) => d.slug)).size).toBe(9);
+  it('lists the eleven divisions in charter order, each with an official mark', () => {
+    expect(DIVISIONS.map((d) => d.name)).toEqual(DIVISION_NAMES);
+    expect(new Set(DIVISIONS.map((d) => d.slug)).size).toBe(11);
     for (const d of DIVISIONS) {
       expect(d.chip).toMatch(/^#[0-9A-F]{6}$/i);
       expect(d.role.length).toBeGreaterThan(0);

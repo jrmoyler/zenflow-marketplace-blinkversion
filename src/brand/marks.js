@@ -51,6 +51,18 @@ export const MARKS = {
       <path fill="#FDE68A" d="M48 10 L49.4 14.6 L54 16 L49.4 17.4 L48 22 L46.6 17.4 L42 16 L46.6 14.6 Z"/>`)
   },
 
+  // Three ascending buildings cut by the axis line; concrete-white nodes where it crosses.
+  "terra-axis": {
+    t1: "#4A1618", t2: "#0A0A0A", tg: "#991B1B",
+    svg: S(`<path d="M10 51.5 H54" stroke="#E8E8E8" stroke-width="2" opacity=".5"/>
+      <path fill="#7F1D1D" stroke="#E8E8E8" stroke-width="1.6" d="M14 51.5 V38 H23 V51.5 Z"/>
+      <path fill="#991B1B" stroke="#E8E8E8" stroke-width="1.6" d="M27.5 51.5 V27 H36.5 V51.5 Z"/>
+      <path fill="#B42323" stroke="#E8E8E8" stroke-width="1.6" d="M41 51.5 V15.5 H50 V51.5 Z"/>
+      <g stroke="#0A0A0A" stroke-width="1.2" opacity=".55"><path d="M17 43 H20 M30.5 32 H33.5 M30.5 38 H33.5 M44 21 H47 M44 27 H47 M44 33 H47"/></g>
+      <path d="M9 50 L55 13" stroke="#E8E8E8" stroke-width="2.4"/>
+      <g fill="#E8E8E8"><circle cx="18.5" cy="42.4" r="2.3"/><circle cx="32" cy="31.5" r="2.3"/><circle cx="45.5" cy="20.6" r="2.3"/></g>`)
+  },
+
   // Hex loom: two threads woven under a code bracket.
   "binary-loom": {
     t1: "#2A3612", t2: "#050605", tg: "#A3E635",
@@ -69,6 +81,16 @@ export const MARKS = {
       <circle cx="34" cy="28.8" r="1.1" fill="#fff"/>
       <path d="M15 47 Q32 56 50 44" stroke="#EF4444" stroke-width="2.8"/>
       <path fill="#EF4444" d="M50 44 L44.5 43.6 L48.6 49.4 Z"/>`)
+  },
+
+  // A flexed arm built from a triangulated node lattice: the strength is the data.
+  "kinetic-edge": {
+    t1: "#17472A", t2: "#0A0F0A", tg: "#16A34A",
+    svg: S(`<path fill="#16A34A" fill-opacity=".14" stroke="#F0FDF4" stroke-width="2" d="M6 42 L11 36 L15 30 L19.5 25.5 L24.5 23 L29.5 23.5 L33.5 27 L36 31.5 L37.5 36 L37.5 26 L36 20.5 L30 16.5 L31 8 L38 3.5 L48 3.5 L54 10 L53 19 L51.5 25 L52 36 L50.5 45 L46.5 50.5 L33 51.5 L19 51 L7 50.5 Z"/>
+      <path fill="#22C55E" fill-opacity=".26" d="M19.5 25.5 L24.5 23 L33 51.5 Z M24.5 23 L29.5 23.5 L33 51.5 Z M29.5 23.5 L33.5 27 L33 51.5 Z"/>
+      <g stroke="#B7E4C4" stroke-width="1.05" opacity=".8"><path d="M6 42 L19 51 M11 36 L19 51 M15 30 L19 51 M19.5 25.5 L19 51 M19.5 25.5 L33 51.5 M24.5 23 L33 51.5 M29.5 23.5 L33 51.5 M33.5 27 L33 51.5 M36 31.5 L33 51.5 M37.5 36 L33 51.5 M37.5 36 L46.5 50.5 M37.5 36 L50.5 45 M37.5 26 L50.5 45 M37.5 26 L52 36 M37.5 26 L51.5 25 M36 20.5 L51.5 25 M36 20.5 L53 19 M30 16.5 L53 19 M30 16.5 L54 10 M31 8 L54 10 M31 8 L48 3.5"/></g>
+      <g fill="#F0FDF4"><circle cx="6" cy="42" r="1.55"/><circle cx="7" cy="50.5" r="1.55"/><circle cx="19" cy="51" r="1.55"/><circle cx="33" cy="51.5" r="1.55"/><circle cx="46.5" cy="50.5" r="1.55"/><circle cx="50.5" cy="45" r="1.55"/><circle cx="52" cy="36" r="1.55"/><circle cx="51.5" cy="25" r="1.55"/><circle cx="53" cy="19" r="1.55"/><circle cx="54" cy="10" r="1.55"/><circle cx="48" cy="3.5" r="1.55"/><circle cx="38" cy="3.5" r="1.55"/><circle cx="31" cy="8" r="1.55"/><circle cx="30" cy="16.5" r="1.55"/><circle cx="15" cy="30" r="1.55"/><circle cx="33.5" cy="27" r="1.55"/><circle cx="37.5" cy="26" r="1.55"/></g>
+      <g fill="#22C55E"><circle cx="24.5" cy="23" r="3.3"/><circle cx="11" cy="36" r="2.2"/><circle cx="37.5" cy="36" r="2.2"/><circle cx="36" cy="20.5" r="2.2"/></g>`)
   },
 
   // Ionic column wound by a quantum helix.
